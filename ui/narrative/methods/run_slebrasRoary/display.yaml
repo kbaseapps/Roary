@@ -1,0 +1,48 @@
+#
+# define display information
+#
+name: Roary
+
+tooltip: the Pan Genome Pipelne
+
+publications:
+    -
+        display_text: Scholz M, Ward D V, Pasolli E, Tolio T, Zolfo M, Asnicar F, Truong D T, Tett A, Morrow A L, Segata, N. (2016). Strain-level microbial epidemiology and population genomics from shotgun metagenomics. Nature methods, 13(5), 435.
+        link: https://www.nature.com/articles/nmeth.3802
+    - 
+        display_text: Roary webpage
+        link: https://sanger-pathogens.github.io/Roary/
+
+screenshots: []
+
+icon: icon.png
+
+#
+# define a set of similar apps that might be useful to the user
+#
+suggestions:
+    apps:
+        related:
+            []
+        next:
+            []
+
+#
+# Configure the display and description of parameters
+#
+parameters :
+    ref :
+        ui-name : Genome Set input
+        short-hint : Set of Genomes to pass as input to Roary. 
+        long-hint  : Input must be of type KBaseSets.GenomeSet or KBaseSearch.GenomeSet.
+
+    pangenome_name : 
+        ui-name : Pangenome Output Name
+        short-hint : Name for output pangnome object
+        long-hint  : Name for output pangenome object. Will be uploaded to KBase database.
+
+
+description : |
+
+    <p>Roary is a high speed stand alone pan genome pipeline, which takes annotated assemblies in GFF3 format (produced by Prokka (Seemann, 2014)) and calculates the pan genome. Using a standard desktop PC, it can analyse datasets with thousands of samples, something which is computationally infeasible with existing methods, without compromising the quality of the results. 128 samples can be analysed in under 1 hour using 1 GB of RAM and a single processor. To perform this analysis using existing methods would take weeks and hundreds of GB of RAM. Roary is not intended for meta-genomics or for comparing extremely diverse sets of genomes.</p>
+
