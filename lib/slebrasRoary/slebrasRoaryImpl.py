@@ -2,9 +2,9 @@
 #BEGIN_HEADER
 import os
 from installed_clients.KBaseReportClient import KBaseReport
-from utils.roary_report import roary_report, generate_pangenome
-from utils.roary_inputs import download_gffs
-from utils.roary_proc import run_roary
+from .utils.roary_report import roary_report, generate_pangenome, upload_pangenome
+from .utils.roary_inputs import download_gffs
+from .utils.roary_proc import run_roary
 #END_HEADER
 
 
@@ -24,8 +24,8 @@ class slebrasRoary:
     # the latter method is running.
     ######################################### noqa
     VERSION = "0.0.1"
-    GIT_URL = ""
-    GIT_COMMIT_HASH = ""
+    GIT_URL = "https://github.com/slebras/Roary.git"
+    GIT_COMMIT_HASH = "120c1ab7e62e892658b024c2af24fb9d7fea7b02"
 
     #BEGIN_CLASS_HEADER
     #END_CLASS_HEADER
@@ -43,9 +43,12 @@ class slebrasRoary:
     def run_slebrasRoary(self, ctx, params):
         """
         This example function accepts any number of parameters and returns results in a KBaseReport
-        :param params: instance of mapping from String to unspecified object
-        :returns: instance of type "ReportResults" -> structure: parameter
-           "report_name" of String, parameter "report_ref" of String
+        :param params: instance of type "RoaryParams" (roary input) ->
+           structure: parameter "workspace_name" of String, parameter "ref"
+           of String, parameter "pangenome_name" of String
+        :returns: instance of type "RoaryResults" (roary output) ->
+           structure: parameter "report_name" of String, parameter
+           "report_ref" of String
         """
         # ctx is the context object
         # return variables are: output
@@ -58,17 +61,25 @@ class slebrasRoary:
         # get input parameters
         ws_name = params.get('workspace_name')
         pangenome_name = params.get('pangenome_name')
-        pangenome_id = "kb|"+pangenome_name
+        genome_set_ref = params.get('ref')
+
+        if pangenome_name is not None:
+            pangenome_id = "kb|"+pangenome_name
+        else:
+            pangnome_id = None
 
         # run meat of operations
-        gff_folder_path, path_to_ref = download_gffs(params['ref'], self.callback_url, self.shared_folder)
-        output_path = run_roary(self.shared_folder, gff_folder_path)
+        gff_folder_path, path_to_ref = download_gffs(self.callback_url, self.shared_folder, genome_set_ref)
+        output_path = run_roary(self.shared_folder, gff_folder_path, params)
         sum_stats = output_path + '/summary_statistics.txt'
         gene_pres_abs = output_path + '/gene_presence_absence.csv'
 
-        pangenome = generate_pangenome(gene_pres_abs, path_to_ref, pangenome_id, pangenome_name)
-
-        output = roary_report(self.callback_url, ws_name, sum_stats, pangenome)
+        if pangenome_name:
+            pangenome = generate_pangenome(gene_pres_abs, path_to_ref, pangenome_id, pangenome_name)
+            pangenome_obj = upload_pangenome(self.callback_url, self.shared_folder, pangenome, workspace_name, pangenome_name)
+            output = roary_report(self.callback_url, ws_name, sum_stats, pangenome_obj['pangenome_ref'])
+        else:
+            output = roary_report(self.callback_url, ws_name, sum_stats, None)
 
         #END run_slebrasRoary
 

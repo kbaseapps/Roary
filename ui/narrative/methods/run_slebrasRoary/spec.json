@@ -29,8 +29,31 @@
             "field_type": "text",
             "text_options": {
                 "valid_ws_types": ["KBaseGenomes.Pangenome"],
-                "is_output_name" : true,
-                ""
+                "is_output_name" : true
+            }
+        },{
+            "id":"blast_p_percentage",
+            "optional":true,
+            "advanced":true,
+            "allow_multiple": false,
+            "default_values": [ "98" ],
+            "field_type": "text",
+            "text_options": {
+                "valid_ws_types": [""],
+                "validate_as":"int",
+                "min_int": 1,
+                "max_int": 100
+            }
+        },{
+            "id":"max_num_clusters",
+            "optional":true,
+            "advanced":true,
+            "allow_multiple": false,
+            "default_values": [ "50000" ],
+            "field_type": "text",
+            "text_options": {
+                "valid_ws_types": [""],
+                "validate_as":"int" 
             }
         }
     ],
@@ -49,6 +72,12 @@
                 },{
                     "input_parameter":"pangenome_name",
                     "target_property":"pangenome_name"
+                },{
+                    "input_parameter":"blast_p_percentage",
+                    "target_property":"blast_p_percentage"
+                },{
+                    "input_parameter":"max_num_clusters",
+                    "target_property":"max_num_clusters"
                 }
             ],
             "output_mapping": [

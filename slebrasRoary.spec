@@ -8,6 +8,8 @@ module slebrasRoary {
     	string workspace_name;
     	string ref;
     	string pangenome_name;
+        int blast_p_percentage;
+        int max_num_clusters;
     } RoaryParams;
 
     /* roary output */

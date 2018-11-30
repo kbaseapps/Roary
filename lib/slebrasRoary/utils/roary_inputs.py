@@ -9,7 +9,7 @@ from installed_clients.DataFileUtilClient import DataFileUtil
 from installed_clients.GenomeFileUtilClient import GenomeFileUtil
 from installed_clients.AssemblyUtilClient import AssemblyUtil
 
-def download_gffs(genome_set_ref, cb_url, scratch):
+def download_gffs(cb_url, scratch, genome_set_ref):
 	"""
 	Args:
 		refs - workspace references in the form 'workspace_id/object_id/obj_version'
@@ -56,14 +56,30 @@ def download_gffs(genome_set_ref, cb_url, scratch):
 		gen_obj = dfu.get_objects({'object_refs':[ref]})['data'][0]
 
 		fasta_path = temp_dir + "/" + gen_obj['id'] + ".fa"
+		gff_file = gfu.genome_to_gff({'genome_ref':ref, 'target_dir':temp_dir})
 		fasta_file = au.get_assembly_as_fasta({'ref':gen_obj['assembly_ref'], 'filename': fasta_path})
-		gff_file = gfu.genome_to_gff({'genome_ref':ref, 'target_dir',temp_dir})
 
+		# need to figure out if FASTA is already in gff file
+		# not sure if we need to do this step. 
+		f   = open(gff_file['path'])
+		gff = [l for l in f].join('')
 		new_file_path = final_dir + "/" + gen_obj['id'] + ".gff"
-		# next we make a new 'gff' file that contains both the gff and fasta information
-		args = ['cat',fasta_file['path'], cat_path, gff_file['path'], '>', new_file_path]
-		subprocess.call(args)
+
+		if '##FASTA' in gff:
+			args = ['mv',gff_file['path'],new_file_path]
+			subprocess.call(args)
+		else:
+			# next we make a new 'gff' file that contains both the gff and fasta information
+			args = ['cat',fasta_file['path'], cat_path, gff_file['path'], '>', new_file_path]
+			subprocess.call(args)
 
 		path_to_ref[new_file_path] = ref
 
 	return final_dir, path_to_ref
+
+def fitler_duplicate_IDs(gff):
+	# if there is a duplicate ID's toss one of them out (if it is programmed frameshift toss one)
+	# either the smaller or the second one.
+	
+
+

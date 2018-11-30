@@ -7,8 +7,11 @@ MAINTAINER KBase Developer
 # installation scripts.
 
 RUN apt-get update
-RUN apt-get install roary
+RUN apt-get install -y roary
 
+# run pip installations
+RUN pip install -U pip \
+	&& pip install pandas
 
 # -----------------------------------------
 
