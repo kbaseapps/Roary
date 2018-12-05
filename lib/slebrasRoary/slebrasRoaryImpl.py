@@ -74,6 +74,8 @@ class slebrasRoary:
         sum_stats = output_path + '/summary_statistics.txt'
         gene_pres_abs = output_path + '/gene_presence_absence.csv'
 
+        print('printing output path files:', os.listdir(output_path))
+
         if pangenome_name:
             pangenome = generate_pangenome(gene_pres_abs, path_to_ref_and_ID_pos_dict, pangenome_id, pangenome_name)
             pangenome_obj = upload_pangenome(self.callback_url, self.shared_folder, pangenome, workspace_name, pangenome_name)

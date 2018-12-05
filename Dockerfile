@@ -9,6 +9,10 @@ MAINTAINER KBase Developer
 RUN apt-get update
 RUN apt-get install -y roary
 
+# Install R and ggplot2 for graphing functionality
+RUN apt-get install -y r-base \
+	&& Rscript -e "install.packages('ggplot2', repos = 'http://cran.us.r-project.org')"
+
 # run pip installations
 RUN pip install -U pip \
 	&& pip install pandas \
