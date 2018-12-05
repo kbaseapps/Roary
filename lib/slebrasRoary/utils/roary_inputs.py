@@ -69,7 +69,7 @@ def download_gffs(cb_url, scratch, genome_set_ref):
                 'Provided Genomes are not labeled as Bacteria or Archaea. Roary is only equipped to handle Archaea or Bacteria')
 
         fasta_path = temp_dir + "/" + gen_obj['id'] + ".fa"
-        gff_file = gfu.genome_to_gff({'genome_ref': ref, 'target_dir': temp_dir})['gff_file']
+        gff_file = gfu.genome_to_gff({'genome_ref': ref, 'target_dir': temp_dir})
         if 'assembly_ref' not in gen_obj.keys():
         	raise TypeError("All genomes must contain an 'assembly_ref'")
         else:
@@ -78,7 +78,15 @@ def download_gffs(cb_url, scratch, genome_set_ref):
 
         # need to figure out if FASTA is already in gff file
         # not sure if we need to do this step.
-        gff_file_path, ID_to_pos, contains_fasta = filter_gff(gff_file['path'])
+       	if 'path' in gff_file:
+       		gff_file_path = gff_file['path']
+       	elif 'file_path' in gff_file:
+       		gff_file_path = gff_file['file_path']
+       	elif 'gff_file' in gff_file:
+			gff_file_path = gff_file['gff_file']['path']
+		else:
+			raise ValueError("No GFF File Path found.")
+		gff_file_path, ID_to_pos, contains_fasta = filter_gff(gff_file_path)
 
         new_file_path = final_dir + "/" + gen_obj['id'] + ".gff"
 
