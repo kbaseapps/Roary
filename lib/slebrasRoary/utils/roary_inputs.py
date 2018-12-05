@@ -29,8 +29,8 @@ def download_gffs(cb_url, scratch, genome_set_ref):
     au = AssemblyUtil(cb_url)
     gfu = GenomeFileUtil(cb_url)
 
-    obj_data = dfu.get_objects({'object_refs': [genome_set_ref]})
-    gs_obj = obj_data['data'][0]
+    obj_data = dfu.get_objects({'object_refs': [genome_set_ref]})['data'][0]
+    gs_obj = obj_data['data']
     obj_type = obj_data['info'][2]
 
     if 'KBaseSets.GenomeSet' in obj_type:

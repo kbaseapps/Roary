@@ -81,7 +81,8 @@
                     "target_property": "workspace_name"
                 },{
                     "input_parameter": "ref",
-                    "target_property": "ref"
+                    "target_property": "ref",
+                    "target_type_transform":"ref"
                 },{
                     "input_parameter":"pangenome_name",
                     "target_property":"pangenome_name"
