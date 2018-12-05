@@ -69,7 +69,7 @@ def download_gffs(cb_url, scratch, genome_set_ref):
                 'Provided Genomes are not labeled as Bacteria or Archaea. Roary is only equipped to handle Archaea or Bacteria')
 
         fasta_path = temp_dir + "/" + gen_obj['id'] + ".fa"
-        gff_file = gfu.genome_to_gff({'genome_ref': ref, 'target_dir': temp_dir})
+        gff_file = gfu.genome_to_gff({'genome_ref': ref, 'target_dir': temp_dir})['gff_file']
         if 'assembly_ref' not in gen_obj.keys():
         	raise TypeError("All genomes must contain an 'assembly_ref'")
         else:
