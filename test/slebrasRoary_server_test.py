@@ -78,5 +78,13 @@ class slebrasRoaryTest(unittest.TestCase):
         #
         # Check returned data with
         # self.assertEqual(ret[...], ...) or other unittest methods
-        ret = self.getImpl().run_slebrasRoary(self.getContext(), {'workspace_name': self.getWsName(),
-                                                                    'parameter_1': 'Hello World!'})
+
+        # ret = self.getImpl().run_slebrasRoary(self.getContext(),
+        #         {'workspace_name': self.getWsName(),
+        #          'ref': 'Hello World!',
+        #          'pangenome_name':,
+        #          'blast_p_percentage':,
+        #          'max_num_clusters':,
+        #          'percent_genes_for_core':        
+        # })
+        pass

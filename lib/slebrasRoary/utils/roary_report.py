@@ -7,19 +7,19 @@ from installed_clients.DataFileUtilClient import DataFileUtil
 from installed_clients.KBaseReportClient import KBaseReport
 from installed_clients.WSLargeDataIOClient import WsLargeDataIO
 
-def generate_pangenome(gene_pres_abs, path_to_ref, pangenome_id, pangenome_name):
+def generate_pangenome(gene_pres_abs, path_to_ref_and_ID_pos_dict, pangenome_id, pangenome_name):
 	'''
 		params:
-			gene_pres_abs:
-			path_to_ref: 
-			pangenome_id:
-			pangenome_name:
+			gene_pres_abs               : file path to gene_presence_absence.csv output from Roary
+			path_to_ref_and_ID_pos_dict : dictionary mapping gff file path to a tuple of (workspace ref, {gene ID :-> file position})
+			pangenome_id				: pangenome identifier
+			pangenome_name				: pangenome display name
 		Returns:
-			Pangenome : KBaseGenomes.Pangenome like object (see type spec)
+			Pangenome 					: KBaseGenomes.Pangenome like object (see type spec) https://narrative.kbase.us/#spec/type/KBaseGenomes.Pangenome
 	'''
 	Pangenome = {}
 
-	Pangenome['genome_refs'] = path_to_ref.values()
+	Pangenome['genome_refs'] = [tup[0] for tup in path_to_ref_and_ID_pos_dict.values()]
 	Pangenome['id'] = pangenome_id
 	Pangenome['name'] =  pangenome_name
 	Pangenome['type'] = None
@@ -47,14 +47,14 @@ def generate_pangenome(gene_pres_abs, path_to_ref, pangenome_id, pangenome_name)
 		orthologs = []
 
 		for col in cols:
-			for path in path_to_ref:
+			for path in path_to_ref_and_ID_pos_dict:
 				if col in path.split('/')[-1]:
-					genome_ref = path_to_ref[path]
+					genome_ref, ID_to_pos = path_to_ref_and_ID_pos_dict[path]
 					break
 			gene_id = row[col]
-			feature_pos = float(row[col].split('_')[-1])
-			orthologs.append((gene_id, feature_pos, genome_ref))
-
+			if not pd.isnull(gene_id):
+				feature_pos = ID_to_pos[gene_id]
+				orthologs.append((gene_id, feature_pos, genome_ref))
 
 		OrthologFamily['orthologs'] = orthologs
 
@@ -65,19 +65,18 @@ def generate_pangenome(gene_pres_abs, path_to_ref, pangenome_id, pangenome_name)
 	return Pangenome
 
 
-def upload_pangenome(cb_url, scratch, pangenome, workspace_name, pangenome_name):
+def upload_pangenome(cb_url, scratch, Pangenome, workspace_name, pangenome_name):
 	"""
 	params:
-		cb_url:
-		scartch: 
-		pangenome:
-		workspace_name:
-		pangenome_name:
+		cb_url         : callback url
+		scratch        : folder path to Pangenome object 
+		pangenome      : KBaseGenomes.Pangenome like object
+		workspace_name : workspace name
+		pangenome_name : Pangenome display name
 	Returns:
-		pangenome_ref: 
-		pangenome_info:
+		pangenome_ref: Pangenome workspace reference
+		pangenome_info: info on pangenome object
 	"""
-	ws_large_data = WsLargeDataIO(cb_url)
 	dfu = DataFileUtil(cb_url)
 	meta = {}
 	if 'hidden' in params and str(params['hidden']).lower() in ('yes', 'true', 't', '1'):
@@ -86,8 +85,8 @@ def upload_pangenome(cb_url, scratch, pangenome, workspace_name, pangenome_name)
 		hidden = 0
 
 	# dump pangenome to scratch for upload
-	data_path = os.path.join(scratch, pangenome_name + '.json')
-	json.dump(pangenome, open(data_path, 'w'))
+	# data_path = os.path.join(scratch, pangenome_name + '.json')
+	# json.dump(pangenome, open(data_path, 'w'))
 
 	if isinstance(workspace_name, int) or workspace.isdigit():
 		workspace_id = workspace_name
@@ -98,14 +97,14 @@ def upload_pangenome(cb_url, scratch, pangenome, workspace_name, pangenome_name)
 		'id': workspace_id,
 		'objects': [{
 			'type': 'KBaseGenomes.Pangenome',
-			'data_json_file': data_path,
+			'data': Pangenome,
 			'name': pangenome_name,
 			'meta': meta,
 			'hidden': hidden
 		}]
 	}
 
-	info = ws_large_data.save_objects(save_params)[0]
+	info = dfu.save_objects(save_params)[0]
 
 	ref = "{}/{}/{}".format(info[6], info[0], info[4])
 	print("Pangenome saved to {}".format(ref))
@@ -121,7 +120,7 @@ def roary_report(cb_url, workspace_name, sum_stats, pangenome_ref):
 	params:
 		cb_url         : callback url
 		workspace_name : name of the workspace
-		sum_stats      :  
+		sum_stats      : summary_statistics.txt file output from Roary
 		pangenome_ref  : reference to the pangenome object, or None
 	Returns:
 		report_name : name of report object  

@@ -11,7 +11,8 @@ RUN apt-get install -y roary
 
 # run pip installations
 RUN pip install -U pip \
-	&& pip install pandas
+	&& pip install pandas \
+	&& pip install multi_key_dict
 
 # -----------------------------------------
 

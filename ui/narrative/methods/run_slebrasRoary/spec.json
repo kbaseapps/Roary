@@ -36,7 +36,7 @@
             "optional":true,
             "advanced":true,
             "allow_multiple": false,
-            "default_values": [ "98" ],
+            "default_values": [ "95" ],
             "field_type": "text",
             "text_options": {
                 "valid_ws_types": [""],
@@ -54,6 +54,19 @@
             "text_options": {
                 "valid_ws_types": [""],
                 "validate_as":"int" 
+            }
+        },{
+            "id":"percent_genes_for_core",
+            "optional":true,
+            "advanced":true,
+            "allow_multiple":false,
+            "default_values": ["99"],
+            "field_type": "text",
+            "text_options": {
+                "valid_ws_types": [""],
+                "validate_as":"int",
+                "min_int": 1,
+                "max_int": 100
             }
         }
     ],
@@ -78,6 +91,9 @@
                 },{
                     "input_parameter":"max_num_clusters",
                     "target_property":"max_num_clusters"
+                },{
+                    "input_parameter":"percent_genes_for_core",
+                    "target_property":"percent_genes_for_core"
                 }
             ],
             "output_mapping": [

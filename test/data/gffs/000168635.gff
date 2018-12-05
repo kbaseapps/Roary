@@ -85,7 +85,6 @@ CP002001.1	Prodigal:2.6	CDS	84918	85691	.	+	0	ID=GCA_000168635_00082;inference=a
 CP002001.1	Prodigal:2.6	CDS	85688	86740	.	+	0	ID=GCA_000168635_00083;Name=ada;db_xref=COG:COG0350;gene=ada;inference=ab initio prediction:Prodigal:2.6,similar to AA sequence:UniProtKB:P06134;locus_tag=GCA_000168635_00083;product=Bifunctional transcriptional activator/DNA repair enzyme Ada
 CP002001.1	Prodigal:2.6	CDS	86763	87401	.	-	0	ID=GCA_000168635_00084;inference=ab initio prediction:Prodigal:2.6;locus_tag=GCA_000168635_00084;product=hypothetical protein
 CP002001.1	Prodigal:2.6	CDS	87532	88488	.	+	0	ID=GCA_000168635_00085;eC_number=1.1.1.-;inference=ab initio prediction:Prodigal:2.6,similar to AA sequence:UniProtKB:Q7A417;locus_tag=GCA_000168635_00085;product=Putative 2-hydroxyacid dehydrogenase
-CP002001.1	Aragorn:1.2	tRNA	88576	88648	.	+	.	ID=GCA_000168635_00086;inference=COORDINATES:profile:Aragorn:1.2;locus_tag=GCA_000168635_00086;product=tRNA-Lys(ctt)
 CP002001.1	Prodigal:2.6	CDS	88830	90311	.	+	0	ID=GCA_000168635_00087;inference=ab initio prediction:Prodigal:2.6;locus_tag=GCA_000168635_00087;product=hypothetical protein
 CP002001.1	Prodigal:2.6	CDS	90308	90559	.	+	0	ID=GCA_000168635_00088;inference=ab initio prediction:Prodigal:2.6;locus_tag=GCA_000168635_00088;product=hypothetical protein
 CP002001.1	Prodigal:2.6	CDS	91080	91301	.	+	0	ID=GCA_000168635_00089;inference=ab initio prediction:Prodigal:2.6;locus_tag=GCA_000168635_00089;product=hypothetical protein
@@ -229,9 +228,6 @@ CP002001.1	Prodigal:2.6	CDS	237039	237413	.	+	0	ID=GCA_000168635_00226;eC_number
 CP002001.1	Prodigal:2.6	CDS	237406	237885	.	+	0	ID=GCA_000168635_00227;eC_number=2.7.6.3;Name=folK;db_xref=COG:COG0801;gene=folK;inference=ab initio prediction:Prodigal:2.6,similar to AA sequence:UniProtKB:P26281;locus_tag=GCA_000168635_00227;product=2-amino-4-hydroxy-6-hydroxymethyldihydropteridine pyrophosphokinase
 CP002001.1	Prodigal:2.6	CDS	237962	238957	.	+	0	ID=GCA_000168635_00228;eC_number=1.3.1.-;Name=dus;db_xref=COG:COG0042;gene=dus;inference=ab initio prediction:Prodigal:2.6,similar to AA sequence:UniProtKB:P9WNS7;locus_tag=GCA_000168635_00228;product=putative tRNA-dihydrouridine synthase
 CP002001.1	Prodigal:2.6	CDS	239072	240568	.	+	0	ID=GCA_000168635_00229;eC_number=6.1.1.6;Name=lysS;gene=lysS;inference=ab initio prediction:Prodigal:2.6,similar to AA sequence:UniProtKB:Q9RHV9;locus_tag=GCA_000168635_00229;product=Lysine--tRNA ligase
-CP002001.1	barrnap:0.9	rRNA	241020	242566	0	+	.	ID=GCA_000168635_00230;locus_tag=GCA_000168635_00230;product=16S ribosomal RNA
-CP002001.1	barrnap:0.9	rRNA	242815	245742	0	+	.	ID=GCA_000168635_00231;locus_tag=GCA_000168635_00231;product=23S ribosomal RNA
-CP002001.1	barrnap:0.9	rRNA	245826	245935	1.8e-14	+	.	ID=GCA_000168635_00232;locus_tag=GCA_000168635_00232;product=5S ribosomal RNA
 CP002001.1	Prodigal:2.6	CDS	246083	246541	.	+	0	ID=GCA_000168635_00233;Name=ctsr;gene=ctsr;inference=ab initio prediction:Prodigal:2.6,similar to AA sequence:UniProtKB:C3W947;locus_tag=GCA_000168635_00233;product=Transcriptional regulator CtsR
 CP002001.1	Prodigal:2.6	CDS	246554	247072	.	+	0	ID=GCA_000168635_00234;Name=mcsA;db_xref=COG:COG3880;gene=mcsA;inference=ab initio prediction:Prodigal:2.6,similar to AA sequence:UniProtKB:P37569;locus_tag=GCA_000168635_00234;product=Protein-arginine kinase activator protein
 CP002001.1	Prodigal:2.6	CDS	247069	248091	.	+	0	ID=GCA_000168635_00235;eC_number=2.7.14.1;Name=mcsB;gene=mcsB;inference=ab initio prediction:Prodigal:2.6,similar to AA sequence:UniProtKB:P0DMM5;locus_tag=GCA_000168635_00235;product=Protein-arginine kinase
@@ -528,7 +524,6 @@ CP002001.1	Prodigal:2.6	CDS	549432	550478	.	+	0	ID=GCA_000168635_00525;eC_number
 CP002001.1	Prodigal:2.6	CDS	550494	550787	.	+	0	ID=GCA_000168635_00526;eC_number=2.7.1.200;Name=gatB_1;db_xref=COG:COG3414;gene=gatB_1;inference=ab initio prediction:Prodigal:2.6,similar to AA sequence:UniProtKB:P37188;locus_tag=GCA_000168635_00526;product=PTS system galactitol-specific EIIB component
 CP002001.1	Prodigal:2.6	CDS	550802	552073	.	+	0	ID=GCA_000168635_00527;Name=gatC_1;db_xref=COG:COG3775;gene=gatC_1;inference=ab initio prediction:Prodigal:2.6,similar to AA sequence:UniProtKB:P69831;locus_tag=GCA_000168635_00527;product=PTS system galactitol-specific EIIC component
 CP002001.1	Prodigal:2.6	CDS	552213	553148	.	+	0	ID=GCA_000168635_00528;eC_number=2.7.6.1;Name=prs_2;db_xref=COG:COG0462;gene=prs_2;inference=ab initio prediction:Prodigal:2.6,similar to AA sequence:UniProtKB:P14193;locus_tag=GCA_000168635_00528;product=Ribose-phosphate pyrophosphokinase
-CP002001.1	minced:0.3.2	repeat_region	553387	553669	.	.	.	note=CRISPR with 5 repeat units;rpt_family=CRISPR;rpt_type=direct;rpt_unit_seq=GTTTTAGTTACTTATTTTGAAATGTAAAT
 CP002001.1	Prodigal:2.6	CDS	554061	554639	.	+	0	ID=GCA_000168635_00529;inference=ab initio prediction:Prodigal:2.6;locus_tag=GCA_000168635_00529;product=hypothetical protein
 CP002001.1	Prodigal:2.6	CDS	554747	555427	.	+	0	ID=GCA_000168635_00530;inference=ab initio prediction:Prodigal:2.6;locus_tag=GCA_000168635_00530;product=hypothetical protein
 CP002001.1	Prodigal:2.6	CDS	555452	555814	.	-	0	ID=GCA_000168635_00531;inference=ab initio prediction:Prodigal:2.6;locus_tag=GCA_000168635_00531;product=hypothetical protein
@@ -544,7 +539,6 @@ CP002001.1	Prodigal:2.6	CDS	565053	565835	.	+	0	ID=GCA_000168635_00540;inference
 CP002001.1	Prodigal:2.6	CDS	565903	568086	.	+	0	ID=GCA_000168635_00541;inference=ab initio prediction:Prodigal:2.6;locus_tag=GCA_000168635_00541;product=hypothetical protein
 CP002001.1	Prodigal:2.6	CDS	568142	568384	.	+	0	ID=GCA_000168635_00542;eC_number=3.1.-.-;Name=cas1_1;gene=cas1_1;inference=ab initio prediction:Prodigal:2.6,protein motif:HAMAP:MF_01470;locus_tag=GCA_000168635_00542;product=CRISPR-associated endonuclease Cas1
 CP002001.1	Prodigal:2.6	CDS	568389	568667	.	+	0	ID=GCA_000168635_00543;eC_number=3.1.-.-;Name=cas2_1;db_xref=COG:COG1343;gene=cas2_1;inference=ab initio prediction:Prodigal:2.6,similar to AA sequence:UniProtKB:Q9X2B6;locus_tag=GCA_000168635_00543;product=CRISPR-associated endoribonuclease Cas2
-CP002001.1	minced:0.3.2	repeat_region	568865	570900	.	.	.	note=CRISPR with 32 repeat units;rpt_family=CRISPR;rpt_type=direct;rpt_unit_seq=GTTTTAACTACTTATTATGAAATGTAAAT
 CP002001.1	Prodigal:2.6	CDS	570973	571341	.	-	0	ID=GCA_000168635_00544;inference=ab initio prediction:Prodigal:2.6;locus_tag=GCA_000168635_00544;product=hypothetical protein
 CP002001.1	Prodigal:2.6	CDS	571489	572904	.	+	0	ID=GCA_000168635_00545;Name=emrY;gene=emrY;inference=ab initio prediction:Prodigal:2.6,similar to AA sequence:UniProtKB:P52600;locus_tag=GCA_000168635_00545;product=putative multidrug resistance protein EmrY
 CP002001.1	Prodigal:2.6	CDS	573036	574040	.	+	0	ID=GCA_000168635_00546;inference=ab initio prediction:Prodigal:2.6;locus_tag=GCA_000168635_00546;product=hypothetical protein
@@ -665,7 +659,6 @@ CP002001.1	Prodigal:2.6	CDS	692602	693870	.	+	0	ID=GCA_000168635_00660;inference
 CP002001.1	Prodigal:2.6	CDS	693960	694664	.	+	0	ID=GCA_000168635_00661;eC_number=3.1.3.18;Name=gph_2;gene=gph_2;inference=ab initio prediction:Prodigal:2.6,protein motif:HAMAP:MF_00495;locus_tag=GCA_000168635_00661;product=Phosphoglycolate phosphatase
 CP002001.1	Prodigal:2.6	CDS	694769	695185	.	+	0	ID=GCA_000168635_00662;Name=nsrR;gene=nsrR;inference=ab initio prediction:Prodigal:2.6,protein motif:HAMAP:MF_01177;locus_tag=GCA_000168635_00662;product=HTH-type transcriptional repressor NsrR
 CP002001.1	Prodigal:2.6	CDS	695199	695792	.	+	0	ID=GCA_000168635_00663;eC_number=2.1.1.163;Name=ubiE_1;gene=ubiE_1;inference=ab initio prediction:Prodigal:2.6,protein motif:HAMAP:MF_01813;locus_tag=GCA_000168635_00663;product=Ubiquinone/menaquinone biosynthesis C-methyltransferase UbiE
-CP002001.1	Aragorn:1.2	tRNA	695860	695951	.	-	.	ID=GCA_000168635_00664;inference=COORDINATES:profile:Aragorn:1.2;locus_tag=GCA_000168635_00664;product=tRNA-Ser(cga)
 CP002001.1	Prodigal:2.6	CDS	697078	697941	.	+	0	ID=GCA_000168635_00665;inference=ab initio prediction:Prodigal:2.6;locus_tag=GCA_000168635_00665;product=hypothetical protein
 CP002001.1	Prodigal:2.6	CDS	697941	698300	.	+	0	ID=GCA_000168635_00666;inference=ab initio prediction:Prodigal:2.6;locus_tag=GCA_000168635_00666;product=hypothetical protein
 CP002001.1	Prodigal:2.6	CDS	698832	699365	.	+	0	ID=GCA_000168635_00667;inference=ab initio prediction:Prodigal:2.6;locus_tag=GCA_000168635_00667;product=hypothetical protein
@@ -930,13 +923,9 @@ CP002001.1	Prodigal:2.6	CDS	953466	954065	.	+	0	ID=GCA_000168635_00925;eC_number
 CP002001.1	Prodigal:2.6	CDS	954273	955904	.	+	0	ID=GCA_000168635_00926;Name=dauA;db_xref=COG:COG0659;gene=dauA;inference=ab initio prediction:Prodigal:2.6,similar to AA sequence:UniProtKB:P0AFR2;locus_tag=GCA_000168635_00926;product=C4-dicarboxylic acid transporter DauA
 CP002001.1	Prodigal:2.6	CDS	955975	958152	.	+	0	ID=GCA_000168635_00927;Name=yhgF;db_xref=COG:COG2183;gene=yhgF;inference=ab initio prediction:Prodigal:2.6,similar to AA sequence:UniProtKB:P46837;locus_tag=GCA_000168635_00927;product=Protein YhgF
 CP002001.1	Prodigal:2.6	CDS	958152	958619	.	+	0	ID=GCA_000168635_00928;inference=ab initio prediction:Prodigal:2.6,protein motif:HAMAP:MF_00745;locus_tag=GCA_000168635_00928;product=Protein SprT-like protein
-CP002001.1	Aragorn:1.2	tRNA	958671	958745	.	+	.	ID=GCA_000168635_00929;inference=COORDINATES:profile:Aragorn:1.2;locus_tag=GCA_000168635_00929;product=tRNA-Asn(gtt)
-CP002001.1	Aragorn:1.2	tRNA	958747	958836	.	+	.	ID=GCA_000168635_00930;inference=COORDINATES:profile:Aragorn:1.2;locus_tag=GCA_000168635_00930;product=tRNA-Ser(gct)
 CP002001.1	Prodigal:2.6	CDS	959218	959610	.	+	0	ID=GCA_000168635_00931;inference=ab initio prediction:Prodigal:2.6;locus_tag=GCA_000168635_00931;product=hypothetical protein
 CP002001.1	Prodigal:2.6	CDS	959756	961042	.	+	0	ID=GCA_000168635_00932;Name=gmuC_2;db_xref=COG:COG1455;gene=gmuC_2;inference=ab initio prediction:Prodigal:2.6,similar to AA sequence:UniProtKB:O05507;locus_tag=GCA_000168635_00932;product=PTS system oligo-beta-mannoside-specific EIIC component
 CP002001.1	Prodigal:2.6	CDS	961123	961836	.	+	0	ID=GCA_000168635_00933;Name=gmuR_3;db_xref=COG:COG2188;gene=gmuR_3;inference=ab initio prediction:Prodigal:2.6,similar to AA sequence:UniProtKB:O05509;locus_tag=GCA_000168635_00933;product=HTH-type transcriptional regulator GmuR
-CP002001.1	Aragorn:1.2	tRNA	962034	962106	.	+	.	ID=GCA_000168635_00934;inference=COORDINATES:profile:Aragorn:1.2;locus_tag=GCA_000168635_00934;product=tRNA-Glu(ttc)
-CP002001.1	Aragorn:1.2	tRNA	962132	962205	.	+	.	ID=GCA_000168635_00935;inference=COORDINATES:profile:Aragorn:1.2;locus_tag=GCA_000168635_00935;product=tRNA-Asp(gtc)
 CP002001.1	Prodigal:2.6	CDS	962332	962712	.	+	0	ID=GCA_000168635_00936;inference=ab initio prediction:Prodigal:2.6;locus_tag=GCA_000168635_00936;product=hypothetical protein
 CP002001.1	Prodigal:2.6	CDS	962827	963501	.	+	0	ID=GCA_000168635_00937;inference=ab initio prediction:Prodigal:2.6;locus_tag=GCA_000168635_00937;product=hypothetical protein
 CP002001.1	Prodigal:2.6	CDS	963632	964129	.	+	0	ID=GCA_000168635_00938;inference=ab initio prediction:Prodigal:2.6;locus_tag=GCA_000168635_00938;product=hypothetical protein
@@ -967,7 +956,6 @@ CP002001.1	Prodigal:2.6	CDS	989045	989776	.	+	0	ID=GCA_000168635_00962;db_xref=C
 CP002001.1	Prodigal:2.6	CDS	989800	990795	.	+	0	ID=GCA_000168635_00963;eC_number=6.3.1.20;Name=lplJ_2;db_xref=COG:COG0095;gene=lplJ_2;inference=ab initio prediction:Prodigal:2.6,similar to AA sequence:UniProtKB:O07608;locus_tag=GCA_000168635_00963;product=Lipoate-protein ligase LplJ
 CP002001.1	Prodigal:2.6	CDS	990835	991440	.	-	0	ID=GCA_000168635_00964;inference=ab initio prediction:Prodigal:2.6;locus_tag=GCA_000168635_00964;product=hypothetical protein
 CP002001.1	Prodigal:2.6	CDS	991565	992512	.	-	0	ID=GCA_000168635_00965;eC_number=2.4.-.-;inference=ab initio prediction:Prodigal:2.6,similar to AA sequence:UniProtKB:Q55487;locus_tag=GCA_000168635_00965;product=putative glycosyltransferase
-CP002001.1	Aragorn:1.2	tRNA	992883	992953	.	+	.	ID=GCA_000168635_00966;inference=COORDINATES:profile:Aragorn:1.2;locus_tag=GCA_000168635_00966;product=tRNA-Gly(tcc)
 CP002001.1	Prodigal:2.6	CDS	993050	994192	.	+	0	ID=GCA_000168635_00967;eC_number=1.17.99.6;Name=queG;db_xref=COG:COG1600;gene=queG;inference=ab initio prediction:Prodigal:2.6,similar to AA sequence:UniProtKB:P97030;locus_tag=GCA_000168635_00967;product=Epoxyqueuosine reductase
 CP002001.1	Prodigal:2.6	CDS	994213	994722	.	+	0	ID=GCA_000168635_00968;eC_number=2.1.1.207;Name=trmL;db_xref=COG:COG0219;gene=trmL;inference=ab initio prediction:Prodigal:2.6,similar to AA sequence:UniProtKB:P44868;locus_tag=GCA_000168635_00968;product=tRNA (cytidine(34)-2'-O)-methyltransferase
 CP002001.1	Prodigal:2.6	CDS	994735	995475	.	+	0	ID=GCA_000168635_00969;eC_number=1.5.1.38;Name=nfrA1_2;db_xref=COG:COG0778;gene=nfrA1_2;inference=ab initio prediction:Prodigal:2.6,similar to AA sequence:UniProtKB:P39605;locus_tag=GCA_000168635_00969;product=FMN reductase (NADPH)
@@ -1260,7 +1248,6 @@ CP002001.1	Prodigal:2.6	CDS	1264197	1264997	.	+	0	ID=GCA_000168635_01255;eC_numb
 CP002001.1	Prodigal:2.6	CDS	1265010	1265756	.	+	0	ID=GCA_000168635_01256;eC_number=2.7.7.56;Name=rph_2;db_xref=COG:COG0689;gene=rph_2;inference=ab initio prediction:Prodigal:2.6,similar to AA sequence:UniProtKB:Q81LA9;locus_tag=GCA_000168635_01256;product=Ribonuclease PH
 CP002001.1	Prodigal:2.6	CDS	1265760	1266371	.	+	0	ID=GCA_000168635_01257;eC_number=3.6.1.66;inference=ab initio prediction:Prodigal:2.6,similar to AA sequence:UniProtKB:P99094;locus_tag=GCA_000168635_01257;product=dITP/XTP pyrophosphatase
 CP002001.1	Prodigal:2.6	CDS	1266408	1266932	.	+	0	ID=GCA_000168635_01258;inference=ab initio prediction:Prodigal:2.6;locus_tag=GCA_000168635_01258;product=hypothetical protein
-CP002001.1	Aragorn:1.2	tRNA	1267042	1267117	.	+	.	ID=GCA_000168635_01259;inference=COORDINATES:profile:Aragorn:1.2;locus_tag=GCA_000168635_01259;product=tRNA-Arg(tct)
 CP002001.1	Prodigal:2.6	CDS	1267482	1268840	.	+	0	ID=GCA_000168635_01260;inference=ab initio prediction:Prodigal:2.6;locus_tag=GCA_000168635_01260;product=hypothetical protein
 CP002001.1	Prodigal:2.6	CDS	1268882	1269475	.	-	0	ID=GCA_000168635_01261;inference=ab initio prediction:Prodigal:2.6;locus_tag=GCA_000168635_01261;product=hypothetical protein
 CP002001.1	Prodigal:2.6	CDS	1269612	1270019	.	-	0	ID=GCA_000168635_01262;inference=ab initio prediction:Prodigal:2.6;locus_tag=GCA_000168635_01262;product=hypothetical protein
@@ -1704,30 +1691,6 @@ CP002001.1	Prodigal:2.6	CDS	1733505	1734677	.	-	0	ID=GCA_000168635_01699;eC_numb
 CP002001.1	Prodigal:2.6	CDS	1734670	1735794	.	-	0	ID=GCA_000168635_01700;eC_number=2.5.1.-;Name=metI;db_xref=COG:COG0626;gene=metI;inference=ab initio prediction:Prodigal:2.6,similar to AA sequence:UniProtKB:O31631;locus_tag=GCA_000168635_01700;product=Cystathionine gamma-synthase/O-acetylhomoserine (thiol)-lyase
 CP002001.1	Prodigal:2.6	CDS	1735816	1738146	.	-	0	ID=GCA_000168635_01701;eC_number=2.1.1.14;Name=metE_2;db_xref=COG:COG0620;gene=metE_2;inference=ab initio prediction:Prodigal:2.6,similar to AA sequence:UniProtKB:P80877;locus_tag=GCA_000168635_01701;product=5-methyltetrahydropteroyltriglutamate--homocysteine methyltransferase
 CP002001.1	Prodigal:2.6	CDS	1738403	1739578	.	-	0	ID=GCA_000168635_01702;Name=ycaD;gene=ycaD;inference=ab initio prediction:Prodigal:2.6,protein motif:HAMAP:MF_01149;locus_tag=GCA_000168635_01702;product=putative MFS-type transporter YcaD
-CP002001.1	Aragorn:1.2	tRNA	1739642	1739717	.	-	.	ID=GCA_000168635_01703;inference=COORDINATES:profile:Aragorn:1.2;locus_tag=GCA_000168635_01703;product=tRNA-Glu(ttc)
-CP002001.1	Aragorn:1.2	tRNA	1739722	1739812	.	-	.	ID=GCA_000168635_01704;inference=COORDINATES:profile:Aragorn:1.2;locus_tag=GCA_000168635_01704;product=tRNA-Ser(gct)
-CP002001.1	Aragorn:1.2	tRNA	1739846	1739920	.	-	.	ID=GCA_000168635_01705;inference=COORDINATES:profile:Aragorn:1.2;locus_tag=GCA_000168635_01705;product=tRNA-Asn(gtt)
-CP002001.1	Aragorn:1.2	tRNA	1739926	1739999	.	-	.	ID=GCA_000168635_01706;inference=COORDINATES:profile:Aragorn:1.2;locus_tag=GCA_000168635_01706;product=tRNA-Ile(gat)
-CP002001.1	Aragorn:1.2	tRNA	1740025	1740095	.	-	.	ID=GCA_000168635_01707;inference=COORDINATES:profile:Aragorn:1.2;locus_tag=GCA_000168635_01707;product=tRNA-Gly(tcc)
-CP002001.1	Aragorn:1.2	tRNA	1740118	1740191	.	-	.	ID=GCA_000168635_01708;inference=COORDINATES:profile:Aragorn:1.2;locus_tag=GCA_000168635_01708;product=tRNA-His(gtg)
-CP002001.1	Aragorn:1.2	tRNA	1740219	1740293	.	-	.	ID=GCA_000168635_01709;inference=COORDINATES:profile:Aragorn:1.2;locus_tag=GCA_000168635_01709;product=tRNA-Phe(gaa)
-CP002001.1	Aragorn:1.2	tRNA	1740297	1740372	.	-	.	ID=GCA_000168635_01710;inference=COORDINATES:profile:Aragorn:1.2;locus_tag=GCA_000168635_01710;product=tRNA-Asp(gtc)
-CP002001.1	Aragorn:1.2	tRNA	1740376	1740451	.	-	.	ID=GCA_000168635_01711;inference=COORDINATES:profile:Aragorn:1.2;locus_tag=GCA_000168635_01711;product=tRNA-Met(cat)
-CP002001.1	Aragorn:1.2	tRNA	1740492	1740583	.	-	.	ID=GCA_000168635_01712;inference=COORDINATES:profile:Aragorn:1.2;locus_tag=GCA_000168635_01712;product=tRNA-Ser(tga)
-CP002001.1	Aragorn:1.2	tRNA	1740604	1740678	.	-	.	ID=GCA_000168635_01713;inference=COORDINATES:profile:Aragorn:1.2;locus_tag=GCA_000168635_01713;product=tRNA-Met(cat)
-CP002001.1	Aragorn:1.2	tRNA	1740689	1740764	.	-	.	ID=GCA_000168635_01714;inference=COORDINATES:profile:Aragorn:1.2;locus_tag=GCA_000168635_01714;product=tRNA-Met(cat)
-CP002001.1	Aragorn:1.2	tRNA	1740805	1740878	.	-	.	ID=GCA_000168635_01715;inference=COORDINATES:profile:Aragorn:1.2;locus_tag=GCA_000168635_01715;product=tRNA-Ala(tgc)
-CP002001.1	Aragorn:1.2	tRNA	1740901	1740974	.	-	.	ID=GCA_000168635_01716;inference=COORDINATES:profile:Aragorn:1.2;locus_tag=GCA_000168635_01716;product=tRNA-Pro(tgg)
-CP002001.1	Aragorn:1.2	tRNA	1740984	1741058	.	-	.	ID=GCA_000168635_01717;inference=COORDINATES:profile:Aragorn:1.2;locus_tag=GCA_000168635_01717;product=tRNA-Arg(acg)
-CP002001.1	Aragorn:1.2	tRNA	1741067	1741153	.	-	.	ID=GCA_000168635_01718;inference=COORDINATES:profile:Aragorn:1.2;locus_tag=GCA_000168635_01718;product=tRNA-Leu(taa)
-CP002001.1	Aragorn:1.2	tRNA	1741168	1741242	.	-	.	ID=GCA_000168635_01719;inference=COORDINATES:profile:Aragorn:1.2;locus_tag=GCA_000168635_01719;product=tRNA-Gly(gcc)
-CP002001.1	Aragorn:1.2	tRNA	1741257	1741339	.	-	.	ID=GCA_000168635_01720;inference=COORDINATES:profile:Aragorn:1.2;locus_tag=GCA_000168635_01720;product=tRNA-Leu(tag)
-CP002001.1	Aragorn:1.2	tRNA	1741344	1741417	.	-	.	ID=GCA_000168635_01721;inference=COORDINATES:profile:Aragorn:1.2;locus_tag=GCA_000168635_01721;product=tRNA-Lys(ttt)
-CP002001.1	Aragorn:1.2	tRNA	1741459	1741534	.	-	.	ID=GCA_000168635_01722;inference=COORDINATES:profile:Aragorn:1.2;locus_tag=GCA_000168635_01722;product=tRNA-Thr(tgt)
-CP002001.1	Aragorn:1.2	tRNA	1741542	1741616	.	-	.	ID=GCA_000168635_01723;inference=COORDINATES:profile:Aragorn:1.2;locus_tag=GCA_000168635_01723;product=tRNA-Val(tac)
-CP002001.1	barrnap:0.9	rRNA	1741628	1741737	1.8e-14	-	.	ID=GCA_000168635_01724;locus_tag=GCA_000168635_01724;product=5S ribosomal RNA
-CP002001.1	barrnap:0.9	rRNA	1741820	1744747	0	-	.	ID=GCA_000168635_01725;locus_tag=GCA_000168635_01725;product=23S ribosomal RNA
-CP002001.1	barrnap:0.9	rRNA	1744996	1746542	0	-	.	ID=GCA_000168635_01726;locus_tag=GCA_000168635_01726;product=16S ribosomal RNA
 CP002001.1	Prodigal:2.6	CDS	1746991	1747431	.	-	0	ID=GCA_000168635_01727;Name=perR;db_xref=COG:COG0735;gene=perR;inference=ab initio prediction:Prodigal:2.6,similar to AA sequence:UniProtKB:P71086;locus_tag=GCA_000168635_01727;product=Peroxide operon regulator
 CP002001.1	Prodigal:2.6	CDS	1747520	1748461	.	-	0	ID=GCA_000168635_01728;eC_number=1.1.1.79;Name=ghrA;gene=ghrA;inference=ab initio prediction:Prodigal:2.6,protein motif:HAMAP:MF_01666;locus_tag=GCA_000168635_01728;product=Glyoxylate/hydroxypyruvate reductase A
 CP002001.1	Prodigal:2.6	CDS	1748606	1749904	.	+	0	ID=GCA_000168635_01729;eC_number=5.4.3.8;Name=hemL1;db_xref=COG:COG0001;gene=hemL1;inference=ab initio prediction:Prodigal:2.6,similar to AA sequence:UniProtKB:Q81YV0;locus_tag=GCA_000168635_01729;product=Glutamate-1-semialdehyde 2%2C1-aminomutase 1
@@ -1759,7 +1722,6 @@ CP002001.1	Prodigal:2.6	CDS	1770322	1770768	.	+	0	ID=GCA_000168635_01754;inferen
 CP002001.1	Prodigal:2.6	CDS	1770906	1772138	.	+	0	ID=GCA_000168635_01755;eC_number=3.4.11.-;Name=pepS_2;db_xref=COG:COG2309;gene=pepS_2;inference=ab initio prediction:Prodigal:2.6,similar to AA sequence:UniProtKB:Q9X4A7;locus_tag=GCA_000168635_01755;product=Aminopeptidase PepS
 CP002001.1	Prodigal:2.6	CDS	1772242	1773501	.	+	0	ID=GCA_000168635_01756;Name=mdtH_1;gene=mdtH_1;inference=ab initio prediction:Prodigal:2.6,similar to AA sequence:UniProtKB:P69367;locus_tag=GCA_000168635_01756;product=Multidrug resistance protein MdtH
 CP002001.1	Prodigal:2.6	CDS	1773719	1774711	.	+	0	ID=GCA_000168635_01757;Name=mreBH;db_xref=COG:COG1077;gene=mreBH;inference=ab initio prediction:Prodigal:2.6,similar to AA sequence:UniProtKB:P39763;locus_tag=GCA_000168635_01757;product=Protein MreBH
-CP002001.1	Aragorn:1.2	tRNA	1774840	1774912	.	+	.	ID=GCA_000168635_01758;inference=COORDINATES:profile:Aragorn:1.2;locus_tag=GCA_000168635_01758;product=tRNA-Arg(cct)
 CP002001.1	Prodigal:2.6	CDS	1774984	1775556	.	-	0	ID=GCA_000168635_01759;inference=ab initio prediction:Prodigal:2.6;locus_tag=GCA_000168635_01759;product=hypothetical protein
 CP002001.1	Prodigal:2.6	CDS	1775637	1776305	.	-	0	ID=GCA_000168635_01760;inference=ab initio prediction:Prodigal:2.6;locus_tag=GCA_000168635_01760;product=hypothetical protein
 CP002001.1	Prodigal:2.6	CDS	1776490	1777065	.	+	0	ID=GCA_000168635_01761;Name=betI_1;gene=betI_1;inference=ab initio prediction:Prodigal:2.6,protein motif:HAMAP:MF_00768;locus_tag=GCA_000168635_01761;product=HTH-type transcriptional regulator BetI
@@ -1823,9 +1785,6 @@ CP002001.1	Prodigal:2.6	CDS	1843774	1845066	.	-	0	ID=GCA_000168635_01818;eC_numb
 CP002001.1	Prodigal:2.6	CDS	1845085	1846209	.	-	0	ID=GCA_000168635_01819;eC_number=6.3.4.18;Name=purK_2;gene=purK_2;inference=ab initio prediction:Prodigal:2.6,similar to AA sequence:UniProtKB:Q7A695;locus_tag=GCA_000168635_01819;product=N5-carboxyaminoimidazole ribonucleotide synthase
 CP002001.1	Prodigal:2.6	CDS	1846202	1846690	.	-	0	ID=GCA_000168635_01820;eC_number=5.4.99.18;Name=purE;db_xref=COG:COG0041;gene=purE;inference=ab initio prediction:Prodigal:2.6,similar to AA sequence:UniProtKB:Q9WYS7;locus_tag=GCA_000168635_01820;product=N5-carboxyaminoimidazole ribonucleotide mutase
 CP002001.1	Prodigal:2.6	CDS	1846898	1847422	.	-	0	ID=GCA_000168635_01821;inference=ab initio prediction:Prodigal:2.6,similar to AA sequence:UniProtKB:P61544;locus_tag=GCA_000168635_01821;note=UPF0316 protein SA1727;product=hypothetical protein
-CP002001.1	barrnap:0.9	rRNA	1847553	1847662	1.8e-14	-	.	ID=GCA_000168635_01822;locus_tag=GCA_000168635_01822;product=5S ribosomal RNA
-CP002001.1	barrnap:0.9	rRNA	1847745	1850672	0	-	.	ID=GCA_000168635_01823;locus_tag=GCA_000168635_01823;product=23S ribosomal RNA
-CP002001.1	barrnap:0.9	rRNA	1850921	1852467	0	-	.	ID=GCA_000168635_01824;locus_tag=GCA_000168635_01824;product=16S ribosomal RNA
 CP002001.1	Prodigal:2.6	CDS	1852809	1853414	.	-	0	ID=GCA_000168635_01825;Name=yedJ;db_xref=COG:COG1418;gene=yedJ;inference=ab initio prediction:Prodigal:2.6,similar to AA sequence:UniProtKB:P46144;locus_tag=GCA_000168635_01825;product=putative protein YedJ
 CP002001.1	Prodigal:2.6	CDS	1853480	1854253	.	+	0	ID=GCA_000168635_01826;eC_number=3.6.3.-;Name=ylmA;db_xref=COG:COG1119;gene=ylmA;inference=ab initio prediction:Prodigal:2.6,similar to AA sequence:UniProtKB:O31723;locus_tag=GCA_000168635_01826;product=putative ABC transporter ATP-binding protein YlmA
 CP002001.1	Prodigal:2.6	CDS	1854303	1854665	.	+	0	ID=GCA_000168635_01827;inference=ab initio prediction:Prodigal:2.6;locus_tag=GCA_000168635_01827;product=hypothetical protein
@@ -2136,7 +2095,6 @@ CP002001.1	Prodigal:2.6	CDS	2156773	2157129	.	-	0	ID=GCA_000168635_02131;Name=cr
 CP002001.1	Prodigal:2.6	CDS	2157119	2157508	.	-	0	ID=GCA_000168635_02132;Name=crcB_2;gene=crcB_2;inference=ab initio prediction:Prodigal:2.6,protein motif:HAMAP:MF_00454;locus_tag=GCA_000168635_02132;product=Putative fluoride ion transporter CrcB
 CP002001.1	Prodigal:2.6	CDS	2157614	2158240	.	-	0	ID=GCA_000168635_02133;inference=ab initio prediction:Prodigal:2.6;locus_tag=GCA_000168635_02133;product=hypothetical protein
 CP002001.1	Prodigal:2.6	CDS	2158237	2159130	.	-	0	ID=GCA_000168635_02134;inference=ab initio prediction:Prodigal:2.6;locus_tag=GCA_000168635_02134;product=hypothetical protein
-CP002001.1	Aragorn:1.2	tRNA	2159263	2159346	.	+	.	ID=GCA_000168635_02135;inference=COORDINATES:profile:Aragorn:1.2;locus_tag=GCA_000168635_02135;product=tRNA-Leu(gag)
 CP002001.1	Prodigal:2.6	CDS	2159399	2161087	.	-	0	ID=GCA_000168635_02136;inference=ab initio prediction:Prodigal:2.6;locus_tag=GCA_000168635_02136;product=hypothetical protein
 CP002001.1	Prodigal:2.6	CDS	2161182	2162453	.	-	0	ID=GCA_000168635_02137;inference=ab initio prediction:Prodigal:2.6;locus_tag=GCA_000168635_02137;product=hypothetical protein
 CP002001.1	Prodigal:2.6	CDS	2163086	2164417	.	-	0	ID=GCA_000168635_02138;Name=mepA_2;db_xref=COG:COG0534;gene=mepA_2;inference=ab initio prediction:Prodigal:2.6,similar to AA sequence:UniProtKB:Q2G140;locus_tag=GCA_000168635_02138;product=Multidrug export protein MepA
@@ -2186,11 +2144,6 @@ CP002001.1	Prodigal:2.6	CDS	2209148	2209783	.	+	0	ID=GCA_000168635_02181;inferen
 CP002001.1	Prodigal:2.6	CDS	2209819	2210784	.	-	0	ID=GCA_000168635_02182;Name=galR;db_xref=COG:COG1609;gene=galR;inference=ab initio prediction:Prodigal:2.6,similar to AA sequence:UniProtKB:P03024;locus_tag=GCA_000168635_02182;product=HTH-type transcriptional regulator GalR
 CP002001.1	Prodigal:2.6	CDS	2210923	2211159	.	-	0	ID=GCA_000168635_02183;inference=ab initio prediction:Prodigal:2.6;locus_tag=GCA_000168635_02183;product=hypothetical protein
 CP002001.1	Prodigal:2.6	CDS	2211757	2213580	.	-	0	ID=GCA_000168635_02184;inference=ab initio prediction:Prodigal:2.6;locus_tag=GCA_000168635_02184;product=hypothetical protein
-CP002001.1	Aragorn:1.2	tRNA	2213914	2213986	.	+	.	ID=GCA_000168635_02185;inference=COORDINATES:profile:Aragorn:1.2;locus_tag=GCA_000168635_02185;product=tRNA-Glu(ttc)
-CP002001.1	Aragorn:1.2	tRNA	2214143	2214216	.	+	.	ID=GCA_000168635_02186;inference=COORDINATES:profile:Aragorn:1.2;locus_tag=GCA_000168635_02186;product=tRNA-Thr(cgt)
-CP002001.1	Aragorn:1.2	tRNA	2214226	2214309	.	+	.	ID=GCA_000168635_02187;inference=COORDINATES:profile:Aragorn:1.2;locus_tag=GCA_000168635_02187;product=tRNA-Tyr(gta)
-CP002001.1	Aragorn:1.2	tRNA	2214320	2214394	.	+	.	ID=GCA_000168635_02188;inference=COORDINATES:profile:Aragorn:1.2;locus_tag=GCA_000168635_02188;product=tRNA-Gln(ttg)
-CP002001.1	Aragorn:1.2	tRNA	2214402	2214474	.	+	.	ID=GCA_000168635_02189;inference=COORDINATES:profile:Aragorn:1.2;locus_tag=GCA_000168635_02189;product=tRNA-Lys(ttt)
 CP002001.1	Prodigal:2.6	CDS	2214593	2215282	.	-	0	ID=GCA_000168635_02190;inference=ab initio prediction:Prodigal:2.6;locus_tag=GCA_000168635_02190;product=hypothetical protein
 CP002001.1	Prodigal:2.6	CDS	2215761	2216471	.	+	0	ID=GCA_000168635_02191;inference=ab initio prediction:Prodigal:2.6;locus_tag=GCA_000168635_02191;product=hypothetical protein
 CP002001.1	Prodigal:2.6	CDS	2216501	2217400	.	-	0	ID=GCA_000168635_02192;eC_number=4.1.2.40;Name=gatY_2;db_xref=COG:COG0191;gene=gatY_2;inference=ab initio prediction:Prodigal:2.6,similar to AA sequence:UniProtKB:P0C8J6;locus_tag=GCA_000168635_02192;product=D-tagatose-1%2C6-bisphosphate aldolase subunit GatY
@@ -2431,25 +2384,6 @@ CP002001.1	Prodigal:2.6	CDS	2429944	2430417	.	-	0	ID=GCA_000168635_02426;inferen
 CP002001.1	Prodigal:2.6	CDS	2430807	2432330	.	+	0	ID=GCA_000168635_02427;Name=gadC_2;db_xref=COG:COG0531;gene=gadC_2;inference=ab initio prediction:Prodigal:2.6,similar to AA sequence:UniProtKB:O30417;locus_tag=GCA_000168635_02427;product=Glutamate/gamma-aminobutyrate antiporter
 CP002001.1	Prodigal:2.6	CDS	2432343	2433737	.	+	0	ID=GCA_000168635_02428;eC_number=4.1.1.15;Name=gadB_1;db_xref=COG:COG0076;gene=gadB_1;inference=ab initio prediction:Prodigal:2.6,similar to AA sequence:UniProtKB:Q9CG20;locus_tag=GCA_000168635_02428;product=Glutamate decarboxylase
 CP002001.1	Prodigal:2.6	CDS	2433746	2435260	.	-	0	ID=GCA_000168635_02429;inference=ab initio prediction:Prodigal:2.6;locus_tag=GCA_000168635_02429;product=hypothetical protein
-CP002001.1	Aragorn:1.2	tRNA	2435555	2435638	.	-	.	ID=GCA_000168635_02430;inference=COORDINATES:profile:Aragorn:1.2;locus_tag=GCA_000168635_02430;product=tRNA-Leu(caa)
-CP002001.1	Aragorn:1.2	tRNA	2435684	2435757	.	-	.	ID=GCA_000168635_02431;inference=COORDINATES:profile:Aragorn:1.2;locus_tag=GCA_000168635_02431;product=tRNA-Cys(gca)
-CP002001.1	Aragorn:1.2	tRNA	2435777	2435848	.	-	.	ID=GCA_000168635_02432;inference=COORDINATES:profile:Aragorn:1.2;locus_tag=GCA_000168635_02432;product=tRNA-Gly(gcc)
-CP002001.1	Aragorn:1.2	tRNA	2435853	2435926	.	-	.	ID=GCA_000168635_02433;inference=COORDINATES:profile:Aragorn:1.2;locus_tag=GCA_000168635_02433;product=tRNA-Gln(ttg)
-CP002001.1	Aragorn:1.2	tRNA	2435954	2436027	.	-	.	ID=GCA_000168635_02434;inference=COORDINATES:profile:Aragorn:1.2;locus_tag=GCA_000168635_02434;product=tRNA-His(gtg)
-CP002001.1	Aragorn:1.2	tRNA	2436043	2436116	.	-	.	ID=GCA_000168635_02435;inference=COORDINATES:profile:Aragorn:1.2;locus_tag=GCA_000168635_02435;product=tRNA-Trp(cca)
-CP002001.1	Aragorn:1.2	tRNA	2436124	2436207	.	-	.	ID=GCA_000168635_02436;inference=COORDINATES:profile:Aragorn:1.2;locus_tag=GCA_000168635_02436;product=tRNA-Tyr(gta)
-CP002001.1	Aragorn:1.2	tRNA	2436227	2436300	.	-	.	ID=GCA_000168635_02437;inference=COORDINATES:profile:Aragorn:1.2;locus_tag=GCA_000168635_02437;product=tRNA-Phe(gaa)
-CP002001.1	Aragorn:1.2	tRNA	2436305	2436380	.	-	.	ID=GCA_000168635_02438;inference=COORDINATES:profile:Aragorn:1.2;locus_tag=GCA_000168635_02438;product=tRNA-Asp(gtc)
-CP002001.1	Aragorn:1.2	tRNA	2436386	2436461	.	-	.	ID=GCA_000168635_02439;inference=COORDINATES:profile:Aragorn:1.2;locus_tag=GCA_000168635_02439;product=tRNA-Met(cat)
-CP002001.1	Aragorn:1.2	tRNA	2436482	2436557	.	-	.	ID=GCA_000168635_02440;inference=COORDINATES:profile:Aragorn:1.2;locus_tag=GCA_000168635_02440;product=tRNA-Val(tac)
-CP002001.1	Aragorn:1.2	tRNA	2436614	2436685	.	-	.	ID=GCA_000168635_02441;inference=COORDINATES:profile:Aragorn:1.2;locus_tag=GCA_000168635_02441;product=tRNA-Glu(ttc)
-CP002001.1	Aragorn:1.2	tRNA	2436718	2436808	.	-	.	ID=GCA_000168635_02442;inference=COORDINATES:profile:Aragorn:1.2;locus_tag=GCA_000168635_02442;product=tRNA-Ser(gga)
-CP002001.1	Aragorn:1.2	tRNA	2436814	2436889	.	-	.	ID=GCA_000168635_02443;inference=COORDINATES:profile:Aragorn:1.2;locus_tag=GCA_000168635_02443;product=tRNA-Asn(gtt)
-CP002001.1	barrnap:0.9	rRNA	2436903	2437012	1.8e-14	-	.	ID=GCA_000168635_02444;locus_tag=GCA_000168635_02444;product=5S ribosomal RNA
-CP002001.1	barrnap:0.9	rRNA	2437095	2440022	0	-	.	ID=GCA_000168635_02445;locus_tag=GCA_000168635_02445;product=23S ribosomal RNA
-CP002001.1	Aragorn:1.2	tRNA	2440197	2440272	.	-	.	ID=GCA_000168635_02446;inference=COORDINATES:profile:Aragorn:1.2;locus_tag=GCA_000168635_02446;product=tRNA-Ala(tgc)
-CP002001.1	Aragorn:1.2	tRNA	2440318	2440392	.	-	.	ID=GCA_000168635_02447;inference=COORDINATES:profile:Aragorn:1.2;locus_tag=GCA_000168635_02447;product=tRNA-Ile(gat)
-CP002001.1	barrnap:0.9	rRNA	2440522	2442068	0	-	.	ID=GCA_000168635_02448;locus_tag=GCA_000168635_02448;product=16S ribosomal RNA
 CP002001.1	Prodigal:2.6	CDS	2442430	2443188	.	-	0	ID=GCA_000168635_02449;Name=srlR_3;db_xref=COG:COG1349;gene=srlR_3;inference=ab initio prediction:Prodigal:2.6,similar to AA sequence:UniProtKB:P15082;locus_tag=GCA_000168635_02449;product=Glucitol operon repressor
 CP002001.1	Prodigal:2.6	CDS	2443293	2444645	.	-	0	ID=GCA_000168635_02450;eC_number=5.3.1.9;Name=pgi;db_xref=COG:COG0166;gene=pgi;inference=ab initio prediction:Prodigal:2.6,similar to AA sequence:UniProtKB:P80860;locus_tag=GCA_000168635_02450;product=Glucose-6-phosphate isomerase
 CP002001.1	Prodigal:2.6	CDS	2444747	2445154	.	-	0	ID=GCA_000168635_02451;inference=ab initio prediction:Prodigal:2.6;locus_tag=GCA_000168635_02451;product=hypothetical protein
@@ -2529,7 +2463,6 @@ CP002001.1	Prodigal:2.6	CDS	2516037	2516420	.	-	0	ID=GCA_000168635_02524;inferen
 CP002001.1	Prodigal:2.6	CDS	2516475	2517371	.	-	0	ID=GCA_000168635_02525;inference=ab initio prediction:Prodigal:2.6;locus_tag=GCA_000168635_02525;product=hypothetical protein
 CP002001.1	Prodigal:2.6	CDS	2517416	2517985	.	-	0	ID=GCA_000168635_02526;inference=ab initio prediction:Prodigal:2.6;locus_tag=GCA_000168635_02526;product=hypothetical protein
 CP002001.1	Prodigal:2.6	CDS	2518161	2518580	.	-	0	ID=GCA_000168635_02527;inference=ab initio prediction:Prodigal:2.6;locus_tag=GCA_000168635_02527;product=hypothetical protein
-CP002001.1	Aragorn:1.2	tmRNA	2519023	2519389	.	-	.	ID=GCA_000168635_02528;Name=ssrA;gene=ssrA;inference=COORDINATES:profile:Aragorn:1.2;locus_tag=GCA_000168635_02528;product=transfer-messenger RNA%2C SsrA
 CP002001.1	Prodigal:2.6	CDS	2519530	2523465	.	-	0	ID=GCA_000168635_02529;inference=ab initio prediction:Prodigal:2.6;locus_tag=GCA_000168635_02529;product=hypothetical protein
 CP002001.1	Prodigal:2.6	CDS	2523477	2524421	.	-	0	ID=GCA_000168635_02530;inference=ab initio prediction:Prodigal:2.6;locus_tag=GCA_000168635_02530;product=hypothetical protein
 CP002001.1	Prodigal:2.6	CDS	2524482	2527757	.	-	0	ID=GCA_000168635_02531;inference=ab initio prediction:Prodigal:2.6;locus_tag=GCA_000168635_02531;product=hypothetical protein
@@ -2553,7 +2486,6 @@ CP002001.1	Prodigal:2.6	CDS	2545624	2547786	.	-	0	ID=GCA_000168635_02548;Name=yd
 CP002001.1	Prodigal:2.6	CDS	2547865	2548473	.	-	0	ID=GCA_000168635_02549;inference=ab initio prediction:Prodigal:2.6;locus_tag=GCA_000168635_02549;product=hypothetical protein
 CP002001.1	Prodigal:2.6	CDS	2548490	2548888	.	-	0	ID=GCA_000168635_02550;inference=ab initio prediction:Prodigal:2.6;locus_tag=GCA_000168635_02550;product=hypothetical protein
 CP002001.1	Prodigal:2.6	CDS	2549115	2549450	.	+	0	ID=GCA_000168635_02551;inference=ab initio prediction:Prodigal:2.6;locus_tag=GCA_000168635_02551;product=hypothetical protein
-CP002001.1	Aragorn:1.2	tRNA	2549507	2549578	.	-	.	ID=GCA_000168635_02552;inference=COORDINATES:profile:Aragorn:1.2;locus_tag=GCA_000168635_02552;product=tRNA-Arg(ccg)
 CP002001.1	Prodigal:2.6	CDS	2549698	2551134	.	-	0	ID=GCA_000168635_02553;Name=gbpA;gene=gbpA;inference=ab initio prediction:Prodigal:2.6,protein motif:HAMAP:MF_01905;locus_tag=GCA_000168635_02553;product=GlcNAc-binding protein A
 CP002001.1	Prodigal:2.6	CDS	2551291	2551887	.	+	0	ID=GCA_000168635_02554;eC_number=3.4.21.92;Name=clpP_2;db_xref=COG:COG0740;gene=clpP_2;inference=ab initio prediction:Prodigal:2.6,similar to AA sequence:UniProtKB:Q9RQI6;locus_tag=GCA_000168635_02554;product=ATP-dependent Clp protease proteolytic subunit
 CP002001.1	Prodigal:2.6	CDS	2551935	2553326	.	-	0	ID=GCA_000168635_02555;Name=yhdG_2;db_xref=COG:COG0531;gene=yhdG_2;inference=ab initio prediction:Prodigal:2.6,similar to AA sequence:UniProtKB:O07576;locus_tag=GCA_000168635_02555;product=putative amino acid permease YhdG
@@ -2740,19 +2672,11 @@ CP002001.1	Prodigal:2.6	CDS	2718165	2718590	.	+	0	ID=GCA_000168635_02735;eC_numb
 CP002001.1	Prodigal:2.6	CDS	2718605	2719312	.	+	0	ID=GCA_000168635_02736;inference=ab initio prediction:Prodigal:2.6;locus_tag=GCA_000168635_02736;product=hypothetical protein
 CP002001.1	Prodigal:2.6	CDS	2719371	2719976	.	+	0	ID=GCA_000168635_02737;inference=ab initio prediction:Prodigal:2.6;locus_tag=GCA_000168635_02737;product=hypothetical protein
 CP002001.1	Prodigal:2.6	CDS	2720039	2721202	.	+	0	ID=GCA_000168635_02738;Name=xerD_2;gene=xerD_2;inference=ab initio prediction:Prodigal:2.6,protein motif:HAMAP:MF_01807;locus_tag=GCA_000168635_02738;product=Tyrosine recombinase XerD
-CP002001.1	Aragorn:1.2	tRNA	2721293	2721365	.	-	.	ID=GCA_000168635_02739;inference=COORDINATES:profile:Aragorn:1.2;locus_tag=GCA_000168635_02739;product=tRNA-Thr(ggt)
-CP002001.1	Aragorn:1.2	tRNA	2721390	2721465	.	-	.	ID=GCA_000168635_02740;inference=COORDINATES:profile:Aragorn:1.2;locus_tag=GCA_000168635_02740;product=tRNA-Asn(gtt)
-CP002001.1	barrnap:0.9	rRNA	2721479	2721588	1.8e-14	-	.	ID=GCA_000168635_02741;locus_tag=GCA_000168635_02741;product=5S ribosomal RNA
-CP002001.1	barrnap:0.9	rRNA	2721671	2724598	0	-	.	ID=GCA_000168635_02742;locus_tag=GCA_000168635_02742;product=23S ribosomal RNA
-CP002001.1	Aragorn:1.2	tRNA	2724773	2724848	.	-	.	ID=GCA_000168635_02743;inference=COORDINATES:profile:Aragorn:1.2;locus_tag=GCA_000168635_02743;product=tRNA-Ala(tgc)
-CP002001.1	Aragorn:1.2	tRNA	2724894	2724968	.	-	.	ID=GCA_000168635_02744;inference=COORDINATES:profile:Aragorn:1.2;locus_tag=GCA_000168635_02744;product=tRNA-Ile(gat)
-CP002001.1	barrnap:0.9	rRNA	2725098	2726644	0	-	.	ID=GCA_000168635_02745;locus_tag=GCA_000168635_02745;product=16S ribosomal RNA
 CP002001.1	Prodigal:2.6	CDS	2726931	2727959	.	-	0	ID=GCA_000168635_02746;Name=salA;db_xref=COG:COG0489;gene=salA;inference=ab initio prediction:Prodigal:2.6,similar to AA sequence:UniProtKB:P50863;locus_tag=GCA_000168635_02746;product=Iron-sulfur cluster carrier protein
 CP002001.1	Prodigal:2.6	CDS	2728227	2729753	.	+	0	ID=GCA_000168635_02747;inference=ab initio prediction:Prodigal:2.6;locus_tag=GCA_000168635_02747;product=hypothetical protein
 CP002001.1	Prodigal:2.6	CDS	2729795	2730646	.	-	0	ID=GCA_000168635_02748;eC_number=1.1.1.-;Name=yvgN_2;db_xref=COG:COG0656;gene=yvgN_2;inference=ab initio prediction:Prodigal:2.6,similar to AA sequence:UniProtKB:O32210;locus_tag=GCA_000168635_02748;product=Glyoxal reductase
 CP002001.1	Prodigal:2.6	CDS	2730668	2731090	.	-	0	ID=GCA_000168635_02749;Name=adhR_3;db_xref=COG:COG0789;gene=adhR_3;inference=ab initio prediction:Prodigal:2.6,similar to AA sequence:UniProtKB:O06008;locus_tag=GCA_000168635_02749;product=HTH-type transcriptional regulator AdhR
 CP002001.1	Prodigal:2.6	CDS	2731212	2731574	.	-	0	ID=GCA_000168635_02750;inference=ab initio prediction:Prodigal:2.6;locus_tag=GCA_000168635_02750;product=hypothetical protein
-CP002001.1	minced:0.3.2	repeat_region	2732100	2733388	.	.	.	note=CRISPR with 20 repeat units;rpt_family=CRISPR;rpt_type=direct;rpt_unit_seq=GTTTTGGTAGCATTCGAAATAACATAGCTCTAAAAC
 CP002001.1	Prodigal:2.6	CDS	2733517	2734179	.	-	0	ID=GCA_000168635_02751;Name=csn2;gene=csn2;inference=ab initio prediction:Prodigal:2.6,similar to AA sequence:UniProtKB:C7UDU4;locus_tag=GCA_000168635_02751;product=CRISPR-associated protein Csn2
 CP002001.1	Prodigal:2.6	CDS	2734169	2734510	.	-	0	ID=GCA_000168635_02752;eC_number=3.1.-.-;Name=cas2_2;gene=cas2_2;inference=ab initio prediction:Prodigal:2.6,similar to AA sequence:UniProtKB:G3ECR3;locus_tag=GCA_000168635_02752;product=CRISPR-associated endoribonuclease Cas2
 CP002001.1	Prodigal:2.6	CDS	2734507	2735373	.	-	0	ID=GCA_000168635_02753;eC_number=3.1.-.-;Name=cas1_2;gene=cas1_2;inference=ab initio prediction:Prodigal:2.6,similar to AA sequence:UniProtKB:G3ECR2;locus_tag=GCA_000168635_02753;product=CRISPR-associated endonuclease Cas1
@@ -3008,7 +2932,6 @@ CP002001.1	Prodigal:2.6	CDS	2981081	2981962	.	-	0	ID=GCA_000168635_03002;Name=yc
 CP002001.1	Prodigal:2.6	CDS	2982037	2983329	.	-	0	ID=GCA_000168635_03003;inference=ab initio prediction:Prodigal:2.6;locus_tag=GCA_000168635_03003;product=hypothetical protein
 CP002001.1	Prodigal:2.6	CDS	2983326	2985026	.	-	0	ID=GCA_000168635_03004;eC_number=2.4.1.-;Name=ycjM;db_xref=COG:COG0366;gene=ycjM;inference=ab initio prediction:Prodigal:2.6,similar to AA sequence:UniProtKB:P76041;locus_tag=GCA_000168635_03004;product=Glucosylglycerate phosphorylase
 CP002001.1	Prodigal:2.6	CDS	2985251	2986276	.	+	0	ID=GCA_000168635_03005;Name=purR_2;db_xref=COG:COG1609;gene=purR_2;inference=ab initio prediction:Prodigal:2.6,similar to AA sequence:UniProtKB:P0ACP7;locus_tag=GCA_000168635_03005;product=HTH-type transcriptional repressor PurR
-CP002001.1	Aragorn:1.2	tRNA	2986298	2986370	.	+	.	ID=GCA_000168635_03006;inference=COORDINATES:profile:Aragorn:1.2;locus_tag=GCA_000168635_03006;product=tRNA-Val(gac)
 CP002001.1	Prodigal:2.6	CDS	2986415	2988409	.	-	0	ID=GCA_000168635_03007;inference=ab initio prediction:Prodigal:2.6;locus_tag=GCA_000168635_03007;product=hypothetical protein
 CP002001.1	Prodigal:2.6	CDS	2988545	2989084	.	-	0	ID=GCA_000168635_03008;inference=ab initio prediction:Prodigal:2.6;locus_tag=GCA_000168635_03008;product=hypothetical protein
 CP002001.1	Prodigal:2.6	CDS	2989239	2990651	.	+	0	ID=GCA_000168635_03009;Name=hsrA;gene=hsrA;inference=ab initio prediction:Prodigal:2.6,similar to AA sequence:UniProtKB:P31474;locus_tag=GCA_000168635_03009;product=putative transport protein HsrA

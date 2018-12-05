@@ -10,6 +10,7 @@ module slebrasRoary {
     	string pangenome_name;
         int blast_p_percentage;
         int max_num_clusters;
+        int percent_genes_for_core;
     } RoaryParams;
 
     /* roary output */

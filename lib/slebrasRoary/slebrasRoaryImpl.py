@@ -25,7 +25,7 @@ class slebrasRoary:
     ######################################### noqa
     VERSION = "0.0.1"
     GIT_URL = "https://github.com/slebras/Roary.git"
-    GIT_COMMIT_HASH = "120c1ab7e62e892658b024c2af24fb9d7fea7b02"
+    GIT_COMMIT_HASH = "a7d3574191d1e591ddc53ab8485eaac34c0ddd80"
 
     #BEGIN_CLASS_HEADER
     #END_CLASS_HEADER
@@ -45,7 +45,8 @@ class slebrasRoary:
         This example function accepts any number of parameters and returns results in a KBaseReport
         :param params: instance of type "RoaryParams" (roary input) ->
            structure: parameter "workspace_name" of String, parameter "ref"
-           of String, parameter "pangenome_name" of String
+           of String, parameter "pangenome_name" of String, parameter
+           "blast_p_percentage" of Long, parameter "max_num_clusters" of Long
         :returns: instance of type "RoaryResults" (roary output) ->
            structure: parameter "report_name" of String, parameter
            "report_ref" of String
@@ -54,8 +55,7 @@ class slebrasRoary:
         # return variables are: output
         #BEGIN run_slebrasRoary
 
-        # Error Handling
-
+        # input validation
         # ~conspicuously blank~
 
         # get input parameters
@@ -69,13 +69,13 @@ class slebrasRoary:
             pangnome_id = None
 
         # run meat of operations
-        gff_folder_path, path_to_ref = download_gffs(self.callback_url, self.shared_folder, genome_set_ref)
+        gff_folder_path, path_to_ref_and_ID_pos_dict = download_gffs(self.callback_url, self.shared_folder, genome_set_ref)
         output_path = run_roary(self.shared_folder, gff_folder_path, params)
         sum_stats = output_path + '/summary_statistics.txt'
         gene_pres_abs = output_path + '/gene_presence_absence.csv'
 
         if pangenome_name:
-            pangenome = generate_pangenome(gene_pres_abs, path_to_ref, pangenome_id, pangenome_name)
+            pangenome = generate_pangenome(gene_pres_abs, path_to_ref_and_ID_pos_dict, pangenome_id, pangenome_name)
             pangenome_obj = upload_pangenome(self.callback_url, self.shared_folder, pangenome, workspace_name, pangenome_name)
             output = roary_report(self.callback_url, ws_name, sum_stats, pangenome_obj['pangenome_ref'])
         else:

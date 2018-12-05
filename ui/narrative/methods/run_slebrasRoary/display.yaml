@@ -41,16 +41,22 @@ parameters :
         short-hint : Name for output pangnome object. If blank will not export Pangenome object.
         long-hint  : Name for output pangenome object. Will be uploaded to KBase database.
 
-    blast_p_percentage:
+    blast_p_percentage :
         ui-name : BLASTP percentage identity (98 by default)
         short-hint : minimum percentage identity for blastp
         long-hint  : minimum percentage identity for blastp
        
-    max_num_clusters:
+    max_num_clusters :
         ui-name : maximum number of clusters (50000 by default)
         short-hint : maximum number of clusters as output
         long-hint  : maximum number of clusters as output
-       
+
+    percent_genes_for_core :
+        ui-name : percentage of isolates a gene must be in to be core
+        short-hint : percentage of isolates a gene must be in to be core, default 99
+        long-hint  : percentage of isolates a gene must be in to be core
+
+
 description : |
 
     <p>Roary is a high speed stand alone pan genome pipeline, which takes annotated assemblies in GFF3 format (produced by Prokka (Seemann, 2014)) and calculates the pan genome. Using a standard desktop PC, it can analyse datasets with thousands of samples, something which is computationally infeasible with existing methods, without compromising the quality of the results. 128 samples can be analysed in under 1 hour using 1 GB of RAM and a single processor. To perform this analysis using existing methods would take weeks and hundreds of GB of RAM. Roary is not intended for meta-genomics or for comparing extremely diverse sets of genomes.</p>
