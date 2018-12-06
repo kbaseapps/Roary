@@ -1,6 +1,7 @@
 import sys
 import os
 import json
+import subprocess
 
 def run_roary(scratch, gff_folder, params):
 	"""
@@ -14,6 +15,15 @@ def run_roary(scratch, gff_folder, params):
 			max_num_clusters       : maximum allowable number of cluster to create, default 50000
 			percent_genes_for_core : percentage of isolates a gene must be in to be core, default 99
 	"""
+	# first verify that there are multiple (at least 2) .gff files in the gff_folder
+	gff_folder_dir = os.listdir(gff_folder)
+	num_gffs = 0
+	for f in gff_folder_dir:
+		if '.gff' in f: num_gffs += 1
+	if num_gffs < 2:
+		raise ValueError("Must Provide at least two Genomes with GFF files.")
+
+
 	gff_folder_files = os.path.join(gff_folder,'*.gff')
 	out_dir = os.path.join(scratch,'outputs')
 
@@ -39,11 +49,14 @@ def run_roary(scratch, gff_folder, params):
 	# finally add files on which to run Roary
 	args.append(gff_folder_files)
 
-	# Roary seems to return code 255 regardless of if it worked or not so we'll use os.system instead
-	# of subprocess
-	os.system(' '.join(args))
-	# handle exceptions and errors here. 
+	# Roary seems to return code 255 with subprocess.check_output, 
+	
+	# FIND SOLUTION: avoid using shell=True, must use for time being as consists of only succesful
+	# way to check for errors.
+	proc = subprocess.Popen(' '.join(args), shell=True)
+	res = proc.wait()
 
-	# the fundamental issue is that Roary will return code 255 even if it succesfully executes.
+	if res != 0:
+		raise RuntimeError("Roary subprocess exited with error code: %f"%res)
 
 	return out_dir

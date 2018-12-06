@@ -43,6 +43,9 @@ def download_gffs(cb_url, scratch, genome_set_ref):
 			str *
 			(obj_type))
 
+	if len(refs) < 2:
+		raise ValueError("Must provide GenomeSet with at least 2 Genomes.")
+
 	# name the output directory
 	temp_dir = scratch + '/temp'
 	final_dir = scratch + '/gff'
@@ -75,6 +78,9 @@ def download_gffs(cb_url, scratch, genome_set_ref):
 		else:
 			fasta_file = au.get_assembly_as_fasta(
 				{'ref': gen_obj['assembly_ref'], 'filename': fasta_path})
+			# check that fasta_file exists
+			if not os.path.isfile(fasta_file['path']):
+				raise ValueError('An input Genome does not have an associated FASTA file.')
 
 		# need to figure out if FASTA is already in gff file
 		# not sure if we need to do this step.
