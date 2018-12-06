@@ -35,7 +35,7 @@ def run_roary(scratch, gff_folder, params):
 
     # internal arguments
     graphing = False
-    num_threads = str(4)
+    num_threads = str(8)
 
     # find out what other arguments we want to use for this from Paramvir
     args = ['roary', '-f', out_dir, '-p', num_threads, '-i',
