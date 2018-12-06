@@ -7,6 +7,9 @@ tooltip: the Pan Genome Pipelne
 
 publications:
     -
+        display_text: Andrew J. Page, Carla A. Cummins, Martin Hunt, Vanessa K. Wong, Sandra Reuter, Matthew T. G. Holden, Maria Fookes, Daniel Falush, Jacqueline A. Keane, Julian Parkhill, "Roary: Rapid large-scale prokaryote pan genome analysis", Bioinformatics, 2015;31(22):3691-3693 
+        link: https://academic.oup.com/bioinformatics/article/31/22/3691/240757 
+    -
         display_text: Scholz M, Ward D V, Pasolli E, Tolio T, Zolfo M, Asnicar F, Truong D T, Tett A, Morrow A L, Segata, N. (2016). Strain-level microbial epidemiology and population genomics from shotgun metagenomics. Nature methods, 13(5), 435.
         link: https://www.nature.com/articles/nmeth.3802
     - 
@@ -42,18 +45,18 @@ parameters :
         long-hint  : Name for output pangenome object. Will be uploaded to KBase database.
 
     blast_p_percentage :
-        ui-name : BLASTP percentage identity (98 by default)
-        short-hint : minimum percentage identity for blastp
-        long-hint  : minimum percentage identity for blastp
+        ui-name : Minimum BLASTP percentage identity (98 by default)
+        short-hint : Minimum percentage identity for blastp
+        long-hint  : Minimum percentage identity for blastp
        
     max_num_clusters :
-        ui-name : maximum number of clusters (50000 by default)
-        short-hint : maximum number of clusters as output
-        long-hint  : maximum number of clusters as output
+        ui-name : Maximum number of clusters (50000 by default)
+        short-hint : Maximum number of clusters as output
+        long-hint  : Maximum number of clusters as output
 
     percent_genes_for_core :
-        ui-name : percentage of isolates a gene must be in to be core
-        short-hint : percentage of isolates a gene must be in to be core, default 99
+        ui-name : percentage of isolates a gene must be in to be core (99 by default)
+        short-hint : percentage of isolates a gene must be in to be core
         long-hint  : percentage of isolates a gene must be in to be core
 
 

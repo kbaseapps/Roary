@@ -36,12 +36,12 @@
             "optional":true,
             "advanced":true,
             "allow_multiple": false,
-            "default_values": [ "95" ],
+            "default_values": [95],
             "field_type": "text",
             "text_options": {
-                "valid_ws_types": [""],
+                "valid_ws_types": [],
                 "validate_as":"int",
-                "min_int": 1,
+                "min_int": 90,
                 "max_int": 100
             }
         },{
@@ -49,24 +49,25 @@
             "optional":true,
             "advanced":true,
             "allow_multiple": false,
-            "default_values": [ "50000" ],
+            "default_values": [50000],
             "field_type": "text",
             "text_options": {
-                "valid_ws_types": [""],
-                "validate_as":"int" 
+                "valid_ws_types": [],
+                "validate_as":"int",
+                "max_int":50000 
             }
         },{
             "id":"percent_genes_for_core",
             "optional":true,
             "advanced":true,
             "allow_multiple":false,
-            "default_values": ["99"],
+            "default_values": [99],
             "field_type": "text",
             "text_options": {
-                "valid_ws_types": [""],
-                "validate_as":"int",
-                "min_int": 1,
-                "max_int": 100
+                "valid_ws_types": [],
+                "validate_as":"float",
+                "min_float": 90,
+                "max_float": 100
             }
         }
     ],
