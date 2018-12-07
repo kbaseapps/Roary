@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+<head>
+	<link>
+	<title> Summary Statistics </title>
+</head>
+<body>
+	<table>
+		<thead>
+			<th align="center"> Summary Statistics </th>
+		</thead>
+		<tbody>
+			{% for item in results %}
+			<tr>
+			    <td>Core genes</td>
+			    <td>(99% <= strains <= 100%)</td>
+			    <td>{{item.core_genes}}</td>
+			</tr>
+			<tr>
+			    <td>Soft core genes</td>
+			    <td>(95% <= strains < 99%)</td>
+				<td>{{item.soft_core_genes}}</td>
+			</tr>
+			<tr>
+			    <td>Shell genes</td>
+			    <td>(15% <= strains < 95%)</td>
+			    <td>{{item.shell_genes}}</td>
+			</tr>
+			<tr>
+			    <td>Cloud genes</td>
+			    <td>(0% <= strains < 15%)</td>
+			    <td>{{item.cloud_genes}}</td>
+			</tr>
+			<tr>
+			    <td>Total genes</td>
+			    <td>(0% <= strains <= 100%)</td>
+			    <td>{{item.total_genes}}</td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+</html>
