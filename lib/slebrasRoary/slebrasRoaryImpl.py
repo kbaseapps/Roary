@@ -71,17 +71,19 @@ class slebrasRoary:
         # run meat of operations
         gff_folder_path, path_to_ref_and_ID_pos_dict = download_gffs(self.callback_url, self.shared_folder, genome_set_ref)
         output_path = run_roary(self.shared_folder, gff_folder_path, params)
-        sum_stats = output_path + '/summary_statistics.txt'
-        gene_pres_abs = output_path + '/gene_presence_absence.csv'
-
-        print('printing output path files:', os.listdir(output_path))
+        sum_stats = os.path.join(output_path,'summary_statistics.txt')
+        gene_pres_abs = os.path.join(output_path,'gene_presence_absence.csv')
+        conserved_vs_total_graph = os.path.join(output_path,'conserved_vs_total_genes.png')
+        unique_vs_new_graph = os.path.join(output_path, 'unique_vs_new_genes.png')
 
         if pangenome_name:
             pangenome = generate_pangenome(gene_pres_abs, path_to_ref_and_ID_pos_dict, pangenome_id, pangenome_name)
             pangenome_obj = upload_pangenome(self.callback_url, self.shared_folder, pangenome, workspace_name, pangenome_name)
-            output = roary_report(self.callback_url, ws_name, sum_stats, pangenome_obj['pangenome_ref'])
+            output = roary_report(self.callback_url, ws_name, sum_stats, pangenome_obj['pangenome_ref'],\
+                                    conserved_vs_total_graph, unique_vs_new_graph)
         else:
-            output = roary_report(self.callback_url, ws_name, sum_stats, None)
+            output = roary_report(self.callback_url, ws_name, sum_stats, None, \
+                                conserved_vs_total_graph, unique_vs_new_graph)
 
         #END run_slebrasRoary
 

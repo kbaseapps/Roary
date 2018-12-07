@@ -34,7 +34,7 @@ def run_roary(scratch, gff_folder, params):
     percent_genes_for_core = str(params['percent_genes_for_core'])
 
     # internal arguments
-    graphing = False
+    graphing = True
     num_threads = str(8)
 
     # find out what other arguments we want to use for this from Paramvir

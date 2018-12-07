@@ -7,6 +7,9 @@ from installed_clients.DataFileUtilClient import DataFileUtil
 from installed_clients.KBaseReportClient import KBaseReport
 from installed_clients.WSLargeDataIOClient import WsLargeDataIO
 
+# utils
+from .roary_output import format_summary_statistics
+
 def generate_pangenome(gene_pres_abs, path_to_ref_and_ID_pos_dict, pangenome_id, pangenome_name):
 	'''
 		params:
@@ -115,7 +118,7 @@ def upload_pangenome(cb_url, scratch, Pangenome, workspace_name, pangenome_name)
 	}
 
 
-def roary_report(cb_url, workspace_name, sum_stats, pangenome_ref):
+def roary_report(cb_url, workspace_name, sum_stats, pangenome_ref, conserved_vs_total_graph, unique_vs_new_graph):
 	"""
 	params:
 		cb_url         : callback url
@@ -128,25 +131,47 @@ def roary_report(cb_url, workspace_name, sum_stats, pangenome_ref):
 	"""
 	report_name = 'Roary_report_'+str(uuid.uuid4())
 
+	html_sum_stats = format_summary_statistics(sum_stats)
+	
 	dfu = DataFileUtil(cb_url)
 
-	# get the .txt file into shock
-	shock = dfu.file_to_shock({
+	# get the .txt and .png files into shock
+	shock_1 = dfu.file_to_shock({
 		'file_path':sum_stats,
 		'make_handle':0,
 	})
+	shock_2 = dfu.file_to_shock({
+		'file_path':conserved_vs_total_graph,
+		'make_handle':0,
+	})
+	shock_3 = dfu.file_to_shock({
+		'file_path':unique_vs_new_graph,
+		'make_handle':0,
+	})
 
-	results_link = {
-		'shock_id': shock['shock_id'],
+	results_link_1 = {
+		'shock_id': shock_1['shock_id'],
 		'name':'summary_statistics.txt',
 		'label':'html_files',
 		'description':'Roary TXT file summary statistics'
+	}
+	results_link_2 = {
+		'shock_id': shock_2['shock_id'],
+		'name':'conserved_vs_total_genes.png',
+		'label':'html_files',
+		'description':'Graph of conserved genes vs. total genes'
+	}
+	results_link_3 = {
+		'shock_id': shock_3['shock_id'],
+		'name':'unique_vs_new_genes.png',
+		'label':'html_files',
+		'description':'Graph of unique genes vs new genes'
 	}
 
 	report_client = KBaseReport(cb_url)
 	report = report_client.create_extended_report({
 		'direct_html_link_index':0,
-		'html_links':[results_link],
+		'html_links':[results_link_1, results_link_2, results_link_3],
 		'workspace_name': workspace_name,
 		'report_object_name': report_name,
 		'objects_created': [{

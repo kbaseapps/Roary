@@ -100,9 +100,13 @@ def download_gffs(cb_url, scratch, genome_set_ref):
 			args = ['mv', gff_file_path, new_file_path]
 			subprocess.call(args)
 		else:
+			# NOTE: We have to pipe output of cat call to the new_file_path
 			# next we make a new 'gff' file that contains both the gff and fasta information
-			args = ['cat', fasta_file['path'], cat_path, gff_file_path, '>', new_file_path]
-			subprocess.call(args)
+			args = ['cat', fasta_file['path'], cat_path, gff_file_path]
+			catted_files = subprocess.check_output(args, stdout=subprocess.PIPE)
+			f = open(new_file_path, 'w')
+			f.write(catted_files.decode('utf-8'))
+			f.close()
 
 		path_to_ref_and_ID_pos_dict[new_file_path] = (ref, ID_to_pos)
 
