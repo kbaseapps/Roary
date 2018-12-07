@@ -173,7 +173,7 @@ def roary_report(cb_url, scratch, workspace_name, sum_stats, pangenome_ref, cons
 	report = report_client.create_extended_report({
 		'direct_html_link_index':0,
 		'html_links':[html_link],
-		'file_links':[photo_link_1, photo_link_2]
+		'file_links':[photo_link_1, photo_link_2],
 		'workspace_name': workspace_name,
 		'report_object_name': report_name,
 		'objects_created': [{
