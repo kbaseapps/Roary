@@ -88,7 +88,7 @@ def upload_pangenome(cb_url, scratch, Pangenome, workspace_name, pangenome_name)
 	# data_path = os.path.join(scratch, pangenome_name + '.json')
 	# json.dump(pangenome, open(data_path, 'w'))
 
-	if isinstance(workspace_name, int) or workspace.isdigit():
+	if isinstance(workspace_name, int) or workspace_name.isdigit():
 		workspace_id = workspace_name
 	else:
 		workspace_id = dfu.ws_name_to_id(workspace_name)
@@ -115,7 +115,7 @@ def upload_pangenome(cb_url, scratch, Pangenome, workspace_name, pangenome_name)
 	}
 
 
-def roary_report(cb_url, workspace_name, sum_stats, pangenome_ref, conserved_vs_total_graph, unique_vs_new_graph):
+def roary_report(cb_url, scratch, workspace_name, sum_stats, pangenome_ref, conserved_vs_total_graph, unique_vs_new_graph):
 	"""
 	params:
 		cb_url         : callback url
@@ -126,15 +126,19 @@ def roary_report(cb_url, workspace_name, sum_stats, pangenome_ref, conserved_vs_
 		report_name : name of report object  
 		report_ref  : reference to report object in workspace
 	"""
-	report_name = 'Roary_report_'+str(uuid.uuid4())
+	report_name = 'Roary_report_'+str(uuid.uuid4())	
+	dfu = DataFileUtil(cb_url)
 
 	html_sum_stats = format_summary_statistics(sum_stats)
-	
-	dfu = DataFileUtil(cb_url)
+	file_dir = os.path.join(scratch, report_name)
+	os.mkdir(file_dir)
+	sum_stats_html_path = os.path.join(file_dir, 'sum_stats.html')
+	with open(sum_stats_html_path, 'w') as f:
+		f.write(html_sum_stats) 
 
 	# get the .txt and .png files into shock
 	shock_1 = dfu.file_to_shock({
-		'file_path':sum_stats,
+		'file_path':sum_stats_html_path,
 		'make_handle':0,
 	})
 	shock_2 = dfu.file_to_shock({
@@ -146,19 +150,19 @@ def roary_report(cb_url, workspace_name, sum_stats, pangenome_ref, conserved_vs_
 		'make_handle':0,
 	})
 
-	results_link_1 = {
+	html_link = {
 		'shock_id': shock_1['shock_id'],
-		'name':'summary_statistics.txt',
-		'label':'html_files',
-		'description':'Roary TXT file summary statistics'
+		'name':'sum_stats.html',
+		'label':'Summary_Statistics',
+		'description':'Roary Gene summary statistics'
 	}
-	results_link_2 = {
+	photo_link_1 = {
 		'shock_id': shock_2['shock_id'],
 		'name':'conserved_vs_total_genes.png',
 		'label':'html_files',
 		'description':'Graph of conserved genes vs. total genes'
 	}
-	results_link_3 = {
+	photo_link_2 = {
 		'shock_id': shock_3['shock_id'],
 		'name':'unique_vs_new_genes.png',
 		'label':'html_files',
@@ -168,7 +172,8 @@ def roary_report(cb_url, workspace_name, sum_stats, pangenome_ref, conserved_vs_
 	report_client = KBaseReport(cb_url)
 	report = report_client.create_extended_report({
 		'direct_html_link_index':0,
-		'html_links':[results_link_1, results_link_2, results_link_3],
+		'html_links':[html_link],
+		'file_links':[photo_link_1, photo_link_2]
 		'workspace_name': workspace_name,
 		'report_object_name': report_name,
 		'objects_created': [{
