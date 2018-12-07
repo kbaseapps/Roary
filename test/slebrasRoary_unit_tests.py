@@ -81,8 +81,8 @@ class TestRoary(unittest.TestCase):
 				  'percent_genes_for_core':99}
 
 		output_path = run_roary(scratch, gff_folder, params)
-		sum_stats = output_path + '/summary_statistics.txt'
-		gene_pres_abs = output_path + '/gene_presence_absence.csv'
+		sum_stats = os.path.join(output_path, 'summary_statistics.txt')
+		gene_pres_abs = os.path.join(output_path, 'gene_presence_absence.csv')
 
 		pangenome_id = 'kb|test_pangenome'
 		pangenome_name = 'Test Pangenome'
@@ -144,7 +144,7 @@ class TestRoary(unittest.TestCase):
 			cfg[nameval[0]] = nameval[1]
 
 		scratch = cfg['scratch']
-		# self.roary_proc_output_1(scratch)
+		self.roary_proc_output_1(scratch)
 		self.roary_proc_output_2(scratch)
 
 

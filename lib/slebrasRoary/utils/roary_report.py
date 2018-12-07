@@ -82,10 +82,7 @@ def upload_pangenome(cb_url, scratch, Pangenome, workspace_name, pangenome_name)
 	"""
 	dfu = DataFileUtil(cb_url)
 	meta = {}
-	if 'hidden' in params and str(params['hidden']).lower() in ('yes', 'true', 't', '1'):
-		hidden = 1
-	else:
-		hidden = 0
+	hidden = 0
 
 	# dump pangenome to scratch for upload
 	# data_path = os.path.join(scratch, pangenome_name + '.json')
