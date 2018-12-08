@@ -129,6 +129,11 @@ def roary_report(cb_url, scratch, workspace_name, sum_stats, pangenome_ref, cons
 	report_name = 'Roary_report_'+str(uuid.uuid4())	
 	dfu = DataFileUtil(cb_url)
 
+	if not os.path.isfile(conserved_vs_total_graph)
+		raise ValueError('Conserved vs total genes graph missing')
+	if not os.path.isfile(unique_vs_new_graph)
+		raise ValueError("Unique vs new genes graph missing")
+
 	html_sum_stats = format_summary_statistics(sum_stats)
 	file_dir = os.path.join(scratch, report_name)
 	os.mkdir(file_dir)
@@ -137,35 +142,35 @@ def roary_report(cb_url, scratch, workspace_name, sum_stats, pangenome_ref, cons
 		f.write(html_sum_stats) 
 
 	# get the .txt and .png files into shock
-	shock_1 = dfu.file_to_shock({
-		'file_path':sum_stats_html_path,
-		'make_handle':0,
-	})
-	shock_2 = dfu.file_to_shock({
-		'file_path':conserved_vs_total_graph,
-		'make_handle':0,
-	})
-	shock_3 = dfu.file_to_shock({
-		'file_path':unique_vs_new_graph,
-		'make_handle':0,
-	})
+	# shock_1 = dfu.file_to_shock({
+	# 	'file_path':sum_stats_html_path,
+	# 	'make_handle':0,
+	# })
+	# shock_2 = dfu.file_to_shock({
+	# 	'file_path':conserved_vs_total_graph,
+	# 	'make_handle':0,
+	# })
+	# shock_3 = dfu.file_to_shock({
+	# 	'file_path':unique_vs_new_graph,
+	# 	'make_handle':0,
+	# })
 
 	html_link = {
-		'shock_id': shock_1['shock_id'],
+		'path': sum_stats_html_path,
 		'name':'sum_stats.html',
-		'label':'Summary_Statistics',
+#		'label':'Summary_Statistics',
 		'description':'Roary Gene summary statistics'
 	}
 	photo_link_1 = {
-		'shock_id': shock_2['shock_id'],
+		'path': conserved_vs_total_graph,
 		'name':'conserved_vs_total_genes.png',
-		'label':'html_files',
+		# 'label':'html_files',
 		'description':'Graph of conserved genes vs. total genes'
 	}
 	photo_link_2 = {
-		'shock_id': shock_3['shock_id'],
+		'path': unique_vs_new_graph,
 		'name':'unique_vs_new_genes.png',
-		'label':'html_files',
+		# 'label':'html_files',
 		'description':'Graph of unique genes vs new genes'
 	}
 

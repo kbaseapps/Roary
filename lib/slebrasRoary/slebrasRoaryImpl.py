@@ -71,10 +71,19 @@ class slebrasRoary:
         # run meat of operations
         gff_folder_path, path_to_ref_and_ID_pos_dict = download_gffs(self.callback_url, self.shared_folder, genome_set_ref)
         output_path = run_roary(self.shared_folder, gff_folder_path, params)
+        if not os.path.isdir(output_path):
+            raise RuntimeError("No Output, Roary exited normally but did not complete")
+
         sum_stats = os.path.join(output_path,'summary_statistics.txt')
         gene_pres_abs = os.path.join(output_path,'gene_presence_absence.csv')
         conserved_vs_total_graph = os.path.join(output_path,'conserved_vs_total_genes.png')
         unique_vs_new_graph = os.path.join(output_path, 'unique_vs_new_genes.png')
+
+        # check that we have output_files
+        op_files = [sum_stats, gene_pres_abs, conserved_vs_total_graph, unique_vs_new_graph]
+        for f in op_files:
+            if not os.path.isfile(f):
+                raise RuntimeError('File in path %s not found in Outputs'%f)
 
         if pangenome_name:
             pangenome = generate_pangenome(gene_pres_abs, path_to_ref_and_ID_pos_dict, pangenome_id, pangenome_name)

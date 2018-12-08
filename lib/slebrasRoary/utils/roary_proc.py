@@ -45,10 +45,9 @@ def run_roary(scratch, gff_folder, params):
 
     if graphing:
         args.append('-r')
-    # finally add files on which to run Roary
+    # finally add files to run Roary on
     args += gff_files
 
-    # Roary seems to return code 255 with subprocess.check_output,
     proc = subprocess.Popen(args)
     res = proc.wait()
 

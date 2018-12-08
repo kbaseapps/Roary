@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+<head>
+	<title> Gene Presence Absence </title>
+</head>
+<body>
+	<h1> Gene Presence Absence </h1>
+
+	<table>
+		<thead>
+			{% for item in headers%}
+				<th>{{item}}</th>
+			{% endfor %}
+		</thead>
+		<tbody>
+			{% for item in results %}
+			<tr>
+				{% for thing in headers %}
+			    <td>{{item.thing}}</td>
+			    {% endfor %}
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</body>
+</html>
