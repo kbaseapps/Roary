@@ -129,11 +129,6 @@ def roary_report(cb_url, scratch, workspace_name, sum_stats, pangenome_ref, cons
 	report_name = 'Roary_report_'+str(uuid.uuid4())	
 	dfu = DataFileUtil(cb_url)
 
-	if not os.path.isfile(conserved_vs_total_graph)
-		raise ValueError('Conserved vs total genes graph missing')
-	if not os.path.isfile(unique_vs_new_graph)
-		raise ValueError("Unique vs new genes graph missing")
-
 	html_sum_stats = format_summary_statistics(sum_stats)
 	file_dir = os.path.join(scratch, report_name)
 	os.mkdir(file_dir)
