@@ -29,7 +29,7 @@ def create_html_tables(html_file, formatted_results, formatted_headers=None):
 	else:
 		return template.render(results=formatted_results)
 
-def format_gene_presence_absence(gene_pres_abs)
+def format_gene_presence_absence(gene_pres_abs):
 	df = pd.read_csv(gene_pres_abs)
 	df.columns = ['_'.join(col.replace('.','').split()) for col in df.columns.values]
 	headers = df.columns.values
