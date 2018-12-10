@@ -7,9 +7,9 @@ import subprocess
 
 from multi_key_dict import multi_key_dict
 
-# from installed_clients.DataFileUtilClient import DataFileUtil
-# from installed_clients.GenomeFileUtilClient import GenomeFileUtil
-# from installed_clients.AssemblyUtilClient import AssemblyUtil
+from installed_clients.DataFileUtilClient import DataFileUtil
+from installed_clients.GenomeFileUtilClient import GenomeFileUtil
+from installed_clients.AssemblyUtilClient import AssemblyUtil
 
 
 def download_gffs(cb_url, scratch, genome_set_ref):

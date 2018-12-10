@@ -3,9 +3,9 @@ import uuid
 import pandas as pd
 import json
 
-# from installed_clients.DataFileUtilClient import DataFileUtil
-# from installed_clients.KBaseReportClient import KBaseReport
-# from installed_clients.WSLargeDataIOClient import WsLargeDataIO
+from installed_clients.DataFileUtilClient import DataFileUtil
+from installed_clients.KBaseReportClient import KBaseReport
+from installed_clients.WSLargeDataIOClient import WsLargeDataIO
 
 # utils
 from .roary_output import format_output_html
