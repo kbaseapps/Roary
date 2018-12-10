@@ -89,8 +89,8 @@ class slebrasRoary:
         if pangenome_name:
             pangenome = generate_pangenome(gene_pres_abs, path_to_ref_and_ID_pos_dict, pangenome_id, pangenome_name)
             pangenome_obj = upload_pangenome(self.callback_url, self.shared_folder, pangenome, workspace_name, pangenome_name)
-            output = roary_report(self.callback_url, self.shared_folder, workspace_name, sum_stats, pangenome_obj['pangenome_ref'],\
-                                    conserved_vs_total_graph, unique_vs_new_graph)
+            output = roary_report(self.callback_url, self.shared_folder, workspace_name, sum_stats, gene_pres_abs, \
+                                    pangenome_obj['pangenome_ref'], conserved_vs_total_graph, unique_vs_new_graph)
         else:
             output = roary_report(self.callback_url, workspace_name, sum_stats, None, \
                                 conserved_vs_total_graph, unique_vs_new_graph)
