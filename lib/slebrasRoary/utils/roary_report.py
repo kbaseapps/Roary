@@ -38,6 +38,15 @@ def generate_pangenome(gene_pres_abs, path_to_ref_and_ID_pos_dict, pangenome_id,
 
 	cols = set(df.columns.values) - set(consistent_cols)
 
+	col_to_ref = {}
+	for col in cols:
+		start_len = len(col_to_ref)
+		for path in path_to_ref_and_ID_pos_dict:
+			if col in path.split('/')[-1]:
+				col_to_ref[col] = path_to_ref_and_ID_pos_dict[path]
+				break
+		if len(col_to_ref) == start_len:
+			raise ValueError("could not find file name match for " + col + " column")
 	for i, row in df.iterrows():
 		OrthologFamily = {}
 		OrthologFamily['id'] = row['Gene']
@@ -50,16 +59,9 @@ def generate_pangenome(gene_pres_abs, path_to_ref_and_ID_pos_dict, pangenome_id,
 		orthologs = []
 
 		for col in cols:
-			genome_ref, ID_to_pos = None, None
-			for path in path_to_ref_and_ID_pos_dict:
-				if col in path.split('/')[-1]:
-					genome_ref, ID_to_pos = path_to_ref_and_ID_pos_dict[path]
-					break
-			if genome_ref is None:
-				raise ValueError("Could not find input Genome in columns named " + col +\
-					" with the following paths " + ' '.join(path_to_ref_and_ID_pos_dict.keys()))
 			gene_id = row[col]
 			if not pd.isnull(gene_id):
+				genome_ref, ID_to_pos = col_to_ref[col]
 				feature_pos = ID_to_pos[gene_id]
 				orthologs.append((gene_id, feature_pos, genome_ref))
 
