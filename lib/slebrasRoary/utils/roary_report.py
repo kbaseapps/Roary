@@ -136,44 +136,30 @@ def roary_report(cb_url, scratch, workspace_name, sum_stats, pangenome_ref, cons
 	with open(sum_stats_html_path, 'w') as f:
 		f.write(html_sum_stats) 
 
-	# get the .txt and .png files into shock
-	# shock_1 = dfu.file_to_shock({
-	# 	'file_path':sum_stats_html_path,
-	# 	'make_handle':0,
-	# })
-	# shock_2 = dfu.file_to_shock({
-	# 	'file_path':conserved_vs_total_graph,
-	# 	'make_handle':0,
-	# })
-	# shock_3 = dfu.file_to_shock({
-	# 	'file_path':unique_vs_new_graph,
-	# 	'make_handle':0,
-	# })
-
 	html_link = {
 		'path': sum_stats_html_path,
 		'name':'sum_stats.html',
 #		'label':'Summary_Statistics',
 		'description':'Roary Gene summary statistics'
 	}
-	photo_link_1 = {
-		'path': conserved_vs_total_graph,
-		'name':'conserved_vs_total_genes.png',
-		# 'label':'html_files',
-		'description':'Graph of conserved genes vs. total genes'
-	}
-	photo_link_2 = {
-		'path': unique_vs_new_graph,
-		'name':'unique_vs_new_genes.png',
-		# 'label':'html_files',
-		'description':'Graph of unique genes vs new genes'
-	}
+	# photo_link_1 = {
+	# 	'path': conserved_vs_total_graph,
+	# 	'name':'conserved_vs_total_genes.png',
+	# 	# 'label':'Conserved_vs_total_genes_graph',
+	# 	'description':'Graph of conserved genes vs. total genes'
+	# }
+	# photo_link_2 = {
+	# 	'path': unique_vs_new_graph,
+	# 	'name':'unique_vs_new_genes.png',
+	# 	# 'label':'unique_vs_new_genes_graph',
+	# 	'description':'Graph of unique genes vs new genes'
+	# }
 
 	report_client = KBaseReport(cb_url)
 	report = report_client.create_extended_report({
 		'direct_html_link_index':0,
 		'html_links':[html_link],
-		'file_links':[photo_link_1, photo_link_2],
+		# 'file_links':[photo_link_1, photo_link_2],
 		'workspace_name': workspace_name,
 		'report_object_name': report_name,
 		'objects_created': [{
@@ -181,8 +167,6 @@ def roary_report(cb_url, scratch, workspace_name, sum_stats, pangenome_ref, cons
 			'description':"Pangenome Object"
 		}]
 	})
-	# now we send the outputs as a report back to shock
-
 	return {
 		'report_name':report['name'],
 		'report_ref': report['ref']

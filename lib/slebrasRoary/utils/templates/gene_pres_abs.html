@@ -8,15 +8,15 @@
 
 	<table>
 		<thead>
-			{% for item in headers%}
-				<th>{{item}}</th>
+			{% for col in headers%}
+				<th>{{col}}</th>
 			{% endfor %}
 		</thead>
 		<tbody>
-			{% for item in results %}
+			{% for row in results %}
 			<tr>
-				{% for thing in headers %}
-			    <td>{{item.thing}}</td>
+				{% for col in headers %}
+			    <td>{{row[col]}}</td>
 			    {% endfor %}
 			</tr>
 			{% endfor %}

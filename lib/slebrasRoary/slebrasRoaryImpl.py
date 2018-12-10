@@ -80,10 +80,11 @@ class slebrasRoary:
         unique_vs_new_graph = os.path.join(output_path, 'unique_vs_new_genes.png')
 
         # check that we have output_files
-        op_files = [sum_stats, gene_pres_abs, conserved_vs_total_graph, unique_vs_new_graph]
+        # op_files = [sum_stats, gene_pres_abs, conserved_vs_total_graph, unique_vs_new_graph]
+        op_files = [sum_stats, gene_pres_abs]
         for f in op_files:
             if not os.path.isfile(f):
-                raise RuntimeError('File in path %s not found in Outputs'%f)
+                raise RuntimeError('File in path %s not found in outputs'%f)
 
         if pangenome_name:
             pangenome = generate_pangenome(gene_pres_abs, path_to_ref_and_ID_pos_dict, pangenome_id, pangenome_name)
