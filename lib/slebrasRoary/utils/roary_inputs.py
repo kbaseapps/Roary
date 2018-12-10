@@ -7,9 +7,9 @@ import subprocess
 
 from multi_key_dict import multi_key_dict
 
-from installed_clients.DataFileUtilClient import DataFileUtil
-from installed_clients.GenomeFileUtilClient import GenomeFileUtil
-from installed_clients.AssemblyUtilClient import AssemblyUtil
+# from installed_clients.DataFileUtilClient import DataFileUtil
+# from installed_clients.GenomeFileUtilClient import GenomeFileUtil
+# from installed_clients.AssemblyUtilClient import AssemblyUtil
 
 
 def download_gffs(cb_url, scratch, genome_set_ref):
@@ -135,11 +135,11 @@ def make_some_trash(gff_file):
 		output.append(l)
 	f.close()
 
-	# write output to file
-	f = open(gff_file, 'w')
-	for l in output:
-		f.write(l)
-	f.close()
+	# # write output to file
+	# f = open(gff_file, 'w')
+	# for l in output:
+	# 	f.write(l)
+	# f.close()
 
 	return gff_file, cds_to_pos, True
 

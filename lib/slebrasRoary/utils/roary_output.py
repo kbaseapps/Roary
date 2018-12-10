@@ -6,10 +6,11 @@ env = Environment(
 		loader=PackageLoader('slebrasRoary','utils/templates'),
 		autoescape=select_autoescape(['html'])) 
 
-def format_summary_statistics(sum_stats):
+def format_output_html(sum_stats, gene_pres_abs):
 	"""
-	format summary statistics to html
+	format summary statistics and gene_presence absence files to html
 	"""
+	# format txt file
 	f = open(sum_stats)
 	names = ['core_genes','soft_core_genes','shell_genes','cloud_genes','total_genes']
 	results = {}
@@ -17,21 +18,21 @@ def format_summary_statistics(sum_stats):
 	for line in f:
 		results[names[i]] = line.split()[-1]
 		i+=1
-	return create_html_tables('sum_stats.html', [results])
+	f.close()
 
-def create_html_tables(html_file, formatted_results, formatted_headers=None):
-	"""
-	Render template in 'templates' folder with given inputs
-	"""
-	template = env.get_template(html_file)
-	if formatted_headers is not None:
-		return template.render(results=formatted_results, headers=formatted_headers)
-	else:
-		return template.render(results=formatted_results)
-
-def format_gene_presence_absence(gene_pres_abs):
+	# format csv file
 	df = pd.read_csv(gene_pres_abs)
 	df.columns = ['_'.join(col.replace('.','').split()) for col in df.columns.values]
 	headers = df.columns.values
 	d = df.to_dict('index')
-	return create_html_tables('gene_pres_abs.html', list(d.values()), headers)
+
+	return create_html_tables('output_stats.html', [results], list(d.values()), headers)
+
+
+
+def create_html_tables(html_file, formatted_results, formatted_rows, formatted_headers):
+	"""
+	Render template in 'templates' folder with given inputs
+	"""
+	template = env.get_template(html_file)
+	return template.render(results=formatted_results, headers=formatted_headers, rows=formatted_rows)

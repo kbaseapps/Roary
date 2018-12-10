@@ -3,12 +3,12 @@ import uuid
 import pandas as pd
 import json
 
-from installed_clients.DataFileUtilClient import DataFileUtil
-from installed_clients.KBaseReportClient import KBaseReport
-from installed_clients.WSLargeDataIOClient import WsLargeDataIO
+# from installed_clients.DataFileUtilClient import DataFileUtil
+# from installed_clients.KBaseReportClient import KBaseReport
+# from installed_clients.WSLargeDataIOClient import WsLargeDataIO
 
 # utils
-from .roary_output import format_summary_statistics, format_gene_presence_absence
+from .roary_output import format_output_html
 
 def generate_pangenome(gene_pres_abs, path_to_ref_and_ID_pos_dict, pangenome_id, pangenome_name):
 	'''
@@ -130,24 +130,23 @@ def roary_report(cb_url, scratch, workspace_name, sum_stats, gene_pres_abs, pang
 	dfu = DataFileUtil(cb_url)
 
 	# Convert output files to HTML
-	html_sum_stats = format_summary_statistics(sum_stats)
-	html_gene_pres_abs = format_gene_presence_absence(gene_pres_abs)
+	html_output = format_output_html(sum_stats, gene_pres_abs)
+
 	file_dir = os.path.join(scratch, report_name)
 	os.mkdir(file_dir)
-	sum_stats_html_path = os.path.join(file_dir, 'sum_stats.html')
-	with open(sum_stats_html_path, 'w') as f:
-		f.write(html_sum_stats) 
-	gene_pres_abs_html_path = os.path.join(file_dir, 'gene_pres_abs.html')
-	with open(gene_pres_abs_html_path, 'w') as f:
-		f.write(html_gene_pres_abs)
+	html_path = os.path.join(file_dir, 'output.html')
+	with open(html_path, 'w') as f:
+		f.write(html_output) 
 
 
 	html_link = {
 		'path': file_dir,
-		'name':'sum_stats.html',
+		'name':'output.html',
 #		'label':'Summary_Statistics',
 		'description':'Roary Gene Statistics html report'
 	}
+
+
 	# photo_link_1 = {
 	# 	'path': conserved_vs_total_graph,
 	# 	'name':'conserved_vs_total_genes.png',
