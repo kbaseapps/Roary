@@ -92,8 +92,8 @@ class slebrasRoary:
             output = roary_report(self.callback_url, self.shared_folder, workspace_name, sum_stats, gene_pres_abs, \
                                     pangenome_obj['pangenome_ref'], conserved_vs_total_graph, unique_vs_new_graph)
         else:
-            output = roary_report(self.callback_url, workspace_name, sum_stats, None, \
-                                conserved_vs_total_graph, unique_vs_new_graph)
+            output = roary_report(self.callback_url, self.shared_folder, workspace_name, sum_stats, gene_pres_abs, \
+                                 None, conserved_vs_total_graph, unique_vs_new_graph)
 
         #END run_slebrasRoary
 
