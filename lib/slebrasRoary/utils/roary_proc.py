@@ -56,7 +56,7 @@ def run_roary(scratch, gff_folder, params):
         error_message += "\n length_and_name of GFF files: "
         for gf in gff_files:
             with open(gf) as f:
-                error_message += gf + ": " + str(len([l for l in f]))
+                error_message += ("\n" + gf + ": " + str(len([l for l in f])))
         raise RuntimeError(error_message)
 
     return out_dir

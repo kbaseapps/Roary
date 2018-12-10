@@ -57,7 +57,7 @@ def download_gffs(cb_url, scratch, genome_set_ref):
 	cat_path = scratch + '/fast_cat.txt'
 
 	cat_file = open(cat_path, 'w')
-	cat_file.write("##FASTA")
+	cat_file.write("##FASTA\n")
 	cat_file.close()
 
 	path_to_ref_and_ID_pos_dict = {}
