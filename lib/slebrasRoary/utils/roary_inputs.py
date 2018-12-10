@@ -96,7 +96,7 @@ def download_gffs(cb_url, scratch, genome_set_ref):
 
 		new_file_path = final_dir + "/" + gen_obj['id'] + '_combined' + ".gff"
 
-		if contains_fasta:
+		if not contains_fasta:
 			args = ['mv', gff_file_path, new_file_path]
 			subprocess.call(args)
 		else:
