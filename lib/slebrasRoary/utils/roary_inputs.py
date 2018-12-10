@@ -94,7 +94,7 @@ def download_gffs(cb_url, scratch, genome_set_ref):
 			raise ValueError("No GFF File Path found.")
 		gff_file_path, ID_to_pos, contains_fasta = filter_gff(gff_file_path)
 
-		new_file_path = final_dir + "/" + gen_obj['id'] + ".gff"
+		new_file_path = final_dir + "/" + gen_obj['id'] + '_combined' + ".gff"
 
 		if contains_fasta:
 			args = ['mv', gff_file_path, new_file_path]
