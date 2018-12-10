@@ -2,13 +2,12 @@
 <html>
 <head>
 	<link>
-	<title> Summary Statistics </title>
+	<title> Output Files </title>
 </head>
 <body>
+	<h1> Summary Statistics </h1>
+
 	<table>
-		<thead>
-			<th align="center"> Summary Statistics </th>
-		</thead>
 		<tbody>
 			{% for item in results %}
 			<tr>
@@ -35,6 +34,25 @@
 			    <td>Total genes</td>
 			    <td>(0% <= strains <= 100%)</td>
 			    <td>{{item.total_genes}}</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+	<h2> Gene Presence Absence </h2>
+
+	<table>
+		<thead>
+			{% for col in headers%}
+				<th>{{col}}</th>
+			{% endfor %}
+		</thead>
+		<tbody>
+			{% for row in results %}
+			<tr>
+				{% for col in headers %}
+			    <td>{{row[col]}}</td>
+			    {% endfor %}
 			</tr>
 			{% endfor %}
 		</tbody>
