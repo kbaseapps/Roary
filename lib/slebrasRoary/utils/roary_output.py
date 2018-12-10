@@ -26,7 +26,7 @@ def format_output_html(sum_stats, gene_pres_abs):
 	headers = df.columns.values
 	d = df.to_dict('index')
 
-	return create_html_tables('output_stats.html', [results], list(d.values()), headers)
+	return create_html_tables('output_template.html', [results], list(d.values()), headers)
 
 
 
