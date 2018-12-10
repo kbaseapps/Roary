@@ -20,14 +20,16 @@ def format_output_html(sum_stats, gene_pres_abs):
 		i+=1
 	f.close()
 
+	# limit number of results to n
+	n = 20
+
 	# format csv file
 	df = pd.read_csv(gene_pres_abs)
 	df.columns = ['_'.join(col.replace('.','').split()) for col in df.columns.values]
 	headers = df.columns.values
 	d = df.to_dict('index')
 
-	return create_html_tables('output_template.html', [results], list(d.values()), headers)
-
+	return create_html_tables('output_template.html', [results], list(d.values())[:n], headers)
 
 
 def create_html_tables(html_file, formatted_results, formatted_rows, formatted_headers):
@@ -35,4 +37,4 @@ def create_html_tables(html_file, formatted_results, formatted_rows, formatted_h
 	Render template in 'templates' folder with given inputs
 	"""
 	template = env.get_template(html_file)
-	return template.render(results=formatted_results, headers=formatted_headers, rows=formatted_rows)
+	return template.render(results=formatted_results)#, headers=formatted_headers, rows=formatted_rows)

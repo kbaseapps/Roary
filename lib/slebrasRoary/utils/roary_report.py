@@ -152,6 +152,12 @@ def roary_report(cb_url, scratch, workspace_name, sum_stats, gene_pres_abs, pang
 		'description':'Roary Gene Statistics html report'
 	}
 
+	csv_link = {
+		'path':gene_pres_abs,
+		'name':'gene_presence_absence.csv',
+		'description':"Data Table of Gene Presence, Gene Absence and other information"
+	}
+
 	photo_link_1 = {
 		'path': conserved_vs_total_graph,
 		'name':'conserved_vs_total_genes.png',
@@ -169,7 +175,7 @@ def roary_report(cb_url, scratch, workspace_name, sum_stats, gene_pres_abs, pang
 	report = report_client.create_extended_report({
 		'direct_html_link_index':0,
 		'html_links':[html_link],
-		'file_links':[photo_link_1, photo_link_2],
+		'file_links':[csv_link, photo_link_1, photo_link_2],
 		'workspace_name': workspace_name,
 		'report_object_name': report_name,
 		'objects_created': [{
