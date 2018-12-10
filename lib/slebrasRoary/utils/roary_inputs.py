@@ -94,17 +94,17 @@ def download_gffs(cb_url, scratch, genome_set_ref):
 			raise ValueError("No GFF File Path found.")
 		gff_file_path, ID_to_pos, contains_fasta = filter_gff(gff_file_path)
 
-		new_file_path = final_dir + "/" + gen_obj['id'] + '_combined' + ".gff"
+		new_file_path = final_dir + "/" + gen_obj['id']
 
 		if contains_fasta:
-			args = ['mv', gff_file_path, new_file_path]
+			args = ['mv', gff_file_path, new_file_path + ".gff"]
 			subprocess.call(args)
 		else:
 			# NOTE: We have to pipe output of cat call to the new_file_path
 			# next we make a new 'gff' file that contains both the gff and fasta information
 			args = ['cat', fasta_file['path'], cat_path, gff_file_path]
 			catted_files = subprocess.check_output(args)
-			f = open(new_file_path, 'w')
+			f = open(new_file_path  + '_combined' + ".gff", 'w')
 			f.write(catted_files.decode('utf-8'))
 			f.close()
 
