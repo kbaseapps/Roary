@@ -24,7 +24,7 @@ def create_html_tables(html_file, formatted_results, formatted_headers=None):
 	Render template in 'templates' folder with given inputs
 	"""
 	template = env.get_template(html_file)
-	if headers:
+	if formatted_headers:
 		return template.render(results=formatted_results, headers=formatted_headers)
 	else:
 		return template.render(results=formatted_results)
