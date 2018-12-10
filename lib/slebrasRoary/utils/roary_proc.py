@@ -8,13 +8,13 @@ def run_roary(scratch, gff_folder, params):
     """
     params :
     --------
-            scratch    : scratch folder
-            gff_folder : file path to folder the input .gff files are located in
-            params     : set of parameters for running roary
-            -------
-                    blast_p_percentage     : minimum percent identity threshold for BLAST P, default 95
-                    max_num_clusters       : maximum allowable number of cluster to create, default 50000
-                    percent_genes_for_core : percentage of isolates a gene must be in to be core, default 99
+        scratch    : scratch folder
+        gff_folder : file path to folder the input .gff files are located in
+        params     : set of parameters for running roary
+        -------
+            blast_p_percentage     : minimum percent identity threshold for BLAST P, default 95
+            max_num_clusters       : maximum allowable number of cluster to create, default 50000
+            percent_genes_for_core : percentage of isolates a gene must be in to be core, default 99
     """
     # first verify that there are multiple (at least 2) .gff files in the gff_folder
     gff_folder_dir = os.listdir(gff_folder)
@@ -52,6 +52,11 @@ def run_roary(scratch, gff_folder, params):
     res = proc.wait()
 
     if res != 0:
-        raise RuntimeError("Roary subprocess exited with error code: %f" % res)
+        error_message = "Roary subprocess exited with error code: %i" % res
+        error_message += "\n length_and_name of GFF files: "
+        for gf in gff_files:
+            with open(gf) as f:
+                error_message += gf + ": " + str(len([l for l in f]))
+        raise RuntimeError(error_message)
 
     return out_dir

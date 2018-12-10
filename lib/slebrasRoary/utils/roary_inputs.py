@@ -135,11 +135,11 @@ def make_some_trash(gff_file):
 		output.append(l)
 	f.close()
 
-	# # write output to file
-	# f = open(gff_file, 'w')
-	# for l in output:
-	# 	f.write(l)
-	# f.close()
+	# write output to file
+	f = open(gff_file, 'w')
+	for l in output:
+		f.write(l)
+	f.close()
 
 	return gff_file, cds_to_pos, True
 
