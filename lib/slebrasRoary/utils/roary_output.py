@@ -17,7 +17,7 @@ def format_summary_statistics(sum_stats):
 	for line in f:
 		results[names[i]] = line.split()[-1]
 		i+=1
-	return create_html_tables('sum_stats.html', results)
+	return create_html_tables('sum_stats.html', [results])
 
 def create_html_tables(html_file, formatted_results, formatted_headers=None):
 	"""
