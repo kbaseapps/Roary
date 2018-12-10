@@ -66,7 +66,7 @@ class slebrasRoary:
         if pangenome_name is not None:
             pangenome_id = "kb|"+pangenome_name
         else:
-            pangnome_id = None
+            pangenome_id = None
 
         # run meat of operations
         gff_folder_path, path_to_ref_and_ID_pos_dict = download_gffs(self.callback_url, self.shared_folder, genome_set_ref)
@@ -80,8 +80,8 @@ class slebrasRoary:
         unique_vs_new_graph = os.path.join(output_path, 'unique_vs_new_genes.png')
 
         # check that we have output_files
-        # op_files = [sum_stats, gene_pres_abs, conserved_vs_total_graph, unique_vs_new_graph]
-        op_files = [sum_stats, gene_pres_abs]
+        op_files = [sum_stats, gene_pres_abs, conserved_vs_total_graph, unique_vs_new_graph]
+        # op_files = [sum_stats, gene_pres_abs]
         for f in op_files:
             if not os.path.isfile(f):
                 raise RuntimeError('File in path %s not found in outputs'%f)

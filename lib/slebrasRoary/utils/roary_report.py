@@ -50,10 +50,14 @@ def generate_pangenome(gene_pres_abs, path_to_ref_and_ID_pos_dict, pangenome_id,
 		orthologs = []
 
 		for col in cols:
+			genome_ref, ID_to_pos = None, None
 			for path in path_to_ref_and_ID_pos_dict:
 				if col in path.split('/')[-1]:
 					genome_ref, ID_to_pos = path_to_ref_and_ID_pos_dict[path]
 					break
+			if genome_ref is None:
+				raise ValueError("Could not find input Genome in columns named " + col +\
+					" with the following paths " + ' '.join(path_to_ref_and_ID_pos_dict.keys()))
 			gene_id = row[col]
 			if not pd.isnull(gene_id):
 				feature_pos = ID_to_pos[gene_id]
@@ -146,25 +150,24 @@ def roary_report(cb_url, scratch, workspace_name, sum_stats, gene_pres_abs, pang
 		'description':'Roary Gene Statistics html report'
 	}
 
-
-	# photo_link_1 = {
-	# 	'path': conserved_vs_total_graph,
-	# 	'name':'conserved_vs_total_genes.png',
-	# 	# 'label':'Conserved_vs_total_genes_graph',
-	# 	'description':'Graph of conserved genes vs. total genes'
-	# }
-	# photo_link_2 = {
-	# 	'path': unique_vs_new_graph,
-	# 	'name':'unique_vs_new_genes.png',
-	# 	# 'label':'unique_vs_new_genes_graph',
-	# 	'description':'Graph of unique genes vs new genes'
-	# }
+	photo_link_1 = {
+		'path': conserved_vs_total_graph,
+		'name':'conserved_vs_total_genes.png',
+		# 'label':'Conserved_vs_total_genes_graph',
+		'description':'Graph of conserved genes vs. total genes'
+	}
+	photo_link_2 = {
+		'path': unique_vs_new_graph,
+		'name':'unique_vs_new_genes.png',
+		# 'label':'unique_vs_new_genes_graph',
+		'description':'Graph of unique genes vs new genes'
+	}
 
 	report_client = KBaseReport(cb_url)
 	report = report_client.create_extended_report({
 		'direct_html_link_index':0,
 		'html_links':[html_link],
-		# 'file_links':[photo_link_1, photo_link_2],
+		'file_links':[photo_link_1, photo_link_2],
 		'workspace_name': workspace_name,
 		'report_object_name': report_name,
 		'objects_created': [{
