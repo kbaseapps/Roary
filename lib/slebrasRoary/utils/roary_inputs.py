@@ -64,7 +64,6 @@ def download_gffs(cb_url, scratch, genome_set_ref):
 	for ref in refs:
 		gen_obj = dfu.get_objects({'object_refs': [ref]})['data'][0]['data']
 
-		# figure out if genome is of acceptable type.
 		# NO Eukaryotes, NO Fungi,
 		# yes bacateria, yes archaea, yes(?) virus
 		if gen_obj['domain'] not in ['Bacteria', 'Archaea']:
@@ -113,37 +112,6 @@ def download_gffs(cb_url, scratch, genome_set_ref):
 	return final_dir, path_to_ref_and_ID_pos_dict
 
 
-def make_some_trash(gff_file):
-	f = open(gff_file)
-	output = []
-	IDs = set([])
-	cds_to_pos = {}
-	gene_pos = 0
-	for l in f:
-		if '##FASTA' in l:
-			output.append(l)
-			output += [j for j in f]
-			break
-		elif l[:2] == '##':
-			output.append(l)
-			continue
-		ID = l.split(';')[0].split('=')[-1]
-		feat_type = l.split()[2]
-		if feat_type == 'CDS':
-			cds_to_pos[ID] = gene_pos
-			gene_pos += 1
-		output.append(l)
-	f.close()
-
-	# write output to file
-	f = open(gff_file, 'w')
-	for l in output:
-		f.write(l)
-	f.close()
-
-	return gff_file, cds_to_pos, True
-
-
 def filter_gff(gff_file):
 	# if there is a duplicate ID's toss one of them out (if it is programmed frameshift toss one)
 	# either the smaller or the second one.
@@ -154,10 +122,10 @@ def filter_gff(gff_file):
 	IDs = set([])
 	# definitely a better way of doing this
 
-	# ideally we would do the feature mapping o th genes, but there are nt always 'gene' features in the gff files
+	# ideally we would do the feature mapping to the genes, but there aren't always 'gene' features in the gff files
 	# so to get around this we base the gene position in the gff off the CDS position because they are most often
 	# consecutively ordered and paired. For the organisms that Roary is supposed to service, there should only be
-	# a one to one pairing of 'gene' to 'CDS'
+	# a one to one pairing of 'gene' to 'CDS', so this shouldn't be much of an issue
 
 	# gene_to_pos = {}
 	# cds_to_gene = {}
@@ -198,7 +166,7 @@ def filter_gff(gff_file):
 		ids_len = len(IDs)
 		IDs.add(ID)
 		if len(IDs) == ids_len:
-			# we found a duplicate and its the second one. get rid of it
+			# we found a duplicate and its the second one. don't include it
 			continue
 		else:
 			# make sure that the feature we get is a 'CDS' object

@@ -53,7 +53,6 @@ def generate_pangenome(gene_pres_abs, path_to_ref_and_ID_pos_dict, pangenome_id,
 		OrthologFamily['type'] = None
 		OrthologFamily['function'] = 'Roary'
 		OrthologFamily['md5'] = None
-		# figure out how to get this
 		OrthologFamily['protein_translation'] = None
 
 		orthologs = []
@@ -148,7 +147,7 @@ def roary_report(cb_url, scratch, workspace_name, sum_stats, gene_pres_abs, pang
 	html_link = {
 		'path': file_dir,
 		'name':'output.html',
-#		'label':'Summary_Statistics',
+		# 'label':'Summary_Statistics',
 		'description':'Roary Gene Statistics html report'
 	}
 

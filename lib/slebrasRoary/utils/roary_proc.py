@@ -37,9 +37,10 @@ def run_roary(scratch, gff_folder, params):
     graphing = True
     num_threads = str(8)
 
-    # find out what other arguments we want to use for this from Paramvir
+    # run with the following arguments
     args = ['roary', '-f', out_dir, '-p', num_threads, '-i',
             blastp_percentage_identity, '-g', max_num_clusters, '-cd', percent_genes_for_core]
+
     if no_split_paralogs:
         args.append('-s')
 

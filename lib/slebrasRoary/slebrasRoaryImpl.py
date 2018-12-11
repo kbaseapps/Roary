@@ -55,9 +55,6 @@ class slebrasRoary:
         # return variables are: output
         #BEGIN run_slebrasRoary
 
-        # input validation
-        # ~conspicuously blank~
-
         # get input parameters
         workspace_name = params.get('workspace_name')
         pangenome_name = params.get('pangenome_name')
@@ -81,7 +78,6 @@ class slebrasRoary:
 
         # check that we have output_files
         op_files = [sum_stats, gene_pres_abs, conserved_vs_total_graph, unique_vs_new_graph]
-        # op_files = [sum_stats, gene_pres_abs]
         for f in op_files:
             if not os.path.isfile(f):
                 raise RuntimeError('File in path %s not found in outputs'%f)
