@@ -146,7 +146,9 @@ def filter_gff(gff_file):
 			continue
 
 		# get ID of feature
-		ID = l.split(';')[0].split('=')[-1]
+		ID = l.split('ID=')[-1].split(';')[0]
+		# ID = l.split(';')[0].split('=')[-1]
+
 		# determine type of feature
 		feat_type = l.split()[2]
 		# if feat_type == 'gene':
