@@ -64,6 +64,8 @@ def generate_pangenome(gene_pres_abs, path_to_ref_and_ID_pos_dict, pangenome_id,
 			gene_id = row[col]
 			if not pd.isnull(gene_id):
 				genome_ref, ID_to_pos = col_to_ref[col]
+				if gene_id not in ID_to_pos:
+					raise KeyError("ID %s not in col %s"%(gene_id, col))
 				feature_pos = ID_to_pos[gene_id]
 				orthologs.append((gene_id, feature_pos, genome_ref))
 
