@@ -67,6 +67,7 @@ class slebrasRoaryTest(unittest.TestCase):
     def getContext(self):
         return self.__class__.ctx
 
+    # TODO replace below with a test that actually runs your app using self.getImpl().run_roary(..)
     # NOTE: According to Python unittest naming rules test method names should start from 'test'. # noqa
     def test_your_method(self):
         # Prepare test objects in workspace if needed using

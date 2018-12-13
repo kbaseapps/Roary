@@ -56,10 +56,12 @@ class slebrasRoary:
         #BEGIN run_slebrasRoary
 
         # get input parameters
+        # TODO add some assertions that these params are present so it fails early (eg: assert 'workspace_name' in params, "Must provide 'workspace_name'")
         workspace_name = params.get('workspace_name')
         pangenome_name = params.get('pangenome_name')
         genome_set_ref = params.get('ref')
 
+        # TODO do you want this to happen if pangenome_name is empty/blank string? Instead do: if pangenome_name and pangenome_name.strip():...
         if pangenome_name is not None:
             pangenome_id = "kb|"+pangenome_name
         else:

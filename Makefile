@@ -1,3 +1,4 @@
+# TODO change to roary or Roary
 SERVICE = slebrasroary
 SERVICE_CAPS = slebrasRoary
 SPEC_FILE = slebrasRoary.spec

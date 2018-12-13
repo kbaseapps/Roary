@@ -6,6 +6,9 @@ MAINTAINER KBase Developer
 # install line here, a git checkout to download code, or run any other
 # installation scripts.
 
+# TODO combine all 3 apt-get commands below into one RUN
+# TODO add `&& rm -rf /var/lib/apt/lists/*` at the end of apt-get (https://docs.docker.com/develop/develop-images/dockerfile_best-practices/#run)
+# TODO put the Rscript installation line in a separate RUN
 RUN apt-get update
 RUN apt-get install -y roary
 

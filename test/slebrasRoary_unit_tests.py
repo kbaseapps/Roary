@@ -1,12 +1,13 @@
+# TODO add docstring here with the command for running these tests
 import os
 import sys
 import pandas as pd
 import numpy as np
-import time
-import tempfile
+import time  # TODO this imported but unused
+import tempfile  # TODO this is imported but unused
 import unittest
 
-from installed_clients.DataFileUtilClient import DataFileUtil
+from installed_clients.DataFileUtilClient import DataFileUtil  # TODO This is imported but unused
 
 from configparser import ConfigParser
 
@@ -14,13 +15,17 @@ currdir = os.path.dirname(__file__)
 sys.path.insert(0, os.path.abspath(os.path.join(currdir, '../lib/slebrasRoary/')))
 
 # import functions to test
+# TODO put these at the top of the file above any expressions (flake8 f401)
 from utils.roary_report import generate_pangenome
 from utils.roary_proc import run_roary
 from utils.roary_inputs import filter_gff, make_some_trash
 
+
 class TestRoary(unittest.TestCase):
 
+    # TODO replace all the tab characters in here with 4 spaces
 	def check_sum_stats(self, sum_stats, compare_nums):
+            # TODO add docstring here -- what is this testing?
 		ss_file = open(sum_stats)
 		lines = [l for l in ss_file]
 		for i in range(len(lines)):
@@ -33,6 +38,7 @@ class TestRoary(unittest.TestCase):
 				self.assertEqual(num, compare_nums[i])
 	
 	def check_gene_pres_abs(self, gene_pres_abs, check):
+            # TODO add docstring here -- what is this testing?
 		# check a few lines
 		df_gene = pd.read_csv(gene_pres_abs)
 		for gene, cols, vals in check:
@@ -44,6 +50,7 @@ class TestRoary(unittest.TestCase):
 					self.assertEqual(df_row[cols[i]].iloc[0], vals[i])
 
 	def check_pangenome(self, pangenome, check, path_to_ref, pangenome_id, pangenome_name):
+            # TODO add docstring here -- what is this testing?
 		# check the pangenome output object
 		genome_ref_diff = len(set(pangenome['genome_refs']).symmetric_difference(set([tup[0] for tup in path_to_ref.values()])))
 		self.assertEqual(genome_ref_diff, 0)
@@ -64,6 +71,7 @@ class TestRoary(unittest.TestCase):
 					break
 
 	def roary_proc_check(self, files, gff_folder, scratch, sum_stats_check, pres_abs_check):
+            # TODO add docstring here -- what is this testing?
 		self.assertTrue(os.path.isdir(gff_folder))
 		
 		path_to_ref = {}
@@ -94,6 +102,7 @@ class TestRoary(unittest.TestCase):
 		self.check_pangenome(pangenome, pres_abs_check, path_to_ref, pangenome_id, pangenome_name)
 
 	def roary_proc_output_1(self, scratch):
+            # TODO add docstring here -- what is this testing?
 		gff_folder = os.path.join(currdir, 'data/gffs')
 		# test the following files
 		files = ['000008285.gff','000021185.gff','000026705.gff',\
@@ -118,6 +127,7 @@ class TestRoary(unittest.TestCase):
 							  sum_stats_check, pres_abs_check)
 
 	def roary_proc_output_2(self, scratch):
+            # TODO add docstring here -- what is this testing?
 		gff_folder = os.path.join(currdir,'data/gffs_2')
 		# test the following files
 		files = ['abietaniphila.gff','abyssi.gff','acidophila.gff','aeruginosa.gff']
@@ -136,6 +146,7 @@ class TestRoary(unittest.TestCase):
 							  sum_stats_check, pres_abs_check)
 
 	def test_roary(self):
+            # TODO add docstring here -- what is this testing?
 		config_file = os.environ.get('KB_DEPLOYMENT_CONFIG', None)
 		config = ConfigParser()
 		config.read(config_file)

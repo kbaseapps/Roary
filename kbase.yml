@@ -1,7 +1,9 @@
 module-name:
+    # TODO update this module name to Roary
     slebrasRoary
 
 module-description:
+    # TODO update this description
     A KBase module
 
 service-language:
