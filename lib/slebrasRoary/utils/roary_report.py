@@ -10,6 +10,9 @@ from installed_clients.WSLargeDataIOClient import WsLargeDataIO
 # utils
 from .roary_output import format_output_html
 
+def get_col_name_from_path(path):
+	return os.path.splitext(path.split('/')[-1])[0]
+
 def generate_pangenome(gene_pres_abs, path_to_ref_and_ID_pos_dict, pangenome_id, pangenome_name):
 	'''
 		params:
@@ -42,7 +45,7 @@ def generate_pangenome(gene_pres_abs, path_to_ref_and_ID_pos_dict, pangenome_id,
 	for col in cols:
 		start_len = len(col_to_ref)
 		for path in path_to_ref_and_ID_pos_dict:
-			if col in path.split('/')[-1]:
+			if col == get_col_name_from_path(path):
 				col_to_ref[col] = path_to_ref_and_ID_pos_dict[path]
 				break
 		if len(col_to_ref) == start_len:
