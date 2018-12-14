@@ -147,10 +147,6 @@ def filter_gff(gff_file):
 		# determine type of feature
 		feat_type = l.split()[2]
 
-		if feat_type == 'CDS':
-			cds_to_pos[ID] = gene_pos
-			gene_pos += 1
-
 		ids_len = len(IDs)
 		IDs.add(ID)
 		if len(IDs) == ids_len:
@@ -159,6 +155,8 @@ def filter_gff(gff_file):
 		else:
 			# make sure that the feature we get is a 'CDS' object
 			if feat_type == 'CDS':
+				cds_to_pos[ID] = gene_pos
+				gene_pos += 1
 				output.append(l)
 	f.close()
 

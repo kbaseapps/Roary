@@ -63,18 +63,24 @@ def generate_pangenome(gene_pres_abs, path_to_ref_and_ID_pos_dict, pangenome_id,
 		for col in cols:
 			gene_id = row[col]
 			if not pd.isnull(gene_id):
-				genome_ref, ID_to_pos = col_to_ref[col]
-				if gene_id not in ID_to_pos:
-					if '___' in gene_id:
-						#chop off extra identifier if it exists
-						gene_id = gene_id.split('___')[0]
-						if gene_id not in ID_to_pos:
-							raise KeyError("ID %s not in col %s"%(gene_id, col))
-					else:
-						raise KeyError("ID %s not in col %s"%(gene_id, col))
-				feature_pos = ID_to_pos[gene_id]
-				orthologs.append((gene_id, feature_pos, genome_ref))
+				# find if the gene_id is in fact multiple gene_id's tab delimited
+				if '\t' in gene_id:
+					gene_ids = gene_id.split('\t')
+				else:
+					gene_ids = [gene_id]
 
+				genome_ref, ID_to_pos = col_to_ref[col]
+				for gene_id in gene_ids:
+					if gene_id not in ID_to_pos:
+						if '___' in gene_id:
+							#chop off extra identifier if it exists
+							gene_id = gene_id.split('___')[0]
+							if gene_id not in ID_to_pos:
+								raise KeyError("ID %s not in col %s"%(gene_id, col))
+						else:
+							raise KeyError("ID %s not in col %s"%(gene_id, col))
+					feature_pos = ID_to_pos[gene_id]
+					orthologs.append((gene_id, feature_pos, genome_ref))
 		OrthologFamily['orthologs'] = orthologs
 
 		OrthologFamilyList.append(OrthologFamily)
