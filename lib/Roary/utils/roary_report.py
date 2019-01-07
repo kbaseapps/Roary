@@ -17,7 +17,7 @@ def generate_pangenome(gene_pres_abs, path_to_ref_and_ID_pos_dict, pangenome_id,
 	'''
 		params:
 			gene_pres_abs               : file path to gene_presence_absence.csv output from Roary
-			path_to_ref_and_ID_pos_dict : dictionary mapping gff file path to a tuple of (workspace ref, {gene ID :-> file position})
+			path_to_ref_and_ID_pos_dict : dictionary mapping gff file path to a tuple of (workspace ref, {gene ID :-> file position}, {genome object id -> gff id})
 			pangenome_id				: pangenome identifier
 			pangenome_name				: pangenome display name
 		Returns:
@@ -52,6 +52,8 @@ def generate_pangenome(gene_pres_abs, path_to_ref_and_ID_pos_dict, pangenome_id,
 			raise ValueError("could not find file name match for " + col + " column")
 	for i, row in df.iterrows():
 		OrthologFamily = {}
+
+		# put in standard arguments for an OrhtologFamily as found in Pangenome Spec file.
 		OrthologFamily['id'] = row['Gene']
 		OrthologFamily['type'] = None
 		OrthologFamily['function'] = 'Roary'
@@ -65,20 +67,21 @@ def generate_pangenome(gene_pres_abs, path_to_ref_and_ID_pos_dict, pangenome_id,
 			if not pd.isnull(gene_id):
 				# find if the gene_id is in fact multiple gene_id's tab delimited
 				if '\t' in gene_id:
-					gene_ids = gene_id.split('\t')
+					gff_ids = gene_id.split('\t')
 				else:
-					gene_ids = [gene_id]
+					gff_ids = [gene_id]
 
-				genome_ref, ID_to_pos = col_to_ref[col]
-				for gene_id in gene_ids:
-					if gene_id not in ID_to_pos:
-						if '___' in gene_id:
+				genome_ref, ID_to_pos, gffid_to_genid = col_to_ref[col]
+				for gff_id in gff_ids:
+					if gff_id not in gffid_to_genid:
+						if '___' in gff_id:
 							#chop off extra identifier if it exists
-							gene_id = gene_id.split('___')[0]
-							if gene_id not in ID_to_pos:
-								raise KeyError("ID %s not in col %s"%(gene_id, col))
+							gff_id = gff_id.split('___')[0]
+							if gff_id not in gffid_to_genid:
+								raise KeyError("ID %s not in col %s (pos 1)"%(gff_id, col))
 						else:
-							raise KeyError("ID %s not in col %s"%(gene_id, col))
+							raise KeyError("ID %s not in col %s (pos 2)"%(gene_id, col))							
+					gene_id = gffid_to_genid[gff_id]
 					feature_pos = ID_to_pos[gene_id]
 					orthologs.append([gene_id, feature_pos, genome_ref])
 		OrthologFamily['orthologs'] = orthologs

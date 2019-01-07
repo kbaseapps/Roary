@@ -4,6 +4,7 @@ Download a GenomeSet
 import os
 import sys
 import subprocess
+import copy
 
 from multi_key_dict import multi_key_dict
 
@@ -98,7 +99,7 @@ def download_gffs(cb_url, scratch, genome_set_ref):
 		# ID's in the gff file. This is importatnt because the pangenome object uses the genome
 		# objects (in the pangenomeviewer).
 
-		gff_file_path, ID_to_pos, contains_fasta = filter_gff(gff_file_path, gen_obj)
+		gff_file_path, ID_to_pos, gffid_to_genid, contains_fasta = filter_gff(gff_file_path, gen_obj)
 
 		new_file_path = final_dir + "/" + gen_obj['id'] + '.gff'
 
@@ -115,9 +116,18 @@ def download_gffs(cb_url, scratch, genome_set_ref):
 			f.write(catted_files.decode('utf-8'))
 			f.close()
 
-		path_to_ref_and_ID_pos_dict[new_file_path] = (ref, ID_to_pos)
+		path_to_ref_and_ID_pos_dict[new_file_path] = (ref, ID_to_pos, gffid_to_genid)
 
 	return final_dir, path_to_ref_and_ID_pos_dict
+
+def mapping_func(gff_id, gen_id):
+	'''
+	function to map gff IDs to genome IDs.
+	'''
+
+	if gff_id in gen_id:
+		return True
+	return False
 
 
 def filter_gff(gff_file, genome_obj, overwrite=True):
@@ -182,10 +192,70 @@ def filter_gff(gff_file, genome_obj, overwrite=True):
 	# instead of the symmetric difference, I think its better to make sure the genome has all the gff ids
 	# the reason we do this is to 
 	diff = gen_ids -  gff_ids
+	overlap = gen_ids.intersection(gff_ids)
+	gffid_to_genid = {}
+	if len(overlap) == len(gen_ids) or len(overlap) == len(gff_ids):
+		# all the ids overlap
+		for o in overlap: 
+			gffid_to_genid[o] = o
+	else:
+		# we should make a mapping from the gff ID's to the genome ID's
+		# what is a good way to do that.... hmmm...
+		for o in overlap: 
+			gffid_to_genid[o] = o
+
+
+		# get non overlapping ones
+		diff = gen_ids - gff_ids
+		gff_diff = gff_ids - gen_ids
+
+
+		mapping = defaultdict(lambda:list)
+		for gen_id in diff:
+			# find gff_id that matches with the associated genome id
+			# Im 85% certain that the gff_id will be a substring of
+			# the genome id
+			for gff_id in gff_diff:
+				if mapping_func(gff_id, gen_id):					
+					# this is where they overlap
+					mapping[gen_id].append(gff_id)
+
+		prob_map = {key:mapping[key] for key in mapping if len(mapping[key]) > 1}
+		used_set = set([mapping[key][0] for key in mapping if len(mapping[key]) == 1])
+
+		# iteratively find pairings for the key values.
+		prob_map_copy = dict(prob_map)
+		iters = 0
+		while len(prob_map) > 1:
+			# 1.) filtering step
+			for key, v_list in prob_map.items():
+				for index, item in enumerate(v_list):
+					if item in used_set:
+						v_list.pop(index)
+				# 2.) add items that have 1 to 1 mapping to used list.
+				#     and remove them from copied dict.
+				if len(v_list) == 1:
+					mapping[key] = v_list
+					used_set.add(v_list[0])
+					prob_map_copy.pop(key, None)
+				else:
+					prob_map_copy[key] = v_list
+			prob_map = dict(prob_map_copy)
+			iters+=1
+			if iters > 20:
+				raise ValueError("Could not resolve mapping of KBaseGenomes.Genome object IDs to GFF file IDs.")
+		
+		# now we should have a complete 1 to 1 mapping.
+		for key in mapping:
+			gffid_to_genid[mapping[key][0]] = key
+
+	# now we can use gffid_to_genid for when we construct the pangenome object.
+
 	if len(diff) != 0:
 		# here is where we see they have different ids.
 		raise ValueError("Genome object with id %s does not having matching ID's to gff file, output difference: "%genome_obj['id'], diff,
 						 "gff ids length %i, genome ids length %i, difference length %i"%(len(gff_ids), len(gen_ids), len(diff)))
+
 
 	assert(len(output) > 1), "Could not succesfully filter %f. It may be empty or contain no CDS information."%gff_file.split('/')[-1]
 
@@ -196,4 +266,4 @@ def filter_gff(gff_file, genome_obj, overwrite=True):
 			f.write(l)
 		f.close()
 
-	return gff_file, ID_to_pos, contains_fasta
+	return gff_file, ID_to_pos, gffid_to_genid, contains_fasta
