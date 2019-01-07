@@ -91,7 +91,14 @@ def download_gffs(cb_url, scratch, genome_set_ref):
 			gff_file_path = gff_file['gff_file']['path']
 		else:
 			raise ValueError("No GFF File Path found.")
-		gff_file_path, ID_to_pos, contains_fasta = filter_gff(gff_file_path)
+
+		assert(os.path.isfile(gff_file_path)), "Could not find input GFF file for object with workspace reference: %s"%ref
+
+		# oki doki, here we wanna make sure that the ID's in the genome object match up with
+		# ID's in the gff file. This is importatnt because the pangenome object uses the genome
+		# objects (in the pangenomeviewer).
+
+		gff_file_path, ID_to_pos, contains_fasta = filter_gff(gff_file_path, gen_obj)
 
 		new_file_path = final_dir + "/" + gen_obj['id'] + '.gff'
 
@@ -101,6 +108,7 @@ def download_gffs(cb_url, scratch, genome_set_ref):
 		else:
 			# NOTE: We have to pipe output of cat call to the new_file_path
 			# next we make a new 'gff' file that contains both the gff and fasta information
+
 			args = ['cat', gff_file_path, cat_path, fasta_file['path']]
 			catted_files = subprocess.check_output(args)
 			f = open(new_file_path, 'w')
@@ -112,22 +120,31 @@ def download_gffs(cb_url, scratch, genome_set_ref):
 	return final_dir, path_to_ref_and_ID_pos_dict
 
 
-def filter_gff(gff_file):
+def filter_gff(gff_file, genome_obj, overwrite=True):
 	# if there is a duplicate ID's toss one of them out (if it is programmed frameshift toss one)
-	# either the smaller or the second one.
-	# for feature pos, use the order of the gff 'gene' items. create a mapping
-	# from ID to order for feature pos
-	f = open(gff_file)
-	output = []
-	IDs = set([])
+	# Here we throw out the second duplicate ID.
+
 
 	# ideally we would do the feature mapping to the genes, but there aren't always 'gene' features in the gff files
 	# so to get around this we base the gene position in the gff off the CDS position because they are most often
 	# consecutively ordered and paired. For the organisms that Roary is supposed to service, there should only be
 	# a one to one pairing of 'gene' to 'CDS', so this shouldn't be much of an issue
 
-	cds_to_pos = {}
-	gene_pos = 0
+	features = genome_obj['features']
+
+	# we want to make sure that the feature ID's lineup with the gff ID's
+	# and we'll change the feature_pos argument to be the position of the ID
+	# in the feature array.
+	gen_ids = set([])
+	ID_to_pos = {}
+	for feat_pos, feature in enumerate(features):
+		id_ = feature["id"]
+		gen_ids.add(id_)
+		ID_to_pos[id_] = feat_pos
+
+	f = open(gff_file)
+	output = []
+	gff_ids = set([])
 	contains_fasta = False
 	for l in f:
 		if "##FASTA" in l:
@@ -141,29 +158,42 @@ def filter_gff(gff_file):
 			output.append(l)
 			continue
 
-		# get ID of feature
+		# get ID of feat
 		ID = l.split('ID=')[-1].split(';')[0]
 
 		# determine type of feature
 		feat_type = l.split()[2]
 
-		ids_len = len(IDs)
-		IDs.add(ID)
-		if len(IDs) == ids_len:
+		ids_len = len(gff_ids)
+		gff_ids.add(ID)
+		if len(gff_ids) == ids_len:
 			# we found a duplicate and its the second one. don't include it
 			continue
 		else:
 			# make sure that the feature we get is a 'CDS' object
 			if feat_type == 'CDS':
-				cds_to_pos[ID] = gene_pos
-				gene_pos += 1
 				output.append(l)
+
 	f.close()
 
-	# write output to file
-	f = open(gff_file, 'w')
-	for l in output:
-		f.write(l)
-	f.close()
+	# we want to make sure that the gen_ids and gff_ids are the same.
+	# diff = gen_ids.symmetric_difference(gff_ids)
 
-	return gff_file, cds_to_pos, contains_fasta
+	# instead of the symmetric difference, I think its better to make sure the genome has all the gff ids
+	# the reason we do this is to 
+	diff = gen_ids -  gff_ids
+	if len(diff) != 0:
+		# here is where we see they have different ids.
+		raise ValueError("Genome object with id %s does not having matching ID's to gff file, output difference: "%genome_obj['id'], diff,
+						 "gff ids length %i, genome ids length %i, difference length %i"%(len(gff_ids), len(gen_ids), len(diff)))
+
+	assert(len(output) > 1), "Could not succesfully filter %f. It may be empty or contain no CDS information."%gff_file.split('/')[-1]
+
+	if overwrite:
+		# write output to file
+		f = open(gff_file, 'w')
+		for l in output:
+			f.write(l)
+		f.close()
+
+	return gff_file, ID_to_pos, contains_fasta

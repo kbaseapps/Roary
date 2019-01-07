@@ -74,8 +74,8 @@
     "behavior": {
         "service-mapping": {
             "url": "",
-            "name": "slebrasRoary",
-            "method": "run_slebrasRoary",
+            "name": "Roary",
+            "method": "run_Roary",
             "input_mapping": [
                 {
                     "narrative_system_variable": "workspace",

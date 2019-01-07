@@ -6,12 +6,14 @@ MAINTAINER KBase Developer
 # install line here, a git checkout to download code, or run any other
 # installation scripts.
 
-RUN apt-get update
-RUN apt-get install -y roary
 
-# Install R and ggplot2 for graphing functionality
-RUN apt-get install -y r-base \
-	&& Rscript -e "install.packages('ggplot2', repos = 'http://cran.us.r-project.org')"
+# Install Roary and R
+RUN apt-get update && apt-get install -y roary \
+	r-base \
+	&& rm -rf /var/lib/apt/lists/*
+
+# Install ggplot2 for graphing functionality
+RUN Rscript -e "install.packages('ggplot2', repos = 'http://cran.us.r-project.org')"
 
 # run pip installations
 RUN pip install -U pip \

@@ -12,9 +12,6 @@ publications:
     -
         display_text: Scholz M, Ward D V, Pasolli E, Tolio T, Zolfo M, Asnicar F, Truong D T, Tett A, Morrow A L, Segata, N. (2016). Strain-level microbial epidemiology and population genomics from shotgun metagenomics. Nature methods, 13(5), 435.
         link: https://www.nature.com/articles/nmeth.3802
-    - 
-        display_text: Roary webpage
-        link: https://sanger-pathogens.github.io/Roary/
 
 screenshots: []
 
@@ -35,7 +32,7 @@ suggestions:
 #
 parameters :
     ref :
-        ui-name : Genome Set input
+        ui-name : Genome Set
         short-hint : Set of Genomes to pass as input to Roary. 
         long-hint  : Input must be of type KBaseSets.GenomeSet or KBaseSearch.GenomeSet.
 
@@ -63,4 +60,5 @@ parameters :
 description : |
 
     <p>Roary is a high speed stand alone pan genome pipeline, which takes annotated assemblies in GFF3 format (produced by Prokka (Seemann, 2014)) and calculates the pan genome. Using a standard desktop PC, it can analyse datasets with thousands of samples, something which is computationally infeasible with existing methods, without compromising the quality of the results. 128 samples can be analysed in under 1 hour using 1 GB of RAM and a single processor. To perform this analysis using existing methods would take weeks and hundreds of GB of RAM. Roary is not intended for meta-genomics or for comparing extremely diverse sets of genomes.</p>
-
+    <p><em>Paper abstract:</em> A typical prokaryote population sequencing study can now consist of hundreds or thousands of isolates. Interrogating these datasets can provide detailed insights into the genetic structure of prokaryotic genomes. We introduce Roary, a tool that rapidly builds large-scale pan genomes, identifying the core and accessory genes. Roary makes construction of the pan genome of thousands of prokaryote samples possible on a standard desktop without compromising on the accuracy of results. Using a single CPU Roary can produce a pan genome consisting of 1000 isolates in 4.5 hours using 13 GB of RAM, with further speedups possible using multiple processors.</p>
+    <p> More information can be found through the Sanger Pathogens Roary webpage: <a href='https://sanger-pathogens.github.io/Roary/' target='_blank'> Roary: the Pan Genome Pipeline</a> and the Sanger Pathogens Roar github: <a href='https://github.com/sanger-pathogens/Roary' target'_blank'> sanger-pathogens Roary github </a></p>

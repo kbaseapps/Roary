@@ -4,14 +4,14 @@ import time
 import unittest
 from configparser import ConfigParser
 
-from slebrasRoary.slebrasRoaryImpl import slebrasRoary
-from slebrasRoary.slebrasRoaryServer import MethodContext
-from slebrasRoary.authclient import KBaseAuth as _KBaseAuth
+from Roary.RoaryImpl import Roary
+from Roary.RoaryServer import MethodContext
+from Roary.authclient import KBaseAuth as _KBaseAuth
 
 from installed_clients.WorkspaceClient import Workspace
+from installed_clients.DataFileUtilClient import DataFileUtil
 
-
-class slebrasRoaryTest(unittest.TestCase):
+class RoaryTest(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
@@ -20,7 +20,7 @@ class slebrasRoaryTest(unittest.TestCase):
         cls.cfg = {}
         config = ConfigParser()
         config.read(config_file)
-        for nameval in config.items('slebrasRoary'):
+        for nameval in config.items('Roary'):
             cls.cfg[nameval[0]] = nameval[1]
         # Getting username from Auth profile for token
         authServiceUrl = cls.cfg['auth-service-url']
@@ -32,14 +32,14 @@ class slebrasRoaryTest(unittest.TestCase):
         cls.ctx.update({'token': token,
                         'user_id': user_id,
                         'provenance': [
-                            {'service': 'slebrasRoary',
+                            {'service': 'Roary',
                              'method': 'please_never_use_it_in_production',
                              'method_params': []
                              }],
                         'authenticated': 1})
         cls.wsURL = cls.cfg['workspace-url']
         cls.wsClient = Workspace(cls.wsURL)
-        cls.serviceImpl = slebrasRoary(cls.cfg)
+        cls.serviceImpl = Roary(cls.cfg)
         cls.scratch = cls.cfg['scratch']
         cls.callback_url = os.environ['SDK_CALLBACK_URL']
 
@@ -56,7 +56,7 @@ class slebrasRoaryTest(unittest.TestCase):
         if hasattr(self.__class__, 'wsName'):
             return self.__class__.wsName
         suffix = int(time.time() * 1000)
-        wsName = "test_slebrasRoary_" + str(suffix)
+        wsName = "test_Roary_" + str(suffix)
         ret = self.getWsClient().create_workspace({'workspace': wsName})  # noqa
         self.__class__.wsName = wsName
         return wsName
@@ -67,24 +67,25 @@ class slebrasRoaryTest(unittest.TestCase):
     def getContext(self):
         return self.__class__.ctx
 
+    def getGenomeSetRef(self):
+        gsr = '22385/60/1'
+        return gsr
+
+
     # NOTE: According to Python unittest naming rules test method names should start from 'test'. # noqa
     def test_your_method(self):
         # Prepare test objects in workspace if needed using
-        # self.getWsClient().save_objects({'workspace': self.getWsName(),
-        #                                  'objects': []})
-        #
-        # Run your method by
-        # ret = self.getImpl().your_method(self.getContext(), parameters...)
-        #
-        # Check returned data with
-        # self.assertEqual(ret[...], ...) or other unittest methods
 
-        # ret = self.getImpl().run_slebrasRoary(self.getContext(),
-        #         {'workspace_name': self.getWsName(),
-        #          'ref': 'Hello World!',
-        #          'pangenome_name':,
-        #          'blast_p_percentage':,
-        #          'max_num_clusters':,
-        #          'percent_genes_for_core':        
-        # })
-        pass
+        input_params = {
+            'workspace_name': self.getWsName(),
+            'ref': self.getGenomeSetRef(),
+            'pangenome_name': "server_test_pan",
+            'blast_p_percentage':95,
+            'max_num_clusters':50000,
+            'percent_genes_for_core':99    
+        }
+
+        ret = self.getImpl().run_Roary(self.getContext(),input_params)
+        print('returned value',ret)
+        # self.assertTrue('report_name' in ret)
+        # self.assertTrue('report_ref' in ret)  

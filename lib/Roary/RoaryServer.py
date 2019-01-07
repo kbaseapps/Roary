@@ -17,7 +17,7 @@ from jsonrpcbase import JSONRPCService, InvalidParamsError, KeywordError, \
 from jsonrpcbase import ServerError as JSONServerError
 
 from biokbase import log
-from slebrasRoary.authclient import KBaseAuth as _KBaseAuth
+from Roary.authclient import KBaseAuth as _KBaseAuth
 
 try:
     from ConfigParser import ConfigParser
@@ -45,14 +45,14 @@ def get_config():
     retconfig = {}
     config = ConfigParser()
     config.read(get_config_file())
-    for nameval in config.items(get_service_name() or 'slebrasRoary'):
+    for nameval in config.items(get_service_name() or 'Roary'):
         retconfig[nameval[0]] = nameval[1]
     return retconfig
 
 config = get_config()
 
-from slebrasRoary.slebrasRoaryImpl import slebrasRoary  # noqa @IgnorePep8
-impl_slebrasRoary = slebrasRoary(config)
+from Roary.RoaryImpl import Roary  # noqa @IgnorePep8
+impl_Roary = Roary(config)
 
 
 class JSONObjectEncoder(json.JSONEncoder):
@@ -327,7 +327,7 @@ class Application(object):
                                    context['method'], context['call_id'])
 
     def __init__(self):
-        submod = get_service_name() or 'slebrasRoary'
+        submod = get_service_name() or 'Roary'
         self.userlog = log.log(
             submod, ip_address=True, authuser=True, module=True, method=True,
             call_id=True, changecallback=self.logcallback,
@@ -338,12 +338,12 @@ class Application(object):
         self.serverlog.set_log_level(6)
         self.rpc_service = JSONRPCServiceCustom()
         self.method_authentication = dict()
-        self.rpc_service.add(impl_slebrasRoary.run_slebrasRoary,
-                             name='slebrasRoary.run_slebrasRoary',
+        self.rpc_service.add(impl_Roary.run_Roary,
+                             name='Roary.run_Roary',
                              types=[dict])
-        self.method_authentication['slebrasRoary.run_slebrasRoary'] = 'required'  # noqa
-        self.rpc_service.add(impl_slebrasRoary.status,
-                             name='slebrasRoary.status',
+        self.method_authentication['Roary.run_Roary'] = 'required'  # noqa
+        self.rpc_service.add(impl_Roary.status,
+                             name='Roary.status',
                              types=[dict])
         authurl = config.get(AUTH) if config else None
         self.auth_client = _KBaseAuth(authurl)
@@ -398,7 +398,7 @@ class Application(object):
                             err = JSONServerError()
                             err.data = (
                                 'Authentication required for ' +
-                                'slebrasRoary ' +
+                                'Roary ' +
                                 'but no authentication header was passed')
                             raise err
                         elif token is None and auth_req == 'optional':

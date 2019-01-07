@@ -1,6 +1,6 @@
 SERVICE = slebrasroary
-SERVICE_CAPS = slebrasRoary
-SPEC_FILE = slebrasRoary.spec
+SERVICE_CAPS = Roary
+SPEC_FILE = Roary.spec
 URL = https://kbase.us/services/slebrasroary
 DIR = $(shell pwd)
 LIB_DIR = lib

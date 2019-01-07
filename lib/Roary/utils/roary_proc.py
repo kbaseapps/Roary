@@ -27,6 +27,11 @@ def run_roary(scratch, gff_folder, params):
 
     out_dir = os.path.join(scratch, 'outputs')
 
+    # assert that input paramters are there.
+    assert('max_num_clusters' in params), "Maximum number of cluster argument required"
+    assert('blast_p_percentage' in params), "minimum BlastP Percentage argument required"
+    assert('percent_genes_for_core' in params), "Percent Genes for Core argument required"
+
     # arguments we probably want to include in UI
     blastp_percentage_identity = str(params['blast_p_percentage'])
     no_split_paralogs = False
@@ -54,10 +59,6 @@ def run_roary(scratch, gff_folder, params):
 
     if res != 0:
         error_message = "Roary subprocess exited with error code: %i" % res
-        error_message += "\n length_and_name of GFF files: "
-        for gf in gff_files:
-            with open(gf) as f:
-                error_message += ("\n" + gf + ": " + str(len([l for l in f])))
         raise RuntimeError(error_message)
 
     return out_dir

@@ -80,7 +80,7 @@ def generate_pangenome(gene_pres_abs, path_to_ref_and_ID_pos_dict, pangenome_id,
 						else:
 							raise KeyError("ID %s not in col %s"%(gene_id, col))
 					feature_pos = ID_to_pos[gene_id]
-					orthologs.append((gene_id, feature_pos, genome_ref))
+					orthologs.append([gene_id, feature_pos, genome_ref])
 		OrthologFamily['orthologs'] = orthologs
 
 		OrthologFamilyList.append(OrthologFamily)

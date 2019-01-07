@@ -1,8 +1,12 @@
 module-name:
-    slebrasRoary
+    Roary
 
 module-description:
-    A KBase module
+    Roary is a high speed Pan Genome pipeline. Roary is not intended for meta-genomics or for comparing \
+    extremely diverse sets of genomes. In order to achieve this speed up of the NP-hard task of Pan Genome \
+    assembly, Roary is non-deterministic. 
+    The SDK application for Roary accepts a GenomeSet with two or more Genomes as input and returns a downloadable \
+    csv, two graphs, and summary statistics as well an optional Pangenome object.
 
 service-language:
     python

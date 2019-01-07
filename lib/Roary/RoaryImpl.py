@@ -8,13 +8,13 @@ from .utils.roary_proc import run_roary
 #END_HEADER
 
 
-class slebrasRoary:
+class Roary:
     '''
     Module Name:
-    slebrasRoary
+    Roary
 
     Module Description:
-    A KBase module: slebrasRoary
+    A KBase module: Roary
     '''
 
     ######## WARNING FOR GEVENT USERS ####### noqa
@@ -40,7 +40,7 @@ class slebrasRoary:
         pass
 
 
-    def run_slebrasRoary(self, ctx, params):
+    def run_Roary(self, ctx, params):
         """
         This example function accepts any number of parameters and returns results in a KBaseReport
         :param params: instance of type "RoaryParams" (roary input) ->
@@ -53,14 +53,18 @@ class slebrasRoary:
         """
         # ctx is the context object
         # return variables are: output
-        #BEGIN run_slebrasRoary
+        #BEGIN run_Roary
 
         # get input parameters
         workspace_name = params.get('workspace_name')
         pangenome_name = params.get('pangenome_name')
         genome_set_ref = params.get('ref')
 
-        if pangenome_name is not None:
+        # verify inputs
+        assert (workspace_name != "" or workspace_name is not None), "workspace_name argument must be provided"
+        assert (genome_set_ref != "" or genome_set_ref is not None), "Must provide 'Genomes Set' argument"
+
+        if pangenome_name or pangenome_name.rstrip():
             pangenome_id = "kb|"+pangenome_name
         else:
             pangenome_id = None
@@ -82,7 +86,7 @@ class slebrasRoary:
             if not os.path.isfile(f):
                 raise RuntimeError('File in path %s not found in outputs'%f)
 
-        if pangenome_name:
+        if pangenome_name or pangenome_name.rstrip():
             pangenome = generate_pangenome(gene_pres_abs, path_to_ref_and_ID_pos_dict, pangenome_id, pangenome_name)
             pangenome_obj = upload_pangenome(self.callback_url, self.shared_folder, pangenome, workspace_name, pangenome_name)
             output = roary_report(self.callback_url, self.shared_folder, workspace_name, sum_stats, gene_pres_abs, \
@@ -91,11 +95,11 @@ class slebrasRoary:
             output = roary_report(self.callback_url, self.shared_folder, workspace_name, sum_stats, gene_pres_abs, \
                                  None, conserved_vs_total_graph, unique_vs_new_graph)
 
-        #END run_slebrasRoary
+        #END run_Roary
 
         # At some point might do deeper type checking...
         if not isinstance(output, dict):
-            raise ValueError('Method run_slebrasRoary return value ' +
+            raise ValueError('Method run_Roary return value ' +
                              'output is not type dict as required.')
         # return the results
         return [output]
