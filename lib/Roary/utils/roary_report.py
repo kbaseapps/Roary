@@ -65,7 +65,7 @@ def generate_pangenome(gene_pres_abs, path_to_ref_and_ID_pos_dict, pangenome_id,
 		for col in cols:
 			row_gff_id = row[col]
 			if not pd.isnull(row_gff_id):
-				# find if the gene_id is in fact multiple gene_id's tab delimited
+				# find if the gff_id is in fact multiple gff_id's tab delimited
 				if '\t' in row_gff_id:
 					gff_ids = row_gff_id.split('\t')
 				else:
@@ -80,7 +80,7 @@ def generate_pangenome(gene_pres_abs, path_to_ref_and_ID_pos_dict, pangenome_id,
 							if gff_id not in gffid_to_genid:
 								raise KeyError("gff ID %s not in file %s (pos 1)"%(gff_id, col))
 						else:
-							raise KeyError("gff ID %s not in file %s (pos 2)"%(gene_id, col))							
+							raise KeyError("gff ID %s not in file %s (pos 2)"%(gff_id, col))							
 					gene_id = gffid_to_genid[gff_id]
 					feature_pos = ID_to_pos[gene_id]
 					orthologs.append([gene_id, feature_pos, genome_ref])
