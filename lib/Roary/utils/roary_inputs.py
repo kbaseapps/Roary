@@ -4,7 +4,7 @@ Download a GenomeSet
 import os
 import sys
 import subprocess
-import copy
+import random
 
 from multi_key_dict import multi_key_dict
 
@@ -251,8 +251,11 @@ def filter_gff(gff_file, genome_obj, overwrite=True):
 	if len(gffid_to_genid) != len(gen_ids) or len(gffid_to_genid) != len(gff_ids):
 		gff_diffs = set(gff_ids) - set(gffid_to_genid.keys())
 		gen_diffs = set(gen_ids) - set(gffid_to_genid.values())
+		n = 100
+		samp_keys = random.sample(list(gffid_to_genid), n)
+		sampled = {k:gffid_to_genid[k] for k in samp_keys}
 		raise ValueError("Genome object with id %s cannot match all of its IDs to an ID in its GFF File. "%genome_obj['id'],
-			"Heres the whole dang mapping: ",gffid_to_genid,"[[[[THE MAPPING FROM GFF TO GENOME ID ENDS HERE]]]]]",# "GFF ids not in mapping: ",
+			"Heres the whole dang mapping: ",sampled,"[[[[THE MAPPING FROM GFF TO GENOME ID ENDS HERE]]]]]",# "GFF ids not in mapping: ",
 			#gff_diffs, "Genome IDs not in mapping: ", gen_diffs, 
 			"length of genome features:", len(genome_obj['features']), 'length of mapping:', len(gffid_to_genid),
 			"example of genome id:",genome_obj['features'][0]['id'], "number of gff ids:", len(gff_ids), "number of gen ids",len(gen_ids))
