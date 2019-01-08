@@ -250,7 +250,11 @@ def filter_gff(gff_file, genome_obj, overwrite=True):
 
 	# now we can use gffid_to_genid for when we construct the pangenome object.
 	if len(gffid_to_genid) != len(gen_ids) or len(gffid_to_genid) != len(gff_ids):
-		raise ValueError("Genome object with id %s cannot match all of its IDs to an ID in its GFF File."%genome_obj['id'])
+		gff_diffs = set(gff_ids) - set(gffid_to_genid.keys())
+		gen_diffs = set(gen_ids) - set(gffid_to_genid.values())
+		raise ValueError("Genome object with id %s cannot match all of its IDs to an ID in its GFF File. "%genome_obj['id'],
+			"GFF ids not in mapping: ",gff_diffs, "Genome IDs not in mapping: ", gen_diffs)
+		
 
 	if len(diff) != 0:
 		# here is where we see they have different ids.
