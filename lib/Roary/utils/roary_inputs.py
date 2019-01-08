@@ -253,8 +253,9 @@ def filter_gff(gff_file, genome_obj, overwrite=True):
 		gff_diffs = set(gff_ids) - set(gffid_to_genid.keys())
 		gen_diffs = set(gen_ids) - set(gffid_to_genid.values())
 		raise ValueError("Genome object with id %s cannot match all of its IDs to an ID in its GFF File. "%genome_obj['id'],
-			"GFF ids not in mapping: ",gff_diffs, "Genome IDs not in mapping: ", gen_diffs)
-		
+			"GFF ids not in mapping: ",gff_diffs, "Genome IDs not in mapping: ", gen_diffs, "length of genome features:", len(genome_obj['features']),
+			"example of genome id:",genome_obj['features'][0]['id'])
+
 
 	if len(diff) != 0:
 		# here is where we see they have different ids.
