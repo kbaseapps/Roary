@@ -124,7 +124,6 @@ def mapping_func(gff_id, gen_id):
 	'''
 	function to map gff IDs to genome IDs.
 	'''
-
 	if gff_id in gen_id:
 		return True
 	return False
@@ -254,7 +253,7 @@ def filter_gff(gff_file, genome_obj, overwrite=True):
 		gen_diffs = set(gen_ids) - set(gffid_to_genid.values())
 		raise ValueError("Genome object with id %s cannot match all of its IDs to an ID in its GFF File. "%genome_obj['id'],
 			"GFF ids not in mapping: ",gff_diffs, "Genome IDs not in mapping: ", gen_diffs, "length of genome features:", len(genome_obj['features']),
-			"example of genome id:",genome_obj['features'][0]['id'])
+			"example of genome id:",genome_obj['features'][0]['id'], "number of gff ids:", len(gff_ids), "number of gen ids",len(gen_ids))
 
 
 	if len(diff) != 0:
