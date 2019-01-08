@@ -261,10 +261,10 @@ def filter_gff(gff_file, genome_obj, overwrite=True):
 			"example of genome id:",genome_obj['features'][0]['id'], "number of gff ids:", len(gff_ids), "number of gen ids",len(gen_ids))
 
 
-	if len(diff) != 0:
-		# here is where we see they have different ids.
-		raise ValueError("Genome object with id %s does not having matching ID's to gff file, output difference: "%genome_obj['id'], diff,
-						 "gff ids length %i, genome ids length %i, difference length %i"%(len(gff_ids), len(gen_ids), len(diff)))
+	# if len(diff) != 0:
+	# 	# here is where we see they have different ids.
+	# 	raise ValueError("Genome object with id %s does not having matching ID's to gff file, output difference: "%genome_obj['id'], diff,
+	# 					 "gff ids length %i, genome ids length %i, difference length %i"%(len(gff_ids), len(gen_ids), len(diff)))
 
 
 	assert(len(output) > 1), "Could not succesfully filter %f. It may be empty or contain no CDS information."%gff_file.split('/')[-1]
