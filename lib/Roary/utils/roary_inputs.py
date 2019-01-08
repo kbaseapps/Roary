@@ -248,7 +248,7 @@ def filter_gff(gff_file, genome_obj, overwrite=True):
 			gffid_to_genid[mapping[key][0]] = key
 
 	# now we can use gffid_to_genid for when we construct the pangenome object.
-	if len(gffid_to_genid) != len(gen_ids) or len(gffid_to_genid) != len(gff_ids):
+	if len(gffid_to_genid) != len(gen_ids) and len(gffid_to_genid) != len(gff_ids):
 		gff_diffs = set(gff_ids) - set(gffid_to_genid.keys())
 		gen_diffs = set(gen_ids) - set(gffid_to_genid.values())
 		n = 100
