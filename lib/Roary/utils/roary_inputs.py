@@ -247,12 +247,12 @@ def filter_gff(gff_file, genome_obj, overwrite=True):
 		for key in mapping:
 			suffix_list = ['_gene']
 			# lets get rid of any "_gene" at the end in the keys (?)
-			value = mapping[key]
+			value = mapping[key][0]
 			if value[-5:] in suffix_list:
 				value = value[-5:]
 			# if key[-5:] in suffix_list:
 			# 	key = key[:-5]
-			gffid_to_genid[mapping[key][0]] = key
+			gffid_to_genid[value] = key
 
 	# now we can use gffid_to_genid for when we construct the pangenome object.
 	if len(gffid_to_genid) != len(gen_ids) and len(gffid_to_genid) != len(gff_ids):
