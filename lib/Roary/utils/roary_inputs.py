@@ -120,6 +120,7 @@ def download_gffs(cb_url, scratch, genome_set_ref):
 
 	return final_dir, path_to_ref_and_ID_pos_dict
 
+
 def mapping_func(gff_id, gen_id):
 	'''
 	function to map gff IDs to genome IDs.
@@ -128,6 +129,8 @@ def mapping_func(gff_id, gen_id):
 		return True
 	return False
 
+
+suffix_list = ['_gene']
 
 def filter_gff(gff_file, genome_obj, overwrite=True):
 	# if there is a duplicate ID's toss one of them out (if it is programmed frameshift toss one)
@@ -194,19 +197,25 @@ def filter_gff(gff_file, genome_obj, overwrite=True):
 	gffid_to_genid = {}
 	if len(overlap) == len(gen_ids) or len(overlap) == len(gff_ids):
 		# all the ids overlap
-		for o in overlap: 
-			gffid_to_genid[o] = o
+		for o in overlap:
+			key = o
+			value = o
+			if key[-5:] in suffix_list:
+				key = key[:-5]
+			gffid_to_genid[key] = value
 	else:
 		# we should make a mapping from the gff ID's to the genome ID's
 		# what is a good way to do that.... hmmm...
-		for o in overlap: 
-			gffid_to_genid[o] = o
-
+		for o in overlap:
+			key = o
+			value = o
+			if key[-5:] in suffix_list:
+				key = key[:-5]
+			gffid_to_genid[key] = value
 
 		# get non overlapping ones
 		diff = gen_ids - gff_ids
 		gff_diff = gff_ids - gen_ids
-
 
 		mapping = defaultdict(lambda:list)
 		for gen_id in diff:
@@ -242,10 +251,9 @@ def filter_gff(gff_file, genome_obj, overwrite=True):
 			iters+=1
 			if iters > 20:
 				raise ValueError("Could not resolve mapping of KBaseGenomes.Genome object IDs to GFF file IDs.")
-		
+
 		# now we should have a complete 1 to 1 mapping.
 		for key in mapping:
-			suffix_list = ['_gene']
 			# lets get rid of any "_gene" at the end in the keys (?)
 			value = mapping[key][0]
 			if value[-5:] in suffix_list:
@@ -267,12 +275,10 @@ def filter_gff(gff_file, genome_obj, overwrite=True):
 			"length of genome features:", len(genome_obj['features']), 'length of mapping:', len(gffid_to_genid),
 			"example of genome id:",genome_obj['features'][0]['id'], "number of gff ids:", len(gff_ids), "number of gen ids",len(gen_ids))
 
-
 	# if len(diff) != 0:
 	# 	# here is where we see they have different ids.
 	# 	raise ValueError("Genome object with id %s does not having matching ID's to gff file, output difference: "%genome_obj['id'], diff,
 	# 					 "gff ids length %i, genome ids length %i, difference length %i"%(len(gff_ids), len(gen_ids), len(diff)))
-
 
 	assert(len(output) > 1), "Could not succesfully filter %f. It may be empty or contain no CDS information."%gff_file.split('/')[-1]
 
