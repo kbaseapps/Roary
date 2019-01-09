@@ -79,10 +79,10 @@ def generate_pangenome(gene_pres_abs, path_to_ref_and_ID_pos_dict, pangenome_id,
 							gff_id = gff_id.split('___')[0]
 							if gff_id not in gffid_to_genid:
 								keys = list(gffid_to_genid.keys())[:100]
-								raise KeyError("gff ID %s not in file %s (pos 1), keys to dict: "%(gff_id, col), keys)
+								raise KeyError("gff ID %s not in file %s (pos 1), on iter %i, keys to dict: "%(gff_id, col, i), keys)
 						else:
 							keys = list(gffid_to_genid.keys())[:100]
-							raise KeyError("gff ID %s not in file %s (pos 2), keys to dict:"%(gff_id, col), keys)							
+							raise KeyError("gff ID %s not in file %s (pos 2), on iter %i, keys to dict:"%(gff_id, col, i), keys)							
 					gene_id = gffid_to_genid[gff_id]
 					feature_pos = ID_to_pos[gene_id]
 					orthologs.append([gene_id, feature_pos, genome_ref])
