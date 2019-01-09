@@ -132,6 +132,7 @@ def mapping_func(gff_id, gen_id):
 
 suffix_list = ['_gene']
 
+	
 def filter_gff(gff_file, genome_obj, overwrite=True):
 	# if there is a duplicate ID's toss one of them out (if it is programmed frameshift toss one)
 	# Here we throw out the second duplicate ID.
@@ -190,95 +191,7 @@ def filter_gff(gff_file, genome_obj, overwrite=True):
 
 	# we want to make sure that the gen_ids and gff_ids are the same.
 	# diff = gen_ids.symmetric_difference(gff_ids)
-
-	# instead of the symmetric difference, I think its better to make sure the genome has all the gff ids
-	# the reason we do this is to 
-	overlap = gen_ids.intersection(gff_ids)
-	gffid_to_genid = {}
-	if len(overlap) == len(gen_ids) or len(overlap) == len(gff_ids):
-		# all the ids overlap
-		for o in overlap:
-			key = o
-			value = o
-			if key[-5:] in suffix_list:
-				key = key[:-5]
-			gffid_to_genid[key] = value
-	else:
-		# we should make a mapping from the gff ID's to the genome ID's
-		# what is a good way to do that.... hmmm...
-		for o in overlap:
-			key = o
-			value = o
-			if key[-5:] in suffix_list:
-				key = key[:-5]
-			gffid_to_genid[key] = value
-
-		# get non overlapping ones
-		diff = gen_ids - gff_ids
-		gff_diff = gff_ids - gen_ids
-
-		mapping = defaultdict(lambda:list)
-		for gen_id in diff:
-			# find gff_id that matches with the associated genome id
-			# Im 85% certain that the gff_id will be a substring of
-			# the genome id
-			for gff_id in gff_diff:
-				if mapping_func(gff_id, gen_id):					
-					# this is where they overlap
-					mapping[gen_id].append(gff_id)
-
-		prob_map = {key:mapping[key] for key in mapping if len(mapping[key]) > 1}
-		used_set = set([mapping[key][0] for key in mapping if len(mapping[key]) == 1])
-
-		# iteratively find pairings for the key values.
-		prob_map_copy = dict(prob_map)
-		iters = 0
-		while len(prob_map) > 1:
-			# 1.) filtering step
-			for key, v_list in prob_map.items():
-				for index, item in enumerate(v_list):
-					if item in used_set:
-						v_list.pop(index)
-				# 2.) add items that have 1 to 1 mapping to used list.
-				#     and remove them from copied dict.
-				if len(v_list) == 1:
-					mapping[key] = v_list
-					used_set.add(v_list[0])
-					prob_map_copy.pop(key, None)
-				else:
-					prob_map_copy[key] = v_list
-			prob_map = dict(prob_map_copy)
-			iters+=1
-			if iters > 20:
-				raise ValueError("Could not resolve mapping of KBaseGenomes.Genome object IDs to GFF file IDs.")
-
-		# now we should have a complete 1 to 1 mapping.
-		for key in mapping:
-			# lets get rid of any "_gene" at the end in the keys (?)
-			value = mapping[key][0]
-			if value[-5:] in suffix_list:
-				value = value[-5:]
-			# if key[-5:] in suffix_list:
-			# 	key = key[:-5]
-			gffid_to_genid[value] = key
-
-	# now we can use gffid_to_genid for when we construct the pangenome object.
-	if len(gffid_to_genid) != len(gen_ids) and len(gffid_to_genid) != len(gff_ids):
-		gff_diffs = set(gff_ids) - set(gffid_to_genid.keys())
-		gen_diffs = set(gen_ids) - set(gffid_to_genid.values())
-		n = 100
-		samp_keys = random.sample(list(gffid_to_genid), n)
-		sampled = {k:gffid_to_genid[k] for k in samp_keys}
-		raise ValueError("Genome object with id %s cannot match all of its IDs to an ID in its GFF File. "%genome_obj['id'],
-			"Heres the whole dang mapping: ",sampled,"[[[[THE MAPPING FROM GFF TO GENOME ID ENDS HERE]]]]]",# "GFF ids not in mapping: ",
-			#gff_diffs, "Genome IDs not in mapping: ", gen_diffs, 
-			"length of genome features:", len(genome_obj['features']), 'length of mapping:', len(gffid_to_genid),
-			"example of genome id:",genome_obj['features'][0]['id'], "number of gff ids:", len(gff_ids), "number of gen ids",len(gen_ids))
-
-	# if len(diff) != 0:
-	# 	# here is where we see they have different ids.
-	# 	raise ValueError("Genome object with id %s does not having matching ID's to gff file, output difference: "%genome_obj['id'], diff,
-	# 					 "gff ids length %i, genome ids length %i, difference length %i"%(len(gff_ids), len(gen_ids), len(diff)))
+	gffid_to_genid = map_gff_ids_to_genome_ids(gff_ids, gen_ids)
 
 	assert(len(output) > 1), "Could not succesfully filter %f. It may be empty or contain no CDS information."%gff_file.split('/')[-1]
 
@@ -290,3 +203,77 @@ def filter_gff(gff_file, genome_obj, overwrite=True):
 		f.close()
 
 	return gff_file, ID_to_pos, gffid_to_genid, contains_fasta
+
+
+def map_gff_ids_to_genome_ids(gff_ids, gen_ids):
+	# instead of the symmetric difference, I think its better to make sure the genome has all the gff ids
+	# the reason we do this is to 
+	overlap = gen_ids.intersection(gff_ids)
+	gffid_to_genid = {}
+	if len(overlap) == len(gen_ids) or len(overlap) == len(gff_ids):
+		# all the ids overlap
+		for o in overlap:
+			gff_id = o
+			gen_id = o
+			if gff_id[-5:] in suffix_list:
+				gff_id = gff_id[:-5]
+			gffid_to_genid[gff_id] = gen_id
+	else:
+		# we should make a mapping from the gff ID's to the genome ID's
+		# what is a good way to do that... hmmm...
+		for o in overlap:
+			gff_id = o
+			gen_id = o
+			if gff_id[-5:] in suffix_list:
+				gff_id = gff_id[:-5]
+			gffid_to_genid[gff_id] = gen_id
+
+		# get non overlapping ones
+		diff = gen_ids - gff_ids
+		gff_diff = gff_ids - gen_ids
+
+		mapping = defaultdict(lambda:list)
+		for gen_id in diff:
+			# find gff_id that matches with the associated genome id
+			for gff_id in gff_diff:
+				if mapping_func(gff_id, gen_id):					
+					# this is where they overlap
+					mapping[gen_id].append(gff_id)
+
+		problem_map = {key:mapping[key] for key in mapping if len(mapping[key]) > 1}
+		used_set = set([mapping[key][0] for key in mapping if len(mapping[key]) == 1])
+
+		# iteratively find pairings for the key values.
+		problem_map_copy = dict(problem_map)
+		iters = 0
+		while len(problem_map) > 1:
+			# 1.) filtering step
+			for gen_id, gff_list in problem_map.items():
+				for index, item in enumerate(gff_list):
+					if item in used_set:
+						gff_list.pop(index)
+				# 2.) add items that have 1 to 1 mapping to used list and remove key, value pair
+				if len(gff_list) == 1:
+					mapping[gen_id] = gff_list
+					used_set.add(gff_list[0])
+					problem_map_copy.pop(gen_id, None)
+				else:
+					problem_map_copy[gen_id] = gff_list
+			problem_map = dict(problem_map_copy)
+			iters+=1
+			if iters > 20:
+				raise ValueError("Could not resolve mapping of KBaseGenomes.Genome object IDs to GFF file IDs.")
+
+		# now we should have a complete 1 to 1 mapping.
+		for gen_id in mapping:
+			gff_id = mapping[gen_id][0]
+			# get rid of any suffixes from the list described above
+			if gff_id[-5:] in suffix_list:
+				gff_id = gff_id[-5:]
+			gffid_to_genid[gff_id] = gen_id
+
+	# Check to see if the gffid_to_genid contains all 
+	if len(gffid_to_genid) != len(gen_ids) and len(gffid_to_genid) != len(gff_ids):
+		raise ValueError("Genome object with id %s cannot match all of its IDs to an ID in its GFF File. "%genome_obj['id'])#,
+
+	return gffid_to_genid
