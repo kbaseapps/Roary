@@ -66,7 +66,7 @@ def generate_pangenome(gene_pres_abs, path_to_ref_and_ID_pos_dict, pangenome_id,
 
 		orthologs = []
 
-                # TODO from 68 through 92 is hard to read
+                # TODO Below chunk of code (lines 74 - 106) is hard to read
                 #   What would help readability:
                 #   - Comment on what this loop is doing ("for each X, we get each Y, and we append Z to Q")
                 #   - Comment what the variables represent
