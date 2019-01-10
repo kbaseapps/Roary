@@ -1,14 +1,18 @@
 import os
 import uuid
 import pandas as pd
+# TODO json is unused
 import json
 
 from installed_clients.DataFileUtilClient import DataFileUtil
 from installed_clients.KBaseReportClient import KBaseReport
+# TODO WSLargeDataIOClient is unused
 from installed_clients.WSLargeDataIOClient import WsLargeDataIO
 
 # utils
 from .roary_output import format_output_html
+
+# TODO get rid of tab characters in this file
 
 def get_col_name_from_path(path):
 	return os.path.splitext(path.split('/')[-1])[0]
@@ -62,9 +66,16 @@ def generate_pangenome(gene_pres_abs, path_to_ref_and_ID_pos_dict, pangenome_id,
 
 		orthologs = []
 
+                # TODO from 68 through 92 is hard to read
+                #   What would help readability:
+                #   - Comment on what this loop is doing ("for each X, we get each Y, and we append Z to Q")
+                #   - Comment what the variables represent
+                #   - Try to reduce nesting
 		for col in cols:
 			row_gff_id = row[col]
+                        # TODO to reduce nesting: if pd.isnull(row_gff_id): continue
 			if not pd.isnull(row_gff_id):
+                                # TODO don't need a conditional here. "what".split("\t") -> ["what"]
 				# find if the gff_id is in fact multiple gff_id's tab delimited
 				if '\t' in row_gff_id:
 					gff_ids = row_gff_id.split('\t')
@@ -73,6 +84,13 @@ def generate_pangenome(gene_pres_abs, path_to_ref_and_ID_pos_dict, pangenome_id,
 
 				genome_ref, ID_to_pos, gffid_to_genid = col_to_ref[col]
 				for gff_id in gff_ids:
+                                        # TODO reduce nesting of all these conditionals
+                                        #   eg:
+                                        #     gff_id = gff_id.split('___')[0]  # this is a no-op without "___"
+                                        #     if gff_id not in gffid_to_genid:
+                                        #        # ... raise stuff... do this once.
+                                        #     gene_id = gffid_to_genid[gff_id]
+                                        #     etc...
 					if gff_id not in gffid_to_genid:
 						if '___' in gff_id:
 							#chop off extra identifier if it exists
@@ -142,6 +160,7 @@ def upload_pangenome(cb_url, scratch, Pangenome, workspace_name, pangenome_name)
 	}
 
 
+        # TODO avoid param length over 4 -- replace the last 5 args with kwargs or a dict
 def roary_report(cb_url, scratch, workspace_name, sum_stats, gene_pres_abs, pangenome_ref, conserved_vs_total_graph, unique_vs_new_graph):
 	"""
 	params:
@@ -154,6 +173,7 @@ def roary_report(cb_url, scratch, workspace_name, sum_stats, gene_pres_abs, pang
 		report_ref  : reference to report object in workspace
 	"""
 	report_name = 'Roary_report_'+str(uuid.uuid4())	
+        # TODO this is unused
 	dfu = DataFileUtil(cb_url)
 
 	# Convert output files to HTML
@@ -192,6 +212,14 @@ def roary_report(cb_url, scratch, workspace_name, sum_stats, gene_pres_abs, pang
 		'description':'Graph of unique genes vs new genes'
 	}
 
+        # TODO to avoid too much repeated stuff, just do:
+        #   report_params = {
+        #       'direct_html_link_index': 0,
+        #       ... etc
+        #   }
+        #   if pangenome_ref:
+        #       report_params['objects_created'] = [{ 'ref': pangenome_ref, ... }]
+        #   report = report_client.create_extended_report(report_params)
 	report_client = KBaseReport(cb_url)
 	if pangenome_ref is not None:
 		report = report_client.create_extended_report({

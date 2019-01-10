@@ -189,6 +189,7 @@ class TestRoary(unittest.TestCase):
         '''
         Entrance function for tests. Defines config and scratch folder.
         '''
+        # TODO a fallback of None is the default, you don't need it as an arg. Passing 
         config_file = os.environ.get('KB_DEPLOYMENT_CONFIG', None)
         config = ConfigParser()
         config.read(config_file)

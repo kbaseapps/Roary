@@ -61,9 +61,12 @@ class Roary:
         genome_set_ref = params.get('ref')
 
         # verify inputs
+        # TODO replace with something like: workspace_name and workspace_name.strip(), "msg"
+        # TODO or operator doesn't make sense here. The below passes for empty strings.
         assert (workspace_name != "" or workspace_name is not None), "workspace_name argument must be provided"
         assert (genome_set_ref != "" or genome_set_ref is not None), "Must provide 'Genomes Set' argument"
 
+        # TODO for empty string this sets pangenome_id to "kb|" -- is this intendend? Did you mean `and`?
         if pangenome_name or pangenome_name.rstrip():
             pangenome_id = "kb|"+pangenome_name
         else:

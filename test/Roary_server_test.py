@@ -9,6 +9,7 @@ from Roary.RoaryServer import MethodContext
 from Roary.authclient import KBaseAuth as _KBaseAuth
 
 from installed_clients.WorkspaceClient import Workspace
+# TODO DataFileUtilClient is imported but unused
 from installed_clients.DataFileUtilClient import DataFileUtil
 
 class RoaryTest(unittest.TestCase):
@@ -71,21 +72,17 @@ class RoaryTest(unittest.TestCase):
         gsr = '22385/60/1'
         return gsr
 
-
-    # NOTE: According to Python unittest naming rules test method names should start from 'test'. # noqa
-    def test_your_method(self):
-        # Prepare test objects in workspace if needed using
-
+    def test_roary(self):
         input_params = {
             'workspace_name': self.getWsName(),
             'ref': self.getGenomeSetRef(),
             'pangenome_name': "server_test_pan",
-            'blast_p_percentage':95,
-            'max_num_clusters':50000,
-            'percent_genes_for_core':99    
+            'blast_p_percentage': 95,
+            'max_num_clusters': 50000,
+            'percent_genes_for_core': 99
         }
-
-        ret = self.getImpl().run_Roary(self.getContext(),input_params)
-        print('returned value',ret)
+        ret = self.getImpl().run_Roary(self.getContext(), input_params)
+        print('returned value', ret)
+        # TODO assert something minimal about `ret`
         # self.assertTrue('report_name' in ret)
-        # self.assertTrue('report_ref' in ret)  
+        # self.assertTrue('report_ref' in ret)

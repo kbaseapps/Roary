@@ -11,7 +11,7 @@ You can also learn more about the apps implemented in this module from its [cata
 
 Link to the github repository for this KBase SDK application [github repo](https://github.com/slebras/Roary)
 
-Roary is developed by Sanget Pathogens and more information about its use can be found at their website [Roary website](https://sanger-pathogens.github.io/Roary/) and github repository for Roary [Roary github](https://github.com/sanger-pathogens/Roary)
+Roary is developed by Sanget Pathogens and more information about its use can be found at their [website](https://sanger-pathogens.github.io/Roary/) and [github repository](https://github.com/sanger-pathogens/Roary)
 
 # Setup and test
 
