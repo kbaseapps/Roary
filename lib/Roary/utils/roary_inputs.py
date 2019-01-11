@@ -190,7 +190,7 @@ def filter_gff(gff_file, genome_obj, all_ids =set([]), overwrite=True):
             if len(gff_ids) == ids_len:
                 # we found a dupliacte and its the second one. don't include it
                 continue
-            if len(add_ids) == all_ids_len:
+            if len(all_ids) == all_ids_len:
                 # here we want to add a unique identifier to the end of the ID. we use the gff file name.
                 l_before, l_after = l.split(ID)[0], l.split(ID)[1]
                 ID = ID + '___' + os.path.basename(gff_file).split('.')[0]
