@@ -200,7 +200,7 @@ def filter_gff(gff_file, genome_obj, all_ids =set([]), overwrite=True):
 
     # we want to make sure that the gen_ids and gff_ids are the same.
     # diff = gen_ids.symmetric_difference(gff_ids)
-    gffid_to_genid = map_gff_ids_to_genome_ids(gff_ids, gen_ids)
+    gffid_to_genid = map_gff_ids_to_genome_ids(gff_ids, gen_ids, genome_obj)
 
     assert(len(output) > 1), "Could not succesfully filter %f. It may be empty or contain no CDS information."%gff_file.split('/')[-1]
 
@@ -213,7 +213,7 @@ def filter_gff(gff_file, genome_obj, all_ids =set([]), overwrite=True):
     return gff_file, ID_to_pos, gffid_to_genid, contains_fasta, all_ids
 
 
-def map_gff_ids_to_genome_ids(gff_ids, gen_ids):
+def map_gff_ids_to_genome_ids(gff_ids, gen_ids, genome_obj):
     '''
     map gff_ids to their corresponding genome object ids for one genome.
 
