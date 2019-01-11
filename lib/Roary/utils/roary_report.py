@@ -75,7 +75,7 @@ def generate_pangenome(gene_pres_abs, path_to_ref_and_ID_pos_dict, pangenome_id,
 				for gff_id in gff_ids:
 					if gff_id not in gffid_to_genid:
 						if '___' in gff_id:
-							#chop off extra identifier if it exists
+							# chop off extra identifier if it exists
 							gff_id = gff_id.split('___')[0]
 							if gff_id not in gffid_to_genid:
 								keys = list(gffid_to_genid.keys())[:100]
