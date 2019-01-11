@@ -194,7 +194,7 @@ def filter_gff(gff_file, genome_obj, all_ids =set([]), overwrite=True):
                     # here we want to add a unique identifier if this ID was already found in another
                     # genome
                     l_before, l_after = l.split(ID)[0], l.split(ID)[1]
-                    ID = ID + '___' + os.path.basename(gff_file)
+                    ID = ID + '___' + os.path.basename(gff_file).split('.')[0]
                     l = l_before + ID + l_after
                 output.append(l)
 
