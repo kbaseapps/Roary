@@ -181,21 +181,21 @@ def filter_gff(gff_file, genome_obj, all_ids =set([]), overwrite=True):
 
             # determine type of feature
             feat_type = l.split()[2]
-    
+
+            ids_len = len(gff_ids)
+            all_ids_len = len(all_ids)
+            gff_ids.add(ID)
+            all_ids.add(ID)
+
+            if len(gff_ids) == ids_len:
+                # we found a dupliacte and its the second one. don't include it
+                continue
+            if len(add_ids) == all_ids_len:
+                # here we want to add a unique identifier to the end of the ID. we use the gff file name.
+                l_before, l_after = l.split(ID)[0], l.split(ID)[1]
+                ID = ID + '___' + os.path.basename(gff_file).split('.')[0]
+                l = l_before + ID + l_after
             if feat_type == 'CDS':
-                ids_len = len(gff_ids)
-                all_ids_len = len(all_ids)
-                gff_ids.add(ID)
-                all_ids.add(ID)
-                if len(gff_ids) == ids_len:
-                    # we found a duplicate and its the second one. don't include it
-                    continue
-                if len(all_ids) == all_ids_len:
-                    # here we want to add a unique identifier if this ID was already found in another
-                    # genome
-                    l_before, l_after = l.split(ID)[0], l.split(ID)[1]
-                    ID = ID + '___' + os.path.basename(gff_file).split('.')[0]
-                    l = l_before + ID + l_after
                 output.append(l)
 
     # we want to make sure that the gen_ids and gff_ids are the same.
