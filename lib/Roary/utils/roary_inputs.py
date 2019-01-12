@@ -198,7 +198,7 @@ def filter_gff(gff_file, genome_obj, all_ids =set([]), overwrite=True):
             if feat_type == 'CDS':
                 output.append(l)
 
-    # we want to make sure that the gen_ids and gff_ids are the same.
+    # we want to make sure that the gen_ids     and gff_ids are the same.
     # diff = gen_ids.symmetric_difference(gff_ids)
     gffid_to_genid = map_gff_ids_to_genome_ids(gff_ids, gen_ids, genome_obj)
 

@@ -89,7 +89,7 @@ def generate_pangenome(gene_pres_abs, path_to_ref_and_ID_pos_dict, pangenome_id,
                                     if gff_id[:i] in keys:
                                         key_vals_of_substr.append((gff_id[:i], gffid_to_genid[gff_id[:i]]))
 
-                                raise KeyError("gff ID %s not in file %s (pos 1), on iter %i, keys to dict: "%(gff_id, col, i), pre_per, key_vals_of_substr, keys[:200])
+                                raise KeyError("gff ID %s not in file %s (pos 1), on iter %i, keys to dict: "%(gff_id, col, i), pre_per, key_vals_of_substr, {key:gffid_to_genid[key] for key in keys[:200]})
                         else:
                             keys = list(gffid_to_genid.keys())
                             pre_per = gff_id.split('.')[0]
@@ -98,7 +98,7 @@ def generate_pangenome(gene_pres_abs, path_to_ref_and_ID_pos_dict, pangenome_id,
                                 if gff_id[:i] in keys:
                                     key_vals_of_substr.append((gff_id[:i], gffid_to_genid[gff_id[:i]]))
 
-                            raise KeyError("gff ID %s not in file %s (pos 2), on iter %i, keys to dict:"%(gff_id, col, i), pre_per, key_vals_of_substr, keys[:200])
+                            raise KeyError("gff ID %s not in file %s (pos 2), on iter %i, keys to dict:"%(gff_id, col, i), pre_per, key_vals_of_substr, {key:gffid_to_genid[key] for key in keys[:200]})
                     gene_id = gffid_to_genid[gff_id]
                     feature_pos = ID_to_pos[gene_id]
                     orthologs.append([gene_id, feature_pos, genome_ref])
