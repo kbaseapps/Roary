@@ -80,7 +80,7 @@ def generate_pangenome(gene_pres_abs, path_to_ref_and_ID_pos_dict, pangenome_id,
                             # chop off extra identifier if it exists
                             gff_id = gff_id.split('___')[0]
                             if gff_id[-4:] == '.CDS':
-                                gff_id = gff_id[-4:]
+                                gff_id = gff_id[:-4]
                             if gff_id not in gffid_to_genid:
                                 keys = list(gffid_to_genid.keys())
                                 pre_per = gff_id.split('.')[0]
