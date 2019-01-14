@@ -240,6 +240,7 @@ def map_gff_ids_to_genome_ids(gff_ids, gen_ids, gff_id_and_type, genome_obj):
     '''
 
     # start by mapping from genome_id to gff file
+    cds_id_num = 0
     mapping = defaultdict(lambda:[])
     for gff_id in gff_ids:
         feat_type = gff_id_and_type[gff_id]
@@ -249,6 +250,8 @@ def map_gff_ids_to_genome_ids(gff_ids, gen_ids, gff_id_and_type, genome_obj):
             if mapping_func(gff_id, gen_id):
                 mapping[gen_id].append(gff_id)
                 contained = True
+        if feat_type == 'CDS':
+            cds_id_num += 1
         if feat_type != 'CDS':
             continue
         if not contained:
@@ -281,7 +284,7 @@ def map_gff_ids_to_genome_ids(gff_ids, gen_ids, gff_id_and_type, genome_obj):
     # remap from gen_id to gff_id
     gffid_to_genid = {mapping[key][0]:key for key in mapping}
 
-    if len(gffid_to_genid) != len(gff_id):
+    if len(gffid_to_genid) < cds_id_num:
         raise ValueError("Genome object with id %s cannot match all of \
                           its IDs to an ID in its GFF File. "%genome_obj['id'])
 
