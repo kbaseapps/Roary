@@ -288,8 +288,7 @@ def map_gff_ids_to_genome_ids(gff_ids, gen_ids, gff_id_and_type, genome_obj):
         iters+=1
         if iters > 20:
             raise ValueError("Could not resolve mapping of \
-            KBaseGenomes.Genome object IDs to GFF file IDs.", prob_mapping)
-
+            KBaseGenomes.Genome object IDs to GFF file IDs.", len(prob_mapping), len(gff_ids)+len(gffid_to_genid))
     # remap from gen_id to gff_id
     for key in mapping:
         gffid_to_genid[mapping[key][0]] = key
