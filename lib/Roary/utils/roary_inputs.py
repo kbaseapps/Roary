@@ -220,6 +220,52 @@ def filter_gff_id(gff_id):
     return gff_id
 
 
+'''
+def new_mapping(gff_ids, gen_ids, genome_obj):
+
+    mapping = defaultdict(lambda:[])
+    for gff_id in gff_ids:
+        gff_id = filter_gff_id(gff_id)
+        contained = False
+        for gen_id in gen_ids:
+            if mapping_func(gff_id, gen_id):
+                mapping[gen_id].append(gff_id)
+                contained = True
+        if not contained:
+            raise ValueError('cannot match gff id %s'%gff_id)
+
+    prob_mapping = {key:mapping[key] for key in mapping if len(mapping[key]) > 1}
+    used_set = set([mapping[key][0] for key in mapping if len(mapping[key]) == 1])
+    prob_dict = dict(prob_mapping)
+
+    iters = 0
+    while len(prob_dict) > 1:
+        for gen_id, gff_list in prob_mapping.items():
+            for index, gff_id in enumerate(gff_list):
+                if gff_id in used_set:
+                    gff_list.pop(index)
+            if len(gff_list) == 1:
+                mapping[gen_id] = gff_list
+                used_set.add(gff_list[0])
+                prob_dict.pop(gen_id, None)                
+            else:
+                prob_dict[gen_id] = gff_list
+        prob_mapping = dict(prob_dict)
+        iters+=1
+        if iters >20:
+            raise ValueError("Could not resolve mapping of \
+            KBaseGenomes.Genome object IDs to GFF file IDs.")
+
+    # remap from gen_id to gff_id
+    gffid_to_genid = {mapping[key][0]:key for key in mapping}
+
+    if len(gffid_to_genid) != len(gff_id):
+        raise ValueError("Genome object with id %s cannot match all of its IDs to an ID in its GFF File. "%genome_obj['id'])
+
+    return gffid_to_genid
+'''
+
+
 def map_gff_ids_to_genome_ids(gff_ids, gen_ids, genome_obj):
     '''
     map gff_ids to their corresponding genome object ids for one genome.
@@ -236,6 +282,49 @@ def map_gff_ids_to_genome_ids(gff_ids, gen_ids, genome_obj):
         gffid_to_genids: map of gff file ID -> genome object ID
     '''
 
+    mapping = defaultdict(lambda:[])
+    for gff_id in gff_ids:
+        gff_id = filter_gff_id(gff_id)
+        contained = False
+        for gen_id in gen_ids:
+            if mapping_func(gff_id, gen_id):
+                mapping[gen_id].append(gff_id)
+                contained = True
+        if not contained:
+            raise ValueError('cannot match gff id %s'%gff_id)
+
+    prob_mapping = {key:mapping[key] for key in mapping if len(mapping[key]) > 1}
+    used_set = set([mapping[key][0] for key in mapping if len(mapping[key]) == 1])
+    prob_dict = dict(prob_mapping)
+
+    iters = 0
+    while len(prob_dict) > 1:
+        for gen_id, gff_list in prob_mapping.items():
+            for index, gff_id in enumerate(gff_list):
+                if gff_id in used_set:
+                    gff_list.pop(index)
+            if len(gff_list) == 1:
+                mapping[gen_id] = gff_list
+                used_set.add(gff_list[0])
+                prob_dict.pop(gen_id, None)                
+            else:
+                prob_dict[gen_id] = gff_list
+        prob_mapping = dict(prob_dict)
+        iters+=1
+        if iters >20:
+            raise ValueError("Could not resolve mapping of \
+            KBaseGenomes.Genome object IDs to GFF file IDs.")
+
+    # remap from gen_id to gff_id
+    gffid_to_genid = {mapping[key][0]:key for key in mapping}
+
+    if len(gffid_to_genid) != len(gff_id):
+        raise ValueError("Genome object with id %s cannot match all of its IDs to an ID in its GFF File. "%genome_obj['id'])
+
+    return gffid_to_genid
+
+
+
     # --------------------------------------------------------------------------------------------
     # check_id = 'C6Y50_RS11770'
     # if check_id in gff_ids and check_id in gen_ids:
@@ -246,7 +335,8 @@ def map_gff_ids_to_genome_ids(gff_ids, gen_ids, genome_obj):
     #     raise ValueError("%s is in the genome ID in file %s"%(check_id, genome_obj['id']))
     # --------------------------------------------------------------------------------------------
 
-
+    # <<<<<<<OLD ONE>>>>>>>>
+    '''
     overlap = gen_ids.intersection(gff_ids)
     gffid_to_genid = {}
     if len(overlap) == len(gff_ids):
@@ -334,4 +424,4 @@ def map_gff_ids_to_genome_ids(gff_ids, gen_ids, genome_obj):
         raise ValueError("Genome object with id %s cannot match all of its IDs to an ID in its GFF File. "%genome_obj['id'])#,
 
     return gffid_to_genid
-
+    '''
