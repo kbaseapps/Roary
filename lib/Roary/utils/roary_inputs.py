@@ -212,6 +212,13 @@ def filter_gff(gff_file, genome_obj, all_ids =set([]), overwrite=True):
 
     return gff_file, ID_to_pos, gffid_to_genid, contains_fasta, all_ids
 
+def filter_gff_id(gff_id):
+    if gff_id[-4:] == '.CDS':
+        gff_id = gff_id[:-4]
+    if gff_id[-5:] == '_gene':
+        gff_id = gff_id[:-5]
+    return gff_id
+
 
 def map_gff_ids_to_genome_ids(gff_ids, gen_ids, genome_obj):
     '''
@@ -229,15 +236,15 @@ def map_gff_ids_to_genome_ids(gff_ids, gen_ids, genome_obj):
         gffid_to_genids: map of gff file ID -> genome object ID
     '''
 
-    #--------------------------------------------------------------------------------------------
-    check_id = 'C6Y50_RS11770'
-    if check_id in gff_ids and check_id in gen_ids:
-        raise ValueError("%s in both genome ids and gff ids in object %s"%(check_id, genome_obj['id']))
-    if check_id in gff_ids:
-        raise ValueError("%s is in the gff file ID in file %s"%(check_id, genome_obj['id']))
-    if check_id in gen_ids:
-        raise ValueError("%s is in the genome ID in file %s"%(check_id, genome_obj['id']))
-    #--------------------------------------------------------------------------------------------
+    # --------------------------------------------------------------------------------------------
+    # check_id = 'C6Y50_RS11770'
+    # if check_id in gff_ids and check_id in gen_ids:
+    #     raise ValueError("%s in both genome ids and gff ids in object %s"%(check_id, genome_obj['id']))
+    # if check_id in gff_ids:
+    #     raise ValueError("%s is in the gff file ID in file %s"%(check_id, genome_obj['id']))
+    # if check_id in gen_ids:
+    #     raise ValueError("%s is in the genome ID in file %s"%(check_id, genome_obj['id']))
+    # --------------------------------------------------------------------------------------------
 
 
     overlap = gen_ids.intersection(gff_ids)
@@ -245,18 +252,14 @@ def map_gff_ids_to_genome_ids(gff_ids, gen_ids, genome_obj):
     if len(overlap) == len(gff_ids):
         # all the ids overlap
         for o in overlap:
-            gff_id = o
+            gff_id = filter_gff_id(o)
             gen_id = o
-            if gff_id[-5:] in suffix_list:
-                gff_id = gff_id[:-5]
             gffid_to_genid[gff_id] = gen_id
     else:
         # we should make a mapping from the gff ID's to the genome ID's
         for o in overlap:
-            gff_id = o
+            gff_id = filter_gff_id(o)
             gen_id = o
-            if gff_id[-5:] in suffix_list:
-                gff_id = gff_id[:-5]
             gffid_to_genid[gff_id] = gen_id
 
         # get non overlapping ones
@@ -268,6 +271,7 @@ def map_gff_ids_to_genome_ids(gff_ids, gen_ids, genome_obj):
         for gen_id in diff:
             # find gff_id that matches with the associated genome id
             for gff_id in gff_diff:
+                gff_id = filter_gff_id(gff_id)
                 if mapping_func(gff_id, gen_id):
                     # this is where they overlap
                     used_gff.add(gff_id)
@@ -285,7 +289,7 @@ def map_gff_ids_to_genome_ids(gff_ids, gen_ids, genome_obj):
                     if mapping_func(gff_id, gen_id):
                         mapping[gen_id].append(gff_id)
                 if gff_id not in mapping:
-                    raise ValueError("Gff ID %s cannot be matched to a genome ID"%gff_id )
+                    raise ValueError("GFF ID %s cannot be matched to a genome ID"%gff_id )
 
         problem_map = {key:mapping[key] for key in mapping if len(mapping[key]) > 1}
         used_set = set([mapping[key][0] for key in mapping if len(mapping[key]) == 1])
