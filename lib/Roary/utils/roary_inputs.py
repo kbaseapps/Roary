@@ -140,6 +140,7 @@ def filter_gff(gff_file, genome_obj, all_ids =set([]), overwrite=True):
     # and we'll change the feature_pos argument to be the position of the ID
     # in the feature array.
     gen_ids = set([])
+    gff_id_and_type = {}
     ID_to_pos = {}
     for feat_pos, feature in enumerate(features):
         id_ = feature["id"]
@@ -168,7 +169,7 @@ def filter_gff(gff_file, genome_obj, all_ids =set([]), overwrite=True):
 
             # I wonder if there needs to be some more filtering on the ID
             # looks like there may be multiple IDs that are similar to some extent
-            # because 
+            # because
 
             # determine type of feature
             feat_type = l.split()[2]
@@ -176,6 +177,7 @@ def filter_gff(gff_file, genome_obj, all_ids =set([]), overwrite=True):
             ids_len = len(gff_ids)
             all_ids_len = len(all_ids)
             gff_ids.add(ID)
+            gff_id_and_type[ID] = feat_type
             all_ids.add(ID)
 
             if len(gff_ids) == ids_len:
@@ -191,7 +193,7 @@ def filter_gff(gff_file, genome_obj, all_ids =set([]), overwrite=True):
 
     # we want to make sure that the gen_ids     and gff_ids are the same.
     # diff = gen_ids.symmetric_difference(gff_ids)
-    gffid_to_genid = map_gff_ids_to_genome_ids(gff_ids, gen_ids, genome_obj)
+    gffid_to_genid = map_gff_ids_to_genome_ids(gff_ids, gen_ids, gff_id_and_type, genome_obj)
 
     assert(len(output) > 1), "Could not succesfully filter %f. It may be empty or contain no CDS information."%gff_file.split('/')[-1]
 
@@ -210,8 +212,6 @@ def mapping_func(gff_id, gen_id):
     '''
     if gff_id in gen_id:
         return True
-    if gen_id in gff_id:
-        return True
     return False
 
 
@@ -223,7 +223,7 @@ def filter_gff_id(gff_id):
     return gff_id
 
 
-def map_gff_ids_to_genome_ids(gff_ids, gen_ids, genome_obj):
+def map_gff_ids_to_genome_ids(gff_ids, gen_ids, gff_id_and_type, genome_obj):
     '''
     map gff_ids to their corresponding genome object ids for one genome.
 
@@ -242,12 +242,15 @@ def map_gff_ids_to_genome_ids(gff_ids, gen_ids, genome_obj):
     # start by mapping from genome_id to gff file
     mapping = defaultdict(lambda:[])
     for gff_id in gff_ids:
+        feat_type = gff_id_and_type[gff_id]
         gff_id = filter_gff_id(gff_id)
         contained = False
         for gen_id in gen_ids:
             if mapping_func(gff_id, gen_id):
                 mapping[gen_id].append(gff_id)
                 contained = True
+        if feat_type != 'CDS':
+            continue
         if not contained:
             raise ValueError('cannot match gff id %s'%gff_id, gen_ids)
 
@@ -271,7 +274,7 @@ def map_gff_ids_to_genome_ids(gff_ids, gen_ids, genome_obj):
                 prob_dict[gen_id] = gff_list
         prob_mapping = dict(prob_dict)
         iters+=1
-        if iters >20:
+        if iters > 20:
             raise ValueError("Could not resolve mapping of \
             KBaseGenomes.Genome object IDs to GFF file IDs.")
 
