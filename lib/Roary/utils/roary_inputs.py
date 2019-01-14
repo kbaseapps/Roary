@@ -239,6 +239,15 @@ def map_gff_ids_to_genome_ids(gff_ids, gen_ids, gff_id_and_type, genome_obj):
         gffid_to_genids: map of gff file ID -> genome object ID
     '''
 
+    gffid_to_genids = {}
+    overlap = gen_ids.intersection(gff_ids)
+    for o in overlap:
+        gff_id = filter_gff_id(o)
+        gffid_to_genids[o] = gff_id
+
+    gen_ids = gen_ids - overlap
+    gff_ids = gff_ids - overlap
+
     # start by mapping from genome_id to gff file
     cds_id_num = 0
     mapping = defaultdict(lambda:[])
@@ -282,7 +291,8 @@ def map_gff_ids_to_genome_ids(gff_ids, gen_ids, gff_id_and_type, genome_obj):
             KBaseGenomes.Genome object IDs to GFF file IDs.", prob_mapping)
 
     # remap from gen_id to gff_id
-    gffid_to_genid = {mapping[key][0]:key for key in mapping}
+    for key in mapping:
+        gffid_to_genid[mapping[key][0]] = key
 
     if len(gffid_to_genid) < cds_id_num:
         raise ValueError("Genome object with id %s cannot match all of \
