@@ -286,10 +286,12 @@ def map_gff_ids_to_genome_ids(gff_ids, gen_ids, genome_obj):
             for gff_id in left_over:
                 gff_id = filter_gff_id(gff_id)
                 # now find the gen_id
+                in_it = False
                 for gen_id in gen_ids:
                     if mapping_func(gff_id, gen_id):
                         mapping[gen_id].append(gff_id)
-                if gff_id not in mapping:
+                        in_it = True
+                if not in_it:
                     raise ValueError("GFF ID %s cannot be matched to a genome ID"%gff_id )
 
         problem_map = {key:mapping[key] for key in mapping if len(mapping[key]) > 1}
