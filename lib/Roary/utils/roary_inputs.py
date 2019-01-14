@@ -221,7 +221,7 @@ def map_gff_ids_to_genome_ids(gff_ids, gen_ids, genome_obj):
     object to match with the genome object.
 
     instead of the symmetric difference, we make sure the genome has all the gff ids
-    
+
     Params:
         gff_ids: list of gff IDs
         gen_ids: list of genome IDs
@@ -229,19 +229,20 @@ def map_gff_ids_to_genome_ids(gff_ids, gen_ids, genome_obj):
         gffid_to_genids: map of gff file ID -> genome object ID
     '''
 
-    # -----------
-    # check
+    #--------------------------------------------------------------------------------------------
     check_id = 'C6Y50_RS11770'
+    if check_id in gff_ids and check_id in gen_ids:
+        raise ValueError("%s in both genome ids and gff ids in object %s"%(check_id, genome_obj['id']))
     if check_id in gff_ids:
-        raise ValueError("%s is in the gff file ID"%check_id)
+        raise ValueError("%s is in the gff file ID in file %s"%(check_id, genome_obj['id']))
     if check_id in gen_ids:
-        raise ValueError("%s is in the genome ID"%check_id)
-    #------------
+        raise ValueError("%s is in the genome ID in file %s"%(check_id, genome_obj['id']))
+    #--------------------------------------------------------------------------------------------
 
 
     overlap = gen_ids.intersection(gff_ids)
     gffid_to_genid = {}
-    if len(overlap) == len(gen_ids) or len(overlap) == len(gff_ids):
+    if len(overlap) == len(gff_ids):
         # all the ids overlap
         for o in overlap:
             gff_id = o
@@ -263,18 +264,32 @@ def map_gff_ids_to_genome_ids(gff_ids, gen_ids, genome_obj):
         gff_diff = gff_ids - gen_ids
 
         mapping = defaultdict(lambda:list)
+        used_gff = set([])
         for gen_id in diff:
             # find gff_id that matches with the associated genome id
             for gff_id in gff_diff:
-                if mapping_func(gff_id, gen_id):                    
+                if mapping_func(gff_id, gen_id):
                     # this is where they overlap
+                    used_gff.add(gff_id)
                     mapping[gen_id].append(gff_id)
 
         # we have to make sure each gff_id has a mapping to a genome_id
-
+        if len(gff_diff) == len(used_gff):
+            # yay
+            pass
+        else:
+            left_over = gff_diff - used_gff
+            for gff_id in left_over:
+                # now find the gen_id
+                for gen_id in gen_ids:
+                    if mapping_func(gff_id, gen_id):
+                        mapping[gen_id].append(gff_id)
+                if gff_id not in mapping:
+                    raise ValueError("Gff ID %s cannot be matched to a genome ID"%gff_id )
 
         problem_map = {key:mapping[key] for key in mapping if len(mapping[key]) > 1}
         used_set = set([mapping[key][0] for key in mapping if len(mapping[key]) == 1])
+
 
         # iteratively find pairings for the key values.
         problem_map_copy = dict(problem_map)
