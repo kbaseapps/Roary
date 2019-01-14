@@ -284,6 +284,7 @@ def map_gff_ids_to_genome_ids(gff_ids, gen_ids, genome_obj):
         else:
             left_over = gff_diff - used_gff
             for gff_id in left_over:
+                gff_id = filter_gff_id(gff_id)
                 # now find the gen_id
                 for gen_id in gen_ids:
                     if mapping_func(gff_id, gen_id):
