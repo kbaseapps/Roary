@@ -228,6 +228,17 @@ def map_gff_ids_to_genome_ids(gff_ids, gen_ids, genome_obj):
     Returns:
         gffid_to_genids: map of gff file ID -> genome object ID
     '''
+
+    # -----------
+    # check
+    check_id = 'C6Y50_RS11770'
+    if check_id in gff_ids:
+        raise ValueError("%s is in the gff file ID"%check_id)
+    if check_id in gen_ids:
+        raise ValueError("%s is in the genome ID"%check_id)
+    #------------
+
+
     overlap = gen_ids.intersection(gff_ids)
     gffid_to_genid = {}
     if len(overlap) == len(gen_ids) or len(overlap) == len(gff_ids):
@@ -240,7 +251,6 @@ def map_gff_ids_to_genome_ids(gff_ids, gen_ids, genome_obj):
             gffid_to_genid[gff_id] = gen_id
     else:
         # we should make a mapping from the gff ID's to the genome ID's
-        # what is a good way to do that... hmmm...
         for o in overlap:
             gff_id = o
             gen_id = o
@@ -259,6 +269,9 @@ def map_gff_ids_to_genome_ids(gff_ids, gen_ids, genome_obj):
                 if mapping_func(gff_id, gen_id):                    
                     # this is where they overlap
                     mapping[gen_id].append(gff_id)
+
+        # we have to make sure each gff_id has a mapping to a genome_id
+
 
         problem_map = {key:mapping[key] for key in mapping if len(mapping[key]) > 1}
         used_set = set([mapping[key][0] for key in mapping if len(mapping[key]) == 1])
@@ -292,7 +305,9 @@ def map_gff_ids_to_genome_ids(gff_ids, gen_ids, genome_obj):
                 gff_id = gff_id[-5:]
             gffid_to_genid[gff_id] = gen_id
 
-    # Check to see if the gffid_to_genid contains all 
+
+
+    # Check to see if the gffid_to_genid contains all
     if len(gffid_to_genid) != len(gen_ids) and len(gffid_to_genid) != len(gff_ids):
         raise ValueError("Genome object with id %s cannot match all of its IDs to an ID in its GFF File. "%genome_obj['id'])#,
 

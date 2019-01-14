@@ -41,6 +41,7 @@ def generate_pangenome(gene_pres_abs, path_to_ref_and_ID_pos_dict, pangenome_id,
 
     cols = set(df.columns.values) - set(consistent_cols)
 
+    # map the path_to_ref_and_ID_pos_dict to the columns names in the dataframe.
     col_to_ref = {}
     for col in cols:
         start_len = len(col_to_ref)
@@ -73,6 +74,7 @@ def generate_pangenome(gene_pres_abs, path_to_ref_and_ID_pos_dict, pangenome_id,
 
                 genome_ref, ID_to_pos, gffid_to_genid = col_to_ref[col]
                 for gff_id in gff_ids:
+                    # check if gff_id in gffid_to_genid
                     if gff_id not in gffid_to_genid:
                         if gff_id[-4:] == '.CDS':
                             gff_id = gff_id[:-4]
