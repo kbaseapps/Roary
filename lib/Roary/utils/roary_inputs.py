@@ -249,7 +249,7 @@ def map_gff_ids_to_genome_ids(gff_ids, gen_ids, genome_obj):
                 mapping[gen_id].append(gff_id)
                 contained = True
         if not contained:
-            raise ValueError('cannot match gff id %s'%gff_id)
+            raise ValueError('cannot match gff id %s'%gff_id, gen_ids)
 
     # mapping
     prob_mapping = {key:mapping[key] for key in mapping if len(mapping[key]) > 1}
@@ -286,7 +286,7 @@ def map_gff_ids_to_genome_ids(gff_ids, gen_ids, genome_obj):
 
 
 
-    # --------------------------------------------------------------------------------------------
+    # # --------------------------------------------------------------------------------------------
     # check_id = 'C6Y50_RS11770'
     # if check_id in gff_ids and check_id in gen_ids:
     #     raise ValueError("%s in both genome ids and gff ids in object %s"%(check_id, genome_obj['id']))
@@ -294,7 +294,7 @@ def map_gff_ids_to_genome_ids(gff_ids, gen_ids, genome_obj):
     #     raise ValueError("%s is in the gff file ID in file %s"%(check_id, genome_obj['id']))
     # if check_id in gen_ids:
     #     raise ValueError("%s is in the genome ID in file %s"%(check_id, genome_obj['id']))
-    # --------------------------------------------------------------------------------------------
+    # # --------------------------------------------------------------------------------------------
 
     # <<<<<<<OLD ONE>>>>>>>>
     '''
