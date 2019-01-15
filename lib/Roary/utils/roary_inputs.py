@@ -290,7 +290,7 @@ def map_gff_ids_to_genome_ids(gff_ids, gen_ids, gff_id_and_type, genome_obj):
             # create a cascading effect that will allow the cds ids 
             # to be resolved to a 1:1 mapping.
             mapping = simple_mapping(mapping, gff_ids - gff_cds_ids)
-        if iters > 40
+        if iters > 40:
             raise ValueError("Could not resolve mapping of \
             KBaseGenomes.Genome object IDs to GFF file IDs.", len(prob_mapping), len(gff_ids)+len(gffid_to_genid))
 
