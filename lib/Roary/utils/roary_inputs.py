@@ -271,7 +271,7 @@ def map_gff_ids_to_genome_ids(gff_ids, gen_ids, gff_id_and_type, genome_obj):
     iters = 0
     mapping_copy = dict(mapping)
     while len(mapping) > 0:
-        for gff_id, gen_list in mapping.items()
+        for gff_id, gen_list in mapping.items():
             for index, gen_id in enumerate(gen_list):
                 if gen_id in used_set:
                     gen_list.pop(index)
