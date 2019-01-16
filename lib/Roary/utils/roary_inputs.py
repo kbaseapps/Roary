@@ -309,7 +309,7 @@ def simple_mapping(mapping, gff_ids, gen_ids):
                 mapping[gff_id].append(gen_id)
                 contained = True
         if not contained:
-            raise ValueError('cannot match gff id %s'%gff_id, gen_ids)
+            raise ValueError('cannot match gff id %s of type %s'%(gff_id, gff_id_and_type[gff_id]), gen_ids)
     return mapping
 
 
