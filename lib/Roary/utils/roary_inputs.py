@@ -246,7 +246,7 @@ def map_gff_ids_to_genome_ids(gff_ids, gen_ids, gff_id_and_type, genome_obj):
         raise ValueError("there are more CDS gff Ids than there are genome IDs in file %s"%genome_obj['id'])
 
     gffid_to_genids = {}
-    overlap = gen_ids.intersection(gff_cds_ids)
+    overlap = set(gen_ids.intersection(gff_cds_ids))
     if len(overlap) == len(gff_cds_ids):
         return {filter_gff_id(o):o for o in overlap}
     elif len(overlap) < len(gff_cds_ids):
@@ -255,8 +255,8 @@ def map_gff_ids_to_genome_ids(gff_ids, gen_ids, gff_id_and_type, genome_obj):
     else:
         raise ValueError("There cannot be more overlap than there are CDS GFF IDs. this should be impossible")
 
-    gen_ids = gen_ids - overlap
-    lo_gff_ids = gff_cds_ids - overlap
+    gen_ids = set(gen_ids - overlap)
+    lo_gff_ids = set(gff_cds_ids - overlap)
 
     mapping = simple_mapping(defaultdict(lambda:[]), lo_gff_ids, gen_ids)
 
