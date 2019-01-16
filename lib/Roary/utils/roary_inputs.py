@@ -308,7 +308,7 @@ def simple_mapping(mapping, gff_ids, gen_ids, gff_id_and_type):
             if mapping_func(gff_id, gen_id):
                 mapping[gff_id].append(gen_id)
                 contained = True
-        if not contained:
+        if not contained and gff_id_and_type[gff_id] == 'CDS':
             raise ValueError('cannot match gff id %s of type %s'%(gff_id, gff_id_and_type[gff_id]), gen_ids)
     return mapping
 
