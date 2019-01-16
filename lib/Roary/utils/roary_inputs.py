@@ -258,7 +258,7 @@ def map_gff_ids_to_genome_ids(gff_ids, gen_ids, gff_id_and_type, genome_obj):
     gen_ids = set(gen_ids - overlap)
     lo_gff_ids = set(gff_cds_ids - overlap)
 
-    mapping = simple_mapping(defaultdict(lambda:[]), lo_gff_ids, gen_ids)
+    mapping = simple_mapping(defaultdict(lambda:[]), lo_gff_ids, gen_ids, gff_id_and_type)
 
     used_set = set([])
 
@@ -292,7 +292,7 @@ def map_gff_ids_to_genome_ids(gff_ids, gen_ids, gff_id_and_type, genome_obj):
             # when a 1:1 mapping cannot be resolved is to hopefully
             # create a cascading effect that will allow the cds ids 
             # to be resolved to a 1:1 mapping.
-            mapping = simple_mapping(mapping, gff_ids - gff_cds_ids, gen_ids)
+            mapping = simple_mapping(mapping, gff_ids - gff_cds_ids, gen_ids, gff_id_and_type)
         if iters > 40:
             raise ValueError("Could not resolve mapping of \
             KBaseGenomes.Genome object IDs to GFF file IDs.", len(prob_mapping), len(gff_ids)+len(gffid_to_genid))
@@ -300,7 +300,7 @@ def map_gff_ids_to_genome_ids(gff_ids, gen_ids, gff_id_and_type, genome_obj):
     return gffid_to_genid
 
 
-def simple_mapping(mapping, gff_ids, gen_ids):    
+def simple_mapping(mapping, gff_ids, gen_ids, gff_id_and_type):    
     for gff_id in gff_ids:
         contained = False
         gff_id = filter_gff_id(gff_id)
