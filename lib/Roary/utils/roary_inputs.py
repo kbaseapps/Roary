@@ -261,7 +261,9 @@ def map_gff_ids_to_genome_ids(gff_ids, gen_ids, gff_id_and_type, genome_obj):
     mapping = simple_mapping(defaultdict(lambda:[]), lo_gff_ids, gen_ids)
 
     used_set = set([])
-    for key in mapping:
+
+    keys = mapping.keys()
+    for key in keys:
         if len(mapping[key]) == 1:
             used_set.add(mapping[key][0])
             gffid_to_genid[key] = mapping[key][0]
