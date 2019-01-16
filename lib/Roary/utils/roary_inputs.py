@@ -236,7 +236,7 @@ def map_gff_ids_to_genome_ids(gff_ids, gen_ids, gff_id_and_type, genome_obj):
         gff_ids: list of gff IDs
         gen_ids: list of genome IDs
     Returns:
-        gffid_to_genids: map of gff file ID -> genome object ID
+        gffid_to_genid: map of gff file ID -> genome object ID
     '''
     # we want every gff ID that is of type CDS to be matched to a genome ID (1:1)
 
@@ -245,13 +245,13 @@ def map_gff_ids_to_genome_ids(gff_ids, gen_ids, gff_id_and_type, genome_obj):
     if len(gff_cds_ids) > len(gen_ids):
         raise ValueError("there are more CDS gff Ids than there are genome IDs in file %s"%genome_obj['id'])
 
-    gffid_to_genids = {}
+    gffid_to_genid = {}
     overlap = set(gen_ids.intersection(gff_cds_ids))
     if len(overlap) == len(gff_cds_ids):
         return {filter_gff_id(o):o for o in overlap}
     elif len(overlap) < len(gff_cds_ids):
         for o in overlap:
-            gffid_to_genids[filter_gff_id(o)] = o
+            gffid_to_genid[filter_gff_id(o)] = o
     else:
         raise ValueError("There cannot be more overlap than there are CDS GFF IDs. this should be impossible")
 
