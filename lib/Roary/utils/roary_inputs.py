@@ -262,12 +262,13 @@ def map_gff_ids_to_genome_ids(gff_ids, gen_ids, gff_id_and_type, genome_obj):
 
     used_set = set([])
 
-    keys = mapping.keys()
-    for key in keys:
+    mapping_copy = dict(mapping)
+    for key in mapping:
         if len(mapping[key]) == 1:
             used_set.add(mapping[key][0])
             gffid_to_genid[key] = mapping[key][0]
-            mapping.pop(key, None)
+            mapping_copy.pop(key, None)
+    mapping = dict(mapping_copy)
 
     # now map 1 to 1
     iters = 0
