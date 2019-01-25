@@ -100,7 +100,7 @@ def download_gffs(cb_url, scratch, genome_set_ref):
         # ID's in the gff file. This is importatnt because the pangenome object uses the genome
         # objects (in the pangenomeviewer).
 
-        gff_file_path, ID_to_pos, gffid_to_genid, contains_fasta, all_ids = filter_gff(gff_file_path, gen_obj, all_ids)
+        gff_file_path, ID_to_pos, gffid_to_genid, contains_fasta, all_ids = filter_gff(gff_file_path, gen_obj, all_ids=all_ids)
 
         new_file_path = final_dir + "/" + gen_obj['id'] + '.gff'
 
@@ -143,9 +143,20 @@ def filter_gff(gff_file, genome_obj, all_ids =set([]), overwrite=True):
     gff_id_and_type = {}
     ID_to_pos = {}
     for feat_pos, feature in enumerate(features):
-        id_ = feature["id"]
-        gen_ids.add(id_)
-        ID_to_pos[id_] = feat_pos
+        if feature.get('id'):
+            id_ = feature["id"]
+            gen_ids.add(id_)
+            ID_to_pos[id_] = feat_pos
+        if feature.get('cdss'):
+            cdss = feature.get('cdss')
+            for cds in cdss:
+                gen_ids.add(cds)
+                ID_to_pos[cds] = feat_pos
+        if feature.get('mrnas'):
+            mrnas = feature.get('mrnas')
+            for mrna in mrnas:
+                gen_ids.add(mrna)
+                ID_to_pos[mrna] = feat_pos
 
 
     with open(gff_file) as f:
@@ -167,27 +178,30 @@ def filter_gff(gff_file, genome_obj, all_ids =set([]), overwrite=True):
             # get ID of feat
             ID = l.split('ID=')[-1].split(';')[0]
 
-            # I wonder if there needs to be some more filtering on the ID
-            # looks like there may be multiple IDs that are similar to some extent
-            # because
-
             # determine type of feature
             feat_type = l.split()[2]
 
             ids_len = len(gff_ids)
             all_ids_len = len(all_ids)
             gff_ids.add(ID)
-            gff_id_and_type[ID] = feat_type
             all_ids.add(ID)
 
             if len(gff_ids) == ids_len:
-                # we found a dupliacte and its the second one. don't include it
+                # we found a duplicate and its the second one. don't include it
                 continue
             if len(all_ids) == all_ids_len:
                 # here we want to add a unique identifier to the end of the ID. we use the gff file name.
                 l_before, l_after = l.split(ID)[0], l.split(ID)[1]
                 ID = ID + '___' + os.path.basename(gff_file).split('.')[0]
                 l = l_before + ID + l_after
+
+            if "Parent=" in l:
+                Parent_ID = l.split('Parent=')[-1].split(';')[0]
+                gff_ids.add(Parent_ID)
+                gff_id_and_type[Parent_ID] = feat_type
+
+            gff_id_and_type[ID] = feat_type
+            
             if feat_type == 'CDS':
                 output.append(l)
 
