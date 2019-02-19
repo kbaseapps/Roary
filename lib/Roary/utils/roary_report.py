@@ -13,15 +13,67 @@ from .roary_output import format_output_html
 def get_col_name_from_path(path):
     return os.path.splitext(path.split('/')[-1])[0]
 
+def toString(s):
+    try:
+        return str(s, 'utf-8')
+    except:
+        return s
+
+def filter_gff_id(gff_id):
+    if gff_id[-4:] == '.CDS':
+        gff_id = gff_id[:-4]
+    if gff_id[-6:] == "_CDS_1":
+        gff_id = gff_id[:-6]
+    return gff_id
+
+def gff_id_error(gff_id, gff_id_to_gen_id, col):
+    keys = sorted(list(gff_id_to_gen_id.keys()))
+    pre_per = gff_id.split('.')[0]
+    key_vals_of_substr = []
+    for i in range(1, len(gff_id)):
+        if gff_id[:i] in keys:
+            key_vals_of_substr.append((gff_id[:i], gff_id_to_gen_id[gff_id[:i]]))
+
+    raise KeyError("gff ID %s from file %s, not in dict: "%(gff_id, col), {key:gff_id_to_gen_id[key] for key in keys[:50]})
+
+
+def find_pair(gff_id, gen_ids):
+    gene_id = None
+    gff_id = toString(gff_id)
+    for i, gds in enumerate(gen_ids):
+        id_, cds, mrna = gds
+        if gff_id == id_:
+            gene_id = id_
+            break
+        if gff_id == cds:
+            gene_id = id_
+            break
+        if gff_id == mrna:
+            gene_id = id_
+            break
+        # last resort check if the gff_id is a substring:
+        if gff_id in id_:
+            gene_id = id_
+            break
+    if gene_id != None:
+        gen_ids.pop(i)
+    if gene_id == None:
+        return gff_id
+    return gene_id
+
+
+
 def generate_pangenome(gene_pres_abs, path_to_ref_and_ID_pos_dict, pangenome_id, pangenome_name):
     '''
         params:
             gene_pres_abs               : file path to gene_presence_absence.csv output from Roary
-            path_to_ref_and_ID_pos_dict : dictionary mapping gff file path to a tuple of (workspace ref, {gene ID :-> file position}, {genome object id -> gff id})
+            path_to_ref_and_ID_pos_dict : dictionary mapping gff file path to a tuple of (workspace ref, 
+                                          {gene ID :-> file position}, {genome object id -> gff id})
             pangenome_id                : pangenome identifier
             pangenome_name              : pangenome display name
         Returns:
-            Pangenome                   : KBaseGenomes.Pangenome like object (see type spec) https://narrative.kbase.us/#spec/type/KBaseGenomes.Pangenome
+            Pangenome                   : KBaseGenomes.Pangenome like object (see type spec) 
+                                          https://narrative.kbase.us/#spec/type/KBaseGenomes.Pangenome
     '''
     Pangenome = {}
 
@@ -32,9 +84,10 @@ def generate_pangenome(gene_pres_abs, path_to_ref_and_ID_pos_dict, pangenome_id,
 
     OrthologFamilyList = []
 
-    consistent_cols  = ['Gene','Non-unique Gene name','Annotation','No. isolates','No. sequences',\
-                        'Avg sequences per isolate','Genome Fragment','Order within Fragment','Accessory Fragment',\
-                        'Accessory Order with Fragment','QC','Min group size nuc','Max group size nuc','Avg group size nuc']
+    consistent_cols  = ['Gene','Non-unique Gene name','Annotation','No. isolates',\
+                        'No. sequences','Avg sequences per isolate','Genome Fragment',\
+                        'Order within Fragment','Accessory Fragment','Accessory Order with Fragment',\
+                        'QC','Min group size nuc','Max group size nuc','Avg group size nuc']
     # load gene_pres_abs data and format it into Pangenome dictionary
     df = pd.read_csv(gene_pres_abs)
     # ignore errors to only drop columns that are in the dataframe
@@ -50,11 +103,12 @@ def generate_pangenome(gene_pres_abs, path_to_ref_and_ID_pos_dict, pangenome_id,
                 col_to_ref[col] = path_to_ref_and_ID_pos_dict[path]
                 break
         if len(col_to_ref) == start_len:
-            raise ValueError("could not find file name match for " + col + " column")
+            raise ValueError("could not find file name match for %s column"%col)
+
     for i, row in df.iterrows():
         OrthologFamily = {}
 
-        # put in standard arguments for an OrhtologFamily as found in Pangenome Spec file.
+        # put in standard arguments for an OrthologFamily as found in Pangenome Spec file.
         OrthologFamily['id'] = row['Gene']
         OrthologFamily['type'] = None
         OrthologFamily['function'] = 'Roary'
@@ -72,37 +126,39 @@ def generate_pangenome(gene_pres_abs, path_to_ref_and_ID_pos_dict, pangenome_id,
                 else:
                     gff_ids = [row_gff_id]
 
-                genome_ref, ID_to_pos, gffid_to_genid = col_to_ref[col]
+                genome_ref, gen_id_to_pos, gff_id_to_gen_id, remaining_gen_ids = col_to_ref[col]
+                max_pos = max(list(gen_id_to_pos.values())) + 1
                 for gff_id in gff_ids:
-                    # check if gff_id in gffid_to_genid
-                    if gff_id not in gffid_to_genid:
-                        if gff_id[-4:] == '.CDS':
-                            gff_id = gff_id[:-4]
+                    # check if gff_id in gff_id_to_gen_id
+                    gene_id = None
+                    if gff_id not in gff_id_to_gen_id:
+                        gff_id = filter_gff_id(gff_id)
                         if '___' in gff_id:
                             # chop off extra identifier if it exists
                             gff_id = gff_id.split('___')[0]
-                            if gff_id[-4:] == '.CDS':
-                                gff_id = gff_id[:-4]
-                            if gff_id not in gffid_to_genid:
-                                keys = list(gffid_to_genid.keys())
-                                pre_per = gff_id.split('.')[0]
-                                key_vals_of_substr = []
-                                for i in range(1, len(gff_id)):
-                                    if gff_id[:i] in keys:
-                                        key_vals_of_substr.append((gff_id[:i], gffid_to_genid[gff_id[:i]]))
-
-                                raise KeyError("gff ID %s not in file %s (pos 1), on iter %i, keys to dict: "%(gff_id, col, i), pre_per, key_vals_of_substr, {key:gffid_to_genid[key] for key in keys[:200]})
+                            gff_id = filter_gff_id(gff_id)
+                            if gff_id not in gff_id_to_gen_id:
+                                # instead of throwing an error, we check if theres a pair in
+                                # gen_ids, if not just use the same ID.
+                                gene_id = find_pair(gff_id, remaining_gen_ids)
+                                # gff_id_error(gff_id, gff_id_to_gen_id, col)
+                            else:
+                                gene_id = gff_id_to_gen_id[gff_id]
                         else:
-                            keys = list(gffid_to_genid.keys())
-                            pre_per = gff_id.split('.')[0]
-                            key_vals_of_substr = []
-                            for i in range(1,len(gff_id)):
-                                if gff_id[:i] in keys:
-                                    key_vals_of_substr.append((gff_id[:i], gffid_to_genid[gff_id[:i]]))
-
-                            raise KeyError("gff ID %s not in file %s (pos 2), on iter %i, keys to dict:"%(gff_id, col, i), pre_per, key_vals_of_substr, {key:gffid_to_genid[key] for key in keys[:200]})
-                    gene_id = gffid_to_genid[gff_id]
-                    feature_pos = ID_to_pos[gene_id]
+                            gene_id = find_pair(gff_id, remaining_gen_ids) 
+                            # gff_id_error(gff_id, gff_id_to_gen_id, col
+                    else:
+                        gene_id = gff_id_to_gen_id[gff_id]
+                    if gene_id == None:
+                        gene_id = gff_id
+                        feature_pos = max_pos
+                        max_pos+=1 
+                    else:
+                        if gene_id in gen_id_to_pos:
+                            feature_pos = gen_id_to_pos[gene_id]
+                        else:
+                            feature_pos = max_pos
+                            max_pos+=1
                     orthologs.append([gene_id, feature_pos, genome_ref])
         OrthologFamily['orthologs'] = orthologs
 
@@ -160,7 +216,8 @@ def upload_pangenome(cb_url, scratch, Pangenome, workspace_name, pangenome_name)
     }
 
 
-def roary_report(cb_url, scratch, workspace_name, sum_stats, gene_pres_abs, pangenome_ref, conserved_vs_total_graph, unique_vs_new_graph):
+def roary_report(cb_url, scratch, workspace_name, sum_stats, gene_pres_abs,
+                 pangenome_ref, conserved_vs_total_graph, unique_vs_new_graph):
     """
     params:
         cb_url         : callback url

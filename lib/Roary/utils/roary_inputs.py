@@ -100,7 +100,7 @@ def download_gffs(cb_url, scratch, genome_set_ref):
         # ID's in the gff file. This is importatnt because the pangenome object uses the genome
         # objects (in the pangenomeviewer).
 
-        gff_file_path, ID_to_pos, gffid_to_genid, contains_fasta, all_ids = filter_gff(gff_file_path, gen_obj, all_ids=all_ids)
+        gff_id_to_gen_id, gen_id_to_pos, contains_fasta, all_ids, remaining_gen_ids = filter_gff(gff_file_path, gen_obj, all_ids=all_ids)
 
         new_file_path = final_dir + "/" + gen_obj['id'] + '.gff'
 
@@ -116,15 +116,17 @@ def download_gffs(cb_url, scratch, genome_set_ref):
             with open(new_file_path, 'w') as f:
                 f.write(catted_files.decode('utf-8'))
 
-        path_to_ref_and_ID_pos_dict[new_file_path] = (ref, ID_to_pos, gffid_to_genid)
+        path_to_ref_and_ID_pos_dict[new_file_path] = (ref, gen_id_to_pos, gff_id_to_gen_id, remaining_gen_ids)
 
     return final_dir, path_to_ref_and_ID_pos_dict
 
+def toString(s):
+    try:
+        return str(s, 'utf-8')
+    except:
+        return s
 
-suffix_list = ['_gene']
-
-
-def filter_gff(gff_file, genome_obj, all_ids =set([]), overwrite=True):
+def filter_gff(gff_file, genome_obj, all_ids=set([]), overwrite=True):
     # if there is a duplicate ID's toss one of them out (if it is programmed frameshift toss one)
     # Here we throw out the second duplicate ID.
 
@@ -139,345 +141,116 @@ def filter_gff(gff_file, genome_obj, all_ids =set([]), overwrite=True):
     # we want to make sure that the feature ID's lineup with the gff ID's
     # and we'll change the feature_pos argument to be the position of the ID
     # in the feature array.
-    gen_ids = set([])
-    gff_id_and_type = {}
-    ID_to_pos = {}
+    # gen_ids = set([])
+    # mrna_id_to_id = {}
+    # gff_id_and_type = {}
+    gen_ids = []
+    gen_id_to_pos = {}
     for feat_pos, feature in enumerate(features):
         if feature.get('id'):
-            id_ = feature["id"]
-            gen_ids.add(id_)
-            ID_to_pos[id_] = feat_pos
+            id_ = feature.get('id')
+            id_ = toString(id_)
+        else:
+            id_ = ""
+
         if feature.get('cdss'):
             cdss = feature.get('cdss')
-            for cds in cdss:
-                gen_ids.add(cds)
-                ID_to_pos[cds] = feat_pos
+            cds = toString(cdss[0])
+        else:
+            cds = ""
+
         if feature.get('mrnas'):
             mrnas = feature.get('mrnas')
-            for mrna in mrnas:
-                gen_ids.add(mrna)
-                ID_to_pos[mrna] = feat_pos
+            mrna = toString(mrnas[0])
+        else:
+            mrna = ""
+        gen_id_to_pos[id_] = feat_pos
+        gen_ids.append((id_, cds, mrna))
 
-
+    gff_ids = set([])
+    parent_ids = set([])
+    gff_output = []
+    length = 0
     with open(gff_file) as f:
-        output = []
-        gff_ids = set([])
         contains_fasta = False
         for l in f:
-            if "##FASTA" in l:
-                # add FASTA sequence to output if it exists and then exit
+            if '##FASTA' in l:
                 contains_fasta = True
-                output.append(l)
-                output += [j for j in f]
+                gff_output.append(l)
+                gff_output += [j for j in f]
                 break
-            # if we find a comment add it to output
-            if l[0:2] == '##':
-                output.append(l)
+            if l[:2] =='##':
+                gff_output.append(l)
                 continue
-
-            # get ID of feat
-            ID = l.split('ID=')[-1].split(';')[0]
-
-            # determine type of feature
             feat_type = l.split()[2]
+            ID = l.split('ID=')[-1].split(';')[0]
+            if 'Parent=' in l:
+                parent = l.split("Parent=")[-1].split(";")[0]
+            else:
+                parent = ''
+            if feat_type == "CDS":
 
-            ids_len = len(gff_ids)
-            all_ids_len = len(all_ids)
-            gff_ids.add(ID)
-            all_ids.add(ID)
+                pre_len = len(gff_ids)
+                all_pre_len = len(all_ids)
 
-            if len(gff_ids) == ids_len:
-                # we found a duplicate and its the second one. don't include it
-                continue
-            if len(all_ids) == all_ids_len:
-                # here we want to add a unique identifier to the end of the ID. we use the gff file name.
-                l_before, l_after = l.split(ID)[0], l.split(ID)[1]
-                ID = ID + '___' + os.path.basename(gff_file).split('.')[0]
-                l = l_before + ID + l_after
+                gff_ids.add(ID)
+                all_ids.add(ID)
+                if parent:
+                    parent_ids.add(parent)
+                else:
+                    parent_ids.add(ID)
 
-            if "Parent=" in l:
-                Parent_ID = l.split('Parent=')[-1].split(';')[0]
-                gff_ids.add(Parent_ID)
-                gff_id_and_type[Parent_ID] = feat_type
+                if len(gff_ids) == pre_len:
+                    continue
+                elif len(all_ids) == all_pre_len:
+                    l_before, l_after = l.split(ID)[0], l.split(ID)[1]
+                    ID = ID + "___" + os.path.basename(gff_file).split('.')[0]
+                    l = l_before + ID + l_after
 
-            gff_id_and_type[ID] = feat_type
-            
-            if feat_type == 'CDS':
-                output.append(l)
+                gff_output.append(l)
+            length+=1
 
-    # we want to make sure that the gen_ids     and gff_ids are the same.
-    # diff = gen_ids.symmetric_difference(gff_ids)
-    gffid_to_genid = map_gff_ids_to_genome_ids(gff_ids, gen_ids, gff_id_and_type, genome_obj)
+    if len(gff_ids) > len(gen_ids):
+        raise ValueError("More gff ids than there are available genome ids")
 
-    assert(len(output) > 1), "Could not succesfully filter %f. It may be empty or contain no CDS information."%gff_file.split('/')[-1]
+    gff_id_to_gen_id, gen_ids = map_gff_to_gen(gen_ids, list(parent_ids), gff_file)
 
     if overwrite:
-        # (over)write output to file
         with open(gff_file, 'w') as f:
-            for l in output:
-                f.write(l)
+            for l in gff_output:
+                f.write(l.rstrip() + '\n')
 
-    return gff_file, ID_to_pos, gffid_to_genid, contains_fasta, all_ids
+    return gff_id_to_gen_id, gen_id_to_pos, contains_fasta, all_ids, gen_ids
 
-
-def mapping_func(gff_id, gen_id):
-    '''
-    function to map gff IDs to genome IDs.
-    '''
-    if gff_id in gen_id:
-        return True
-    return False
-
-
-def filter_gff_id(gff_id):
-    if gff_id[-4:] == '.CDS':
-        gff_id = gff_id[:-4]
-    if gff_id[-5:] == '_gene':
-        gff_id = gff_id[:-5]
-    return gff_id
+def find_pair(gff_id, gen_ids):
+    gff_id = toString(gff_id)
+    for i, gds in enumerate(gen_ids):
+        id_, cds, mrna = gds
+        if gff_id == id_:
+            return i
+        if gff_id == cds:
+            return i
+        if gff_id == mrna:
+            return i
+        # last resort check if the gff_id is a substring:
+        if gff_id in id_:
+            return i
+    return None
 
 
-def map_gff_ids_to_genome_ids(gff_ids, gen_ids, gff_id_and_type, genome_obj):
-    '''
-    map gff_ids to their corresponding genome object ids for one genome.
-
-    The reason we do this is that the Pangenome viewer requires the ID's in the pangenome
-    object to match with the genome object.
-
-    instead of the symmetric difference, we make sure the genome has all the gff ids
-
-    Params:
-        gff_ids: list of gff IDs
-        gen_ids: list of genome IDs
-    Returns:
-        gffid_to_genid: map of gff file ID -> genome object ID
-    '''
-    # we want every gff ID that is of type CDS to be matched to a genome ID (1:1)
-
-    gff_cds_ids = set([_id for _id in gff_id_and_type if gff_id_and_type[_id] == 'CDS'])
-
-    if len(gff_cds_ids) > len(gen_ids):
-        raise ValueError("there are more CDS gff Ids than there are genome IDs in file %s"%genome_obj['id'])
-
-    gffid_to_genid = {}
-    overlap = set(gen_ids.intersection(gff_cds_ids))
-    if len(overlap) == len(gff_cds_ids):
-        return {filter_gff_id(o):o for o in overlap}
-    elif len(overlap) < len(gff_cds_ids):
-        for o in overlap:
-            gffid_to_genid[filter_gff_id(o)] = o
-    else:
-        raise ValueError("There cannot be more overlap than there are CDS GFF IDs. this should be impossible")
-
-    gen_ids = set(gen_ids - overlap)
-    lo_gff_ids = set(gff_cds_ids - overlap)
-
-    mapping = simple_mapping(defaultdict(lambda:[]), lo_gff_ids, gen_ids, gff_id_and_type)
-
-    used_set = set([])
-
-    mapping_copy = dict(mapping)
-    for key in mapping:
-        if len(mapping[key]) == 1:
-            used_set.add(mapping[key][0])
-            gffid_to_genid[key] = mapping[key][0]
-            mapping_copy.pop(key, None)
-    mapping = dict(mapping_copy)
-
-    # now map 1 to 1
-    iters = 0
-    mapping_copy = dict(mapping)
-    while len(mapping) > 0:
-        for gff_id, gen_list in mapping.items():
-            for index, gen_id in enumerate(gen_list):
-                if gen_id in used_set:
-                    gen_list.pop(index)
-            if len(gen_list) == 1:
-                gffid_to_genid[gff_id] = gen_list[0]
-                used_set.add(gen_list[0])
-                mapping_copy.pop(gff_id, None)
-            if len(gen_list) < 1:
-                raise ValueError('could not find non overlapping match for \
-                                  gff id %s in file %s'%(gff_id, genome_obj['id']))
-        mapping = dict(mapping_copy)
-        iters+=1
-        if iters > 20:
-            # the thought process here in adding the non-CDS ids
-            # when a 1:1 mapping cannot be resolved is to hopefully
-            # create a cascading effect that will allow the cds ids 
-            # to be resolved to a 1:1 mapping.
-            mapping = simple_mapping(mapping, gff_ids - gff_cds_ids, gen_ids, gff_id_and_type)
-        if iters > 40:
-            raise ValueError("Could not resolve mapping of \
-            KBaseGenomes.Genome object IDs to GFF file IDs.", len(prob_mapping), len(gff_ids)+len(gffid_to_genid))
-
-    return gffid_to_genid
-
-
-def simple_mapping(mapping, gff_ids, gen_ids, gff_id_and_type):    
+def map_gff_to_gen(gen_ids, gff_ids, gff_file):
+    gff_id_to_gen_id = {}
+    print('gff_file', gff_file)
+    print('length of gen ids:', len(gen_ids))
+    print('length of gff ids:', len(gff_ids))
     for gff_id in gff_ids:
-        contained = False
-        gff_id = filter_gff_id(gff_id)
-        for gen_id in gen_ids:
-            if mapping_func(gff_id, gen_id):
-                mapping[gff_id].append(gen_id)
-                contained = True
-        if not contained and gff_id_and_type[gff_id] == 'CDS':
-            raise ValueError('cannot match gff id %s of type %s'%(gff_id, gff_id_and_type[gff_id]), gen_ids)
-    return mapping
-
-
-
-    # # start by mapping from genome_id to gff file < why
-    # cds_id_num = 0
-    # mapping = defaultdict(lambda:[])
-    # for gff_id in gff_ids:
-    #     feat_type = gff_id_and_type[gff_id]
-    #     gff_id = filter_gff_id(gff_id)
-    #     contained = False
-    #     for gen_id in gen_ids:
-    #         if mapping_func(gff_id, gen_id):
-    #             mapping[gen_id].append(gff_id)
-    #             contained = True
-    #     if feat_type == 'CDS':
-    #         cds_id_num += 1
-    #     if feat_type != 'CDS':
-    #         continue
-    #     if not contained:
-    #         raise ValueError('cannot match gff id %s'%gff_id, gen_ids)
-
-    # # mapping
-    # prob_mapping = {key:mapping[key] for key in mapping if len(mapping[key]) > 1}
-    # used_set = set([mapping[key][0] for key in mapping if len(mapping[key]) == 1])
-    # prob_dict = dict(prob_mapping)
-
-    # # making sure we have 1 to 1 mapping
-    # iters = 0
-    # while len(prob_dict) > 1:
-    #     for gen_id, gff_list in prob_mapping.items():
-    #         for index, gff_id in enumerate(gff_list):
-    #             if gff_id in used_set:
-    #                 gff_list.pop(index)
-    #         if len(gff_list) == 1:
-    #             mapping[gen_id] = gff_list
-    #             used_set.add(gff_list[0])
-    #             prob_dict.pop(gen_id, None)                
-    #         else:
-    #             prob_dict[gen_id] = gff_list
-    #     prob_mapping = dict(prob_dict)
-    #     iters+=1
-    #     if iters > 20:
-    #         raise ValueError("Could not resolve mapping of \
-    #         KBaseGenomes.Genome object IDs to GFF file IDs.", len(prob_mapping), len(gff_ids)+len(gffid_to_genid))
-    # # remap from gen_id to gff_id
-    # for key in mapping:
-    #     gffid_to_genid[mapping[key][0]] = key
-
-    # if len(gffid_to_genid) < cds_id_num:
-    #     raise ValueError("Genome object with id %s cannot match all of \
-    #                       its IDs to an ID in its GFF File. "%genome_obj['id'])
-
-    # return gffid_to_genid
-
-
-
-    # # --------------------------------------------------------------------------------------------
-    # check_id = 'C6Y50_RS11770'
-    # if check_id in gff_ids and check_id in gen_ids:
-    #     raise ValueError("%s in both genome ids and gff ids in object %s"%(check_id, genome_obj['id']))
-    # if check_id in gff_ids:
-    #     raise ValueError("%s is in the gff file ID in file %s"%(check_id, genome_obj['id']))
-    # if check_id in gen_ids:
-    #     raise ValueError("%s is in the genome ID in file %s"%(check_id, genome_obj['id']))
-    # # --------------------------------------------------------------------------------------------
-
-    # <<<<<<<OLD ONE>>>>>>>>
-    '''
-    overlap = gen_ids.intersection(gff_ids)
-    gffid_to_genid = {}
-    if len(overlap) == len(gff_ids):
-        # all the ids overlap
-        for o in overlap:
-            gff_id = filter_gff_id(o)
-            gen_id = o
-            gffid_to_genid[gff_id] = gen_id
-    else:
-        # we should make a mapping from the gff ID's to the genome ID's
-        for o in overlap:
-            gff_id = filter_gff_id(o)
-            gen_id = o
-            gffid_to_genid[gff_id] = gen_id
-
-        # get non overlapping ones
-        diff = gen_ids - gff_ids
-        gff_diff = gff_ids - gen_ids
-
-        mapping = defaultdict(lambda:list)
-        used_gff = set([])
-        for gen_id in diff:
-            # find gff_id that matches with the associated genome id
-            for gff_id in gff_diff:
-                gff_id = filter_gff_id(gff_id)
-                if mapping_func(gff_id, gen_id):
-                    # this is where they overlap
-                    used_gff.add(gff_id)
-                    mapping[gen_id].append(gff_id)
-
-        # we have to make sure each gff_id has a mapping to a genome_id
-        if len(gff_diff) == len(used_gff):
-            # yay
-            pass
+        i = find_pair(gff_id, gen_ids)
+        if i == None:
+            # if we can't find a pairing, map them together
+            gff_id_to_gen_id[gff_id] = gff_id
+            # raise ValueError("gff id %s has no matching genome object id"%(gff_id),  gen_ids[:30])
         else:
-            left_over = gff_diff - used_gff
-            for gff_id in left_over:
-                gff_id = filter_gff_id(gff_id)
-                # now find the gen_id
-                in_it = False
-                for gen_id in gen_ids:
-                    if mapping_func(gff_id, gen_id):
-                        mapping[gen_id].append(gff_id)
-                        in_it = True
-                if not in_it:
-                    raise ValueError("GFF ID %s cannot be matched to a genome ID"%gff_id )
-
-        problem_map = {key:mapping[key] for key in mapping if len(mapping[key]) > 1}
-        used_set = set([mapping[key][0] for key in mapping if len(mapping[key]) == 1])
-
-
-        # iteratively find pairings for the key values.
-        problem_map_copy = dict(problem_map)
-        iters = 0
-        while len(problem_map) > 1:
-            # 1.) filtering step
-            for gen_id, gff_list in problem_map.items():
-                for index, item in enumerate(gff_list):
-                    if item in used_set:
-                        gff_list.pop(index)
-                # 2.) add items that have 1 to 1 mapping to used list and remove key, value pair
-                if len(gff_list) == 1:
-                    mapping[gen_id] = gff_list
-                    used_set.add(gff_list[0])
-                    problem_map_copy.pop(gen_id, None)
-                else:
-                    problem_map_copy[gen_id] = gff_list
-            problem_map = dict(problem_map_copy)
-            iters+=1
-            if iters > 20:
-                raise ValueError("Could not resolve mapping of KBaseGenomes.Genome object IDs to GFF file IDs.")
-
-        # now we should have a complete 1 to 1 mapping.
-        for gen_id in mapping:
-            gff_id = mapping[gen_id][0]
-            # get rid of any suffixes from the list described above
-            if gff_id[-5:] in suffix_list:
-                gff_id = gff_id[-5:]
-            gffid_to_genid[gff_id] = gen_id
-
-
-
-    # Check to see if the gffid_to_genid contains all
-    if len(gffid_to_genid) != len(gen_ids) and len(gffid_to_genid) != len(gff_ids):
-        raise ValueError("Genome object with id %s cannot match all of its IDs to an ID in its GFF File. "%genome_obj['id'])#,
-
-    return gffid_to_genid
-    '''
+            val = gen_ids.pop(i)
+            gff_id_to_gen_id[gff_id] = val[0]
+    print('gff id to gen id:', len(gff_id_to_gen_id))
+    return gff_id_to_gen_id, gen_ids

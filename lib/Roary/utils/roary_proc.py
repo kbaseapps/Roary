@@ -54,9 +54,10 @@ def run_roary(scratch, gff_folder, params):
     # finally add files to run Roary on
     args += gff_files
 
+    print('Running Roary')
     proc = subprocess.Popen(args)
     res = proc.wait()
-
+    print('Roary run complete')
     if res != 0:
         error_message = "Roary subprocess exited with error code: %i" % res
         raise RuntimeError(error_message)
