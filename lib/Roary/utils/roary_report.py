@@ -123,7 +123,7 @@ def generate_pangenome(gene_pres_abs, path_to_ref_and_ID_pos_dict, pangenome_id,
         # put in standard arguments for an OrthologFamily as found in Pangenome Spec file.
         OrthologFamily['id'] = row['Gene']
         OrthologFamily['type'] = None
-        OrthologFamily['function'] = 'Roary'
+        OrthologFamily['function'] = row['Annotation']# should be the gene function 
         OrthologFamily['md5'] = None
         OrthologFamily['protein_translation'] = None
 
