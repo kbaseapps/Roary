@@ -114,9 +114,9 @@ class TestRoary(unittest.TestCase):
             f_path = os.path.join(gff_folder,f_name)
             self.assertTrue(os.path.isfile(f_path))
 
-            gff_id_to_gen_id, ID_to_pos, _, _, remaining_gen_ids = filter_gff(f_path, self._dummy_gen_obj(f_path))
+            ID_to_pos, _, _, gen_ids = filter_gff(f_path, self._dummy_gen_obj(f_path))
 
-            path_to_ref[f_path] = ('0000/0/' + str(j), ID_to_pos, gff_id_to_gen_id, remaining_gen_ids)
+            path_to_ref[f_path] = ('0000/0/' + str(j), ID_to_pos, gen_ids)
             j+=1
 
         params = {'blast_p_percentage':95,'max_num_clusters':50000,\

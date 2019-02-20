@@ -100,7 +100,7 @@ def download_gffs(cb_url, scratch, genome_set_ref):
         # ID's in the gff file. This is importatnt because the pangenome object uses the genome
         # objects (in the pangenomeviewer).
 
-        gff_id_to_gen_id, gen_id_to_pos, contains_fasta, all_ids, remaining_gen_ids = filter_gff(gff_file_path, gen_obj, all_ids=all_ids)
+        gen_id_to_pos, contains_fasta, all_ids, gen_ids = filter_gff(gff_file_path, gen_obj, all_ids=all_ids)
 
         new_file_path = final_dir + "/" + gen_obj['id'] + '.gff'
 
@@ -116,7 +116,7 @@ def download_gffs(cb_url, scratch, genome_set_ref):
             with open(new_file_path, 'w') as f:
                 f.write(catted_files.decode('utf-8'))
 
-        path_to_ref_and_ID_pos_dict[new_file_path] = (ref, gen_id_to_pos, gff_id_to_gen_id, remaining_gen_ids)
+        path_to_ref_and_ID_pos_dict[new_file_path] = (ref, gen_id_to_pos, gen_ids)
 
     return final_dir, path_to_ref_and_ID_pos_dict
 
@@ -210,47 +210,50 @@ def filter_gff(gff_file, genome_obj, all_ids=set([]), overwrite=True):
                 gff_output.append(l)
             length+=1
 
-    if len(gff_ids) > len(gen_ids):
-        raise ValueError("More gff ids than there are available genome ids")
+    # if len(gff_ids) > len(gen_ids):
+    #     raise ValueError("More gff ids than there are available genome ids")
 
-    gff_id_to_gen_id, gen_ids = map_gff_to_gen(gen_ids, list(parent_ids), gff_file)
+    # lets try mapping at end instead
+    # gff_id_to_gen_id, gen_ids = map_gff_to_gen(gen_ids, list(parent_ids), gff_file)
 
     if overwrite:
         with open(gff_file, 'w') as f:
             for l in gff_output:
                 f.write(l.rstrip() + '\n')
 
-    return gff_id_to_gen_id, gen_id_to_pos, contains_fasta, all_ids, gen_ids
+    return gen_id_to_pos, contains_fasta, all_ids, gen_ids
 
-def find_pair(gff_id, gen_ids):
-    gff_id = toString(gff_id)
-    for i, gds in enumerate(gen_ids):
-        id_, cds, mrna = gds
-        if gff_id == id_:
-            return i
-        if gff_id == cds:
-            return i
-        if gff_id == mrna:
-            return i
-        # last resort check if the gff_id is a substring:
-        if gff_id in id_:
-            return i
-    return None
+# def find_pair(gff_id, gen_ids):
+#     gff_id = toString(gff_id)
+#     for i, gds in enumerate(gen_ids):
+#         id_, cds, mrna = gds
+#         id_, cds, mrna = toString(id_), toString(cds), toString(mrna)
+#         if gff_id == id_:
+#             return i
+#         if gff_id == cds:
+#             return i
+#         if gff_id == mrna:
+#             return i
+#         # last resort check if the gff_id is a substring:
+#         if in id_:
+#             return i
+#     return None
 
 
-def map_gff_to_gen(gen_ids, gff_ids, gff_file):
-    gff_id_to_gen_id = {}
-    print('gff_file', gff_file)
-    print('length of gen ids:', len(gen_ids))
-    print('length of gff ids:', len(gff_ids))
-    for gff_id in gff_ids:
-        i = find_pair(gff_id, gen_ids)
-        if i == None:
-            # if we can't find a pairing, map them together
-            gff_id_to_gen_id[gff_id] = gff_id
-            # raise ValueError("gff id %s has no matching genome object id"%(gff_id),  gen_ids[:30])
-        else:
-            val = gen_ids.pop(i)
-            gff_id_to_gen_id[gff_id] = val[0]
-    print('gff id to gen id:', len(gff_id_to_gen_id))
-    return gff_id_to_gen_id, gen_ids
+# def map_gff_to_gen(gen_ids, gff_ids, gff_file):
+#     gff_id_to_gen_id = {}
+#     print('gff_file', gff_file)
+#     print('length of gen ids:', len(gen_ids))
+#     print('length of gff ids:', len(gff_ids))
+#     for gff_id in gff_ids:
+#         gff_id = toString(gff_id)
+#         i = find_pair(gff_id, gen_ids)
+#         if i == None:
+#             # if we can't find a pairing, map them together
+#             gff_id_to_gen_id[gff_id] = toString(gff_id)
+#             # raise ValueError("gff id %s has no matching genome object id"%(gff_id),  gen_ids[:30])
+#         else:
+#             val = gen_ids.pop(i)
+#             gff_id_to_gen_id[gff_id] = toString(val[0])
+#     print('gff id to gen id:', len(gff_id_to_gen_id))
+#     return gff_id_to_gen_id, gen_ids

@@ -38,29 +38,20 @@ def gff_id_error(gff_id, gff_id_to_gen_id, col):
 
 
 def find_pair(gff_id, gen_ids):
-    gene_id = None
     gff_id = toString(gff_id)
     for i, gds in enumerate(gen_ids):
         id_, cds, mrna = gds
+        id_, cds, mrna = toString(id_), toString(cds), toString(mrna)
         if gff_id == id_:
-            gene_id = id_
-            break
+            return i
         if gff_id == cds:
-            gene_id = id_
-            break
+            return i
         if gff_id == mrna:
-            gene_id = id_
-            break
+            return i
         # last resort check if the gff_id is a substring:
         if gff_id in id_:
-            gene_id = id_
-            break
-    if gene_id != None:
-        gen_ids.pop(i)
-    if gene_id == None:
-        return gff_id
-    return gene_id
-
+            return i
+    return None
 
 
 def generate_pangenome(gene_pres_abs, path_to_ref_and_ID_pos_dict, pangenome_id, pangenome_name):
@@ -95,16 +86,37 @@ def generate_pangenome(gene_pres_abs, path_to_ref_and_ID_pos_dict, pangenome_id,
     cols = set(df.columns.values) - set(consistent_cols)
 
     # map the path_to_ref_and_ID_pos_dict to the columns names in the dataframe.
+    # and make the mapping between gen_ids and gff_ids
     col_to_ref = {}
     for col in cols:
         start_len = len(col_to_ref)
         for path in path_to_ref_and_ID_pos_dict:
             if col == get_col_name_from_path(path):
-                col_to_ref[col] = path_to_ref_and_ID_pos_dict[path]
+
+                genome_ref, gen_id_to_pos, gen_ids = path_to_ref_and_ID_pos_dict[path]
+                # now we would also like to use the information contained here to
+                # create an output id to genome_object id mapping
+                gff_id_to_gen_id = {}
+                gff_ids = list(set(df[col].tolist()))
+                for gff_id in gff_ids:
+                    if not pd.isnull(gff_id):
+                        gff_id = filter_gff_id(toString(gff_id))
+                        i = find_pair(gff_id, gen_ids)
+                        if i == None:
+                            gff_id_to_gen_id[gff_id] = gff_id
+                        else:
+                            val = gen_ids.pop(i)
+                            gff_id_to_gen_id[gff_id] = val[0]
+
+                col_to_ref[col] = gff_id_to_gen_id, genome_ref, gen_id_to_pos
+
                 break
         if len(col_to_ref) == start_len:
             raise ValueError("could not find file name match for %s column"%col)
 
+
+
+    # now we construct pangenome object
     for i, row in df.iterrows():
         OrthologFamily = {}
 
@@ -126,13 +138,14 @@ def generate_pangenome(gene_pres_abs, path_to_ref_and_ID_pos_dict, pangenome_id,
                 else:
                     gff_ids = [row_gff_id]
 
-                genome_ref, gen_id_to_pos, gff_id_to_gen_id, remaining_gen_ids = col_to_ref[col]
+                gff_id_to_gen_id, genome_ref, gen_id_to_pos = col_to_ref[col]
                 max_pos = max(list(gen_id_to_pos.values())) + 1
                 for gff_id in gff_ids:
+                    gff_id = filter_gff_id(toString(gff_id))
+
                     # check if gff_id in gff_id_to_gen_id
                     gene_id = None
                     if gff_id not in gff_id_to_gen_id:
-                        gff_id = filter_gff_id(gff_id)
                         if '___' in gff_id:
                             # chop off extra identifier if it exists
                             gff_id = gff_id.split('___')[0]
@@ -140,25 +153,22 @@ def generate_pangenome(gene_pres_abs, path_to_ref_and_ID_pos_dict, pangenome_id,
                             if gff_id not in gff_id_to_gen_id:
                                 # instead of throwing an error, we check if theres a pair in
                                 # gen_ids, if not just use the same ID.
-                                gene_id = find_pair(gff_id, remaining_gen_ids)
+                                gene_id = gff_id
+                                #gene_id = find_pair(gff_id, remaining_gen_ids)
                                 # gff_id_error(gff_id, gff_id_to_gen_id, col)
                             else:
                                 gene_id = gff_id_to_gen_id[gff_id]
                         else:
-                            gene_id = find_pair(gff_id, remaining_gen_ids) 
+                            gene_id = gff_id
+                            # gene_id = find_pair(gff_id, remaining_gen_ids) 
                             # gff_id_error(gff_id, gff_id_to_gen_id, col
                     else:
                         gene_id = gff_id_to_gen_id[gff_id]
-                    if gene_id == None:
-                        gene_id = gff_id
-                        feature_pos = max_pos
-                        max_pos+=1 
+                    if gene_id in gen_id_to_pos:
+                        feature_pos = gen_id_to_pos[gene_id]
                     else:
-                        if gene_id in gen_id_to_pos:
-                            feature_pos = gen_id_to_pos[gene_id]
-                        else:
-                            feature_pos = max_pos
-                            max_pos+=1
+                        feature_pos = max_pos
+                        max_pos+=1
                     orthologs.append([gene_id, feature_pos, genome_ref])
         OrthologFamily['orthologs'] = orthologs
 
