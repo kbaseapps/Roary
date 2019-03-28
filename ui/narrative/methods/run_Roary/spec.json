@@ -1,13 +1,14 @@
 {
     "ver": "0.0.1",
     "authors": [
-        "slebras"
+        "slebras",
+        "psdehal"
     ],
     "contact": "",
     "categories": ["active"],
     "widgets": {
         "input": null,
-        "output": null
+        "output": "no-display"
     },
     "parameters": [ 
         {
