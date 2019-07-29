@@ -68,9 +68,11 @@ def download_gffs(cb_url, scratch, genome_set_ref):
 
         # NO Eukaryotes, NO Fungi,
         # yes bacateria, yes archaea, yes(?) virus
-        if gen_obj['domain'] not in ['Bacteria', 'Archaea']:
-            raise TypeError(
-                'Provided Genomes are not labeled as Bacteria or Archaea. Roary is only equipped to handle Archaea or Bacteria')
+        # NOTE: we are getting rid of this because it is not consistent enough for now...
+
+        # if gen_obj['domain'] not in ['Bacteria', 'Archaea']:
+        #     raise TypeError('Provided Genomes are not labeled as Bacteria or Archaea. '
+        #                     'Roary is only equipped to handle Archaea or Bacteria')
 
         fasta_path = temp_dir + "/" + gen_obj['id'] + ".fa"
         gff_file = gfu.genome_to_gff({'genome_ref': ref, 'target_dir': temp_dir})

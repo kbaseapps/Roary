@@ -3,42 +3,55 @@
 <head>
 	<link>
 	<title> Output Files </title>
+	<style type="text/css">
+		.images {
+			width: 100%;
+			display: flex;
+		}
+
+	</style>
 </head>
 <body>
 	<h1> Summary Statistics </h1>
 
-	<table>
-		<tbody>
-			{% for item in results %}
-			<tr>
-			    <td>Core genes</td>
-			    <td>(99% <= strains <= 100%)</td>
-			    <td>{{item.core_genes}}</td>
-			</tr>
-			<tr>
-			    <td>Soft core genes</td>
-			    <td>(95% <= strains < 99%)</td>
-				<td>{{item.soft_core_genes}}</td>
-			</tr>
-			<tr>
-			    <td>Shell genes</td>
-			    <td>(15% <= strains < 95%)</td>
-			    <td>{{item.shell_genes}}</td>
-			</tr>
-			<tr>
-			    <td>Cloud genes</td>
-			    <td>(0% <= strains < 15%)</td>
-			    <td>{{item.cloud_genes}}</td>
-			</tr>
-			<tr>
-			    <td>Total genes</td>
-			    <td>(0% <= strains <= 100%)</td>
-			    <td>{{item.total_genes}}</td>
-			</tr>
-			{% endfor %}
-		</tbody>
-	</table>
-<!-- 
+	<div id=stats>
+		<table>
+			<tbody>
+				{% for item in results %}
+				<tr>
+				    <td>Core genes</td>
+				    <td>(99% <= strains <= 100%)</td>
+				    <td>{{item.core_genes}}</td>
+				</tr>
+				<tr>
+				    <td>Soft core genes</td>
+				    <td>(95% <= strains < 99%)</td>
+					<td>{{item.soft_core_genes}}</td>
+				</tr>
+				<tr>
+				    <td>Shell genes</td>
+				    <td>(15% <= strains < 95%)</td>
+				    <td>{{item.shell_genes}}</td>
+				</tr>
+				<tr>
+				    <td>Cloud genes</td>
+				    <td>(0% <= strains < 15%)</td>
+				    <td>{{item.cloud_genes}}</td>
+				</tr>
+				<tr>
+				    <td>Total genes</td>
+				    <td>(0% <= strains <= 100%)</td>
+				    <td>{{item.total_genes}}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+	<div id=images>
+		<img id=conserved src="{{ conserved_image_path }}"></img>
+		<img id=unique src=" {{unique_image_path }}"></img>
+	</div>
+<!--
 	<h2> Gene Presence Absence </h2>
 
 	<table>

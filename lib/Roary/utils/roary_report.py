@@ -242,7 +242,7 @@ def roary_report(cb_url, scratch, workspace_name, sum_stats, gene_pres_abs,
     dfu = DataFileUtil(cb_url)
 
     # Convert output files to HTML
-    html_output = format_output_html(sum_stats, gene_pres_abs)
+    html_output = format_output_html(sum_stats, gene_pres_abs, conserved_vs_total_graph, unique_vs_new_graph)
 
     file_dir = os.path.join(scratch, report_name)
     os.mkdir(file_dir)
@@ -263,6 +263,9 @@ def roary_report(cb_url, scratch, workspace_name, sum_stats, gene_pres_abs,
         'name':'gene_presence_absence.csv',
         'description':"Data Table of Gene Presence, Gene Absence and other information"
     }
+
+    # we want to display these images.
+
 
     photo_link_1 = {
         'path': conserved_vs_total_graph,
