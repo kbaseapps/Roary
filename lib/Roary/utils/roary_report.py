@@ -269,28 +269,25 @@ def roary_report(cb_url, scratch, workspace_name, sum_stats, gene_pres_abs,
         'description':"Data Table of Gene Presence, Gene Absence and other information"
     }
 
-    # we want to display these images.
-
-
-    photo_link_1 = {
-        'path': conserved_vs_total_graph,
-        'name':'conserved_vs_total_genes.png',
-        # 'label':'Conserved_vs_total_genes_graph',
-        'description':'Graph of conserved genes vs. total genes'
-    }
-    photo_link_2 = {
-        'path': unique_vs_new_graph,
-        'name':'unique_vs_new_genes.png',
-        # 'label':'unique_vs_new_genes_graph',
-        'description':'Graph of unique genes vs new genes'
-    }
+    # photo_link_1 = {
+    #     'path': conserved_vs_total_graph,
+    #     'name':'conserved_vs_total_genes.png',
+    #     # 'label':'Conserved_vs_total_genes_graph',
+    #     'description':'Graph of conserved genes vs. total genes'
+    # }
+    # photo_link_2 = {
+    #     'path': unique_vs_new_graph,
+    #     'name':'unique_vs_new_genes.png',
+    #     # 'label':'unique_vs_new_genes_graph',
+    #     'description':'Graph of unique genes vs new genes'
+    # }
 
     report_client = KBaseReport(cb_url)
     if pangenome_ref is not None:
         report = report_client.create_extended_report({
             'direct_html_link_index':0,
             'html_links':[html_link],
-            'file_links':[csv_link, photo_link_1, photo_link_2],
+            'file_links':[csv_link] #, photo_link_1, photo_link_2],
             'workspace_name': workspace_name,
             'report_object_name': report_name,
             'objects_created': [{
