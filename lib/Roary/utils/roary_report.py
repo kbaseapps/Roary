@@ -287,7 +287,7 @@ def roary_report(cb_url, scratch, workspace_name, sum_stats, gene_pres_abs,
         report = report_client.create_extended_report({
             'direct_html_link_index':0,
             'html_links':[html_link],
-            'file_links':[csv_link] #, photo_link_1, photo_link_2],
+            'file_links':[csv_link],  #, photo_link_1, photo_link_2],
             'workspace_name': workspace_name,
             'report_object_name': report_name,
             'objects_created': [{
