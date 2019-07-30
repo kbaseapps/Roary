@@ -2,6 +2,7 @@ import os
 import uuid
 import pandas as pd
 import json
+from shutil import copyfile
 
 from installed_clients.DataFileUtilClient import DataFileUtil
 from installed_clients.KBaseReportClient import KBaseReport
@@ -242,10 +243,14 @@ def roary_report(cb_url, scratch, workspace_name, sum_stats, gene_pres_abs,
     dfu = DataFileUtil(cb_url)
 
     # Convert output files to HTML
-    html_output = format_output_html(sum_stats, gene_pres_abs, conserved_vs_total_graph, unique_vs_new_graph)
+    html_output = format_output_html(sum_stats, gene_pres_abs)
 
     file_dir = os.path.join(scratch, report_name)
     os.mkdir(file_dir)
+
+    copyfile(conserved_vs_total_graph, os.path.join(file_dir, "conserved_vs_total_genes.png"))
+    copyfile(unique_vs_new_graph, os.path.join(file_dir, "unique_vs_new_genes.png"))
+
     html_path = os.path.join(file_dir, 'output.html')
     with open(html_path, 'w') as f:
         f.write(html_output) 
