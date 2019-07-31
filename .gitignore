@@ -1,4 +1,5 @@
 test_local
+*.DS_Store
 sdk.cfg
 *.py.bak-*
 *.pyc
