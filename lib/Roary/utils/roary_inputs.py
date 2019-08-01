@@ -30,13 +30,6 @@ def download_gffs(cb_url, scratch, input_refs):
     au = AssemblyUtil(cb_url)
     gfu = GenomeFileUtil(cb_url)
 
-    print('-'*80)
-    print('-'*80)
-    print('-'*80)
-    print(input_refs)
-    print('-'*80)
-    print('-'*80)
-    print('-'*80)
     obj_data = dfu.get_objects({'object_refs': input_refs})['data']
 
     refs = []
