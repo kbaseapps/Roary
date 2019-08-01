@@ -66,10 +66,10 @@ class Roary:
         # verify inputs
         assert (workspace_name != "" or workspace_name is not None), "workspace_name argument must be provided"
 
-        if pangenome_name or pangenome_name.rstrip():
+        if pangenome_name and pangenome_name.rstrip():
             pangenome_id = "kb|"+pangenome_name
         else:
-            pangenome_id = None
+            raise ValueError("Must provide Pangenome Output Name")
 
         # run meat of operations
         gff_folder_path, path_to_ref_and_ID_pos_dict = download_gffs(self.callback_url, self.shared_folder, input_refs)
