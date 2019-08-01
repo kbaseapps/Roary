@@ -32,9 +32,10 @@ suggestions:
 #
 parameters :
     ref :
-        ui-name : Genome Set
-        short-hint : Set of Genomes to pass as input to Roary. 
-        long-hint  : Input must be of type KBaseSets.GenomeSet or KBaseSearch.GenomeSet.
+        ui-name : Genomes / Genome Set(s)
+        short-hint : Set of Genomes to pass as input to Roary.
+        long-hint  : Input must be of type KBaseSets.GenomeSet or KBaseSearch.GenomeSet, or several
+                     KBaseGenomes.Genome objects, or any combination.
 
     pangenome_name : 
         ui-name : Pangenome Output Name (optional)

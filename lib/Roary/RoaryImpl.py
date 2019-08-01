@@ -58,11 +58,13 @@ class Roary:
         # get input parameters
         workspace_name = params.get('workspace_name')
         pangenome_name = params.get('pangenome_name')
-        genome_set_ref = params.get('ref')
+        if params.get('ref'):
+            input_refs = params['ref']
+        else:
+            raise RuntimeError("Must provide input reference(s).")
 
         # verify inputs
         assert (workspace_name != "" or workspace_name is not None), "workspace_name argument must be provided"
-        assert (genome_set_ref != "" or genome_set_ref is not None), "Must provide 'Genomes Set' argument"
 
         if pangenome_name or pangenome_name.rstrip():
             pangenome_id = "kb|"+pangenome_name
@@ -70,7 +72,7 @@ class Roary:
             pangenome_id = None
 
         # run meat of operations
-        gff_folder_path, path_to_ref_and_ID_pos_dict = download_gffs(self.callback_url, self.shared_folder, genome_set_ref)
+        gff_folder_path, path_to_ref_and_ID_pos_dict = download_gffs(self.callback_url, self.shared_folder, input_refs)
         output_path = run_roary(self.shared_folder, gff_folder_path, params)
         if not os.path.isdir(output_path):
             raise RuntimeError("No Output, Roary exited normally but did not complete")

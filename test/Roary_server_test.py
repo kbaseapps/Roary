@@ -78,7 +78,7 @@ class RoaryTest(unittest.TestCase):
 
         input_params = {
             'workspace_name': self.getWsName(),
-            'ref': self.getGenomeSetRef(),
+            'ref': [self.getGenomeSetRef()],
             'pangenome_name': "server_test_pan",
             'blast_p_percentage':95,
             'max_num_clusters':50000,

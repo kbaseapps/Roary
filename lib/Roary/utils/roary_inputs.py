@@ -13,12 +13,12 @@ from installed_clients.GenomeFileUtilClient import GenomeFileUtil
 from installed_clients.AssemblyUtilClient import AssemblyUtil
 
 
-def download_gffs(cb_url, scratch, genome_set_ref):
+def download_gffs(cb_url, scratch, input_refs):
     """
     Args:
     cb_url - callback server URL
     scratch - scratch work folder
-    genome_set_ref - reference to genome_set object in workspace
+    input_refs - list of references to genome_set or genome objects in workspace
     Returns the path to the folder containing .gff files
 
 
@@ -30,22 +30,35 @@ def download_gffs(cb_url, scratch, genome_set_ref):
     au = AssemblyUtil(cb_url)
     gfu = GenomeFileUtil(cb_url)
 
-    obj_data = dfu.get_objects({'object_refs': [genome_set_ref]})['data'][0]
-    gs_obj = obj_data['data']
-    obj_type = obj_data['info'][2]
+    print('-'*80)
+    print('-'*80)
+    print('-'*80)
+    print(input_refs)
+    print('-'*80)
+    print('-'*80)
+    print('-'*80)
+    obj_data = dfu.get_objects({'object_refs': input_refs})['data']
 
-    if 'KBaseSets.GenomeSet' in obj_type:
-        refs = [gsi['ref'] for gsi in gs_obj['items']]
-    elif 'KBaseSearch.GenomeSet' in obj_type:
-        refs = [gse['ref'] for gse in gs_obj['elements'].values()]
-    else:
-        raise TypeError(
-            'provided input must of type KBaseSets.GenomeSet or KBaseSearch.GenomeSet not ' +
-            str *
-            (obj_type))
+    refs = []
+    for datum in obj_data:
+        gs_obj = datum['data']
+        obj_type = datum['info'][2]
+
+        if 'KBaseSets.GenomeSet' in obj_type:
+            curr_refs = [gsi['ref'] for gsi in gs_obj['items']]
+        elif 'KBaseSearch.GenomeSet' in obj_type:
+            curr_refs = [gse['ref'] for gse in gs_obj['elements'].values()]
+        elif 'KBaseGenome.Genome' in obj_type:
+            # not most efficient answer here, but will work for now.
+            curr_refs = ['/'.join([datum['info'][6], datum['info'][0], datum['info'][4]])]
+        else:
+            raise TypeError(
+                'provided input(s) must of type KBaseGenomes.Genome, KBaseSets.GenomeSet or '
+                ' KBaseSearch.GenomeSet not ' + str(obj_type))
+        refs += curr_refs
 
     if len(refs) < 2:
-        raise ValueError("Must provide GenomeSet with at least 2 Genomes.")
+        raise ValueError("Must provide GenomeSet with at least 2 Genomes, or multiple Genomes")
 
     # name the output directory
     temp_dir = scratch + '/temp'
