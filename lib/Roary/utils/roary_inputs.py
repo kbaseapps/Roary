@@ -41,7 +41,7 @@ def download_gffs(cb_url, scratch, input_refs):
             curr_refs = [gsi['ref'] for gsi in gs_obj['items']]
         elif 'KBaseSearch.GenomeSet' in obj_type:
             curr_refs = [gse['ref'] for gse in gs_obj['elements'].values()]
-        elif 'KBaseGenome.Genome' in obj_type:
+        elif 'KBaseGenomes.Genome' in obj_type:
             # not most efficient answer here, but will work for now.
             curr_refs = ['/'.join([datum['info'][6], datum['info'][0], datum['info'][4]])]
         else:
