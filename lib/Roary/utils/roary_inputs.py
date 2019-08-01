@@ -50,8 +50,10 @@ def download_gffs(cb_url, scratch, input_refs):
                 ' KBaseSearch.GenomeSet not ' + str(obj_type))
         refs += curr_refs
 
+    refs = list(set(refs))
+
     if len(refs) < 2:
-        raise ValueError("Must provide GenomeSet with at least 2 Genomes, or multiple Genomes")
+        raise ValueError("Must provide at least 2 unique Genomes as input")
 
     # name the output directory
     temp_dir = scratch + '/temp'
