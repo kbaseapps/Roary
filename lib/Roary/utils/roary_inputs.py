@@ -34,26 +34,40 @@ def download_gffs(cb_url, scratch, input_refs):
 
     refs = []
     for datum in obj_data:
-        gs_obj = datum['data']
         obj_type = datum['info'][2]
 
         if 'KBaseSets.GenomeSet' in obj_type:
-            curr_refs = [gsi['ref'] for gsi in gs_obj['items']]
+            curr_refs = [{'ref': gsi['ref']} for gsi in datum['data']['items']]
         elif 'KBaseSearch.GenomeSet' in obj_type:
-            curr_refs = [gse['ref'] for gse in gs_obj['elements'].values()]
+            curr_refs = [{'ref': gse['ref']} for gse in datum['data']['elements'].values()]
         elif 'KBaseGenomes.Genome' in obj_type:
             # not most efficient answer here, but will work for now.
-            curr_refs = ['/'.join([datum['info'][6], datum['info'][0], datum['info'][4]])]
+            curr_refs = [{
+                            'data': datum['data'],
+                            'ref': '/'.join([
+                                str(datum['info'][6]),
+                                str(datum['info'][0]),
+                                str(datum['info'][4])
+                            ])
+                        }]
         else:
             raise TypeError(
                 'provided input(s) must of type KBaseGenomes.Genome, KBaseSets.GenomeSet or '
                 ' KBaseSearch.GenomeSet not ' + str(obj_type))
         refs += curr_refs
 
-    refs = list(set(refs))
-
-    if len(refs) < 2:
+    set_refs = list(set([r['ref'] for r in refs]))
+    if len(set_refs) < 2:
         raise ValueError("Must provide at least 2 unique Genomes as input")
+
+    if len(set_refs) < len(refs):
+        used = []
+        new_refs = []
+        for r in refs:
+            if r['ref'] not in used:
+                new_refs.append(r)
+        refs = new_refs
+        del new_refs, used
 
     # name the output directory
     temp_dir = scratch + '/temp'
@@ -71,13 +85,15 @@ def download_gffs(cb_url, scratch, input_refs):
     path_to_ref_and_ID_pos_dict = {}
     all_ids = set([])
 
-    for ref in refs:
-        gen_obj = dfu.get_objects({'object_refs': [ref]})['data'][0]['data']
-
+    for r in refs:
+        ref = r['ref']
+        if r.get('data'):
+            gen_obj = r['data']
+        else:
+            gen_obj = dfu.get_objects({'object_refs': [ref]})['data'][0]['data']
         # NO Eukaryotes, NO Fungi,
         # yes bacateria, yes archaea, yes(?) virus
         # NOTE: we are getting rid of this because it is not consistent enough for now...
-
         # if gen_obj['domain'] not in ['Bacteria', 'Archaea']:
         #     raise TypeError('Provided Genomes are not labeled as Bacteria or Archaea. '
         #                     'Roary is only equipped to handle Archaea or Bacteria')

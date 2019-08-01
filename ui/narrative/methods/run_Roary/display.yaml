@@ -38,7 +38,7 @@ parameters :
                      KBaseGenomes.Genome objects, or any combination.
 
     pangenome_name : 
-        ui-name : Pangenome Output Name (optional)
+        ui-name : Pangenome Output Name
         short-hint : Name for output pangnome object. If blank will not export Pangenome object.
         long-hint  : Name for output pangenome object. Will be uploaded to KBase database.
 

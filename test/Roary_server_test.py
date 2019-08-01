@@ -71,6 +71,21 @@ class RoaryTest(unittest.TestCase):
         gsr = '22385/60/1'
         return gsr
 
+    def getGenomeRefs(self):
+        return ["22385/76/1", "22385/80/1"]
+
+    def test_genomes(self):
+        input_params = {
+            'workspace_name': self.getWsName(),
+            'ref': self.getGenomeRefs(),
+            'pangenome_name': "server_test_pan",
+            'blast_p_percentage':95,
+            'max_num_clusters':50000,
+            'percent_genes_for_core':99
+        }
+
+        ret = self.getImpl().run_Roary(self.getContext(),input_params)
+        print('returned value',ret)
 
     # NOTE: According to Python unittest naming rules test method names should start from 'test'. # noqa
     def test_your_method(self):
