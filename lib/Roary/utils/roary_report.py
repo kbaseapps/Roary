@@ -113,7 +113,12 @@ def generate_pangenome(gene_pres_abs, path_to_ref_and_ID_pos_dict, pangenome_id,
 
                 break
         if len(col_to_ref) == start_len:
-            raise ValueError("could not find file name match for %s column"%col)
+            colnames = []
+            for p in path_to_ref_and_ID_pos_dict:
+                colname = get_col_name_from_path(p)
+                colnames.append((p, colname))
+            raise ValueError(f"could not find file name match for {col} column"
+                             f". should be in: {colnames}")
 
 
 

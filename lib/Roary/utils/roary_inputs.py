@@ -73,11 +73,13 @@ def download_gffs(cb_url, scratch, input_refs):
     temp_dir = scratch + '/temp'
     final_dir = scratch + '/gff'
 
-    os.mkdir(final_dir)
-    os.mkdir(temp_dir)
+    if not os.path.isdir(final_dir):
+        os.mkdir(final_dir)
+    if not os.path.isdir(temp_dir):
+        os.mkdir(temp_dir)
 
     # write file that will help us cat the gff and fasta files
-    cat_path = scratch + '/fast_cat.txt'
+    cat_path = scratch + '/fasta_cat.txt'
 
     with open(cat_path, 'w') as cat_file:
         cat_file.write("##FASTA\n")

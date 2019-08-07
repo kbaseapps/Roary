@@ -2,6 +2,7 @@
 import os
 import time
 import unittest
+import shutil
 from configparser import ConfigParser
 
 from Roary.RoaryImpl import Roary
@@ -74,11 +75,17 @@ class RoaryTest(unittest.TestCase):
     def getGenomeRefs(self):
         return ["22385/76/1", "22385/80/1"]
 
+    def initialize(self):
+        shutil.rmtree(self.scratch)
+        if not os.path.isdir(self.scratch):
+            os.mkdir(self.scratch)
+
     def test_genomes(self):
+        self.initialize()
         input_params = {
             'workspace_name': self.getWsName(),
             'ref': self.getGenomeRefs(),
-            'pangenome_name': "server_test_pan",
+            'pangenome_name': "genomes_server_test_pangenome",
             'blast_p_percentage':95,
             'max_num_clusters':50000,
             'percent_genes_for_core':99
@@ -90,11 +97,11 @@ class RoaryTest(unittest.TestCase):
     # NOTE: According to Python unittest naming rules test method names should start from 'test'. # noqa
     def test_your_method(self):
         # Prepare test objects in workspace if needed using
-
+        self.initialize()
         input_params = {
             'workspace_name': self.getWsName(),
             'ref': [self.getGenomeSetRef()],
-            'pangenome_name': "server_test_pan",
+            'pangenome_name': "genomeset_server_test_pangenome",
             'blast_p_percentage':95,
             'max_num_clusters':50000,
             'percent_genes_for_core':99    

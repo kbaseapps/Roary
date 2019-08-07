@@ -5,6 +5,8 @@ import numpy as np
 import unittest
 
 from configparser import ConfigParser
+from Roary.RoaryServer import MethodContext
+from Roary.authclient import KBaseAuth as _KBaseAuth
 
 currdir = os.path.dirname(__file__)
 sys.path.insert(0, os.path.abspath(os.path.join(currdir, '../lib/Roary/')))
@@ -16,6 +18,23 @@ from utils.roary_inputs import filter_gff
 
 
 class TestRoary(unittest.TestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        token = os.environ.get('KB_AUTH_TOKEN', None)
+        config_file = os.environ.get('KB_DEPLOYMENT_CONFIG', None)
+        cls.cfg = {}
+        config = ConfigParser()
+        config.read(config_file)
+        for nameval in config.items('Roary'):
+            cls.cfg[nameval[0]] = nameval[1]
+        # Getting username from Auth profile for token
+        authServiceUrl = cls.cfg['auth-service-url']
+        auth_client = _KBaseAuth(authServiceUrl)
+        user_id = auth_client.get_user(token)
+        # WARNING: don't call any logging methods on the context object,
+        # it'll result in a NoneType error
+        cls.scratch = cls.cfg['scratch']
 
     def check_sum_stats(self, sum_stats, compare_nums):
         ''' Function to check the output of the summary_statistics.txt file that Roary produces.
@@ -135,12 +154,8 @@ class TestRoary(unittest.TestCase):
         self.check_gene_pres_abs(gene_pres_abs, pres_abs_check)
         self.check_pangenome(pangenome, pres_abs_check, path_to_ref, pangenome_id, pangenome_name)
 
-    def roary_proc_output_1(self, scratch):
-        '''Define input files and validation values for first test
-
-        params:
-            scratch - scratch folder path
-        '''
+    def test_roary_proc_output_1(self):
+        '''Define input files and validation values for first test'''
         gff_folder = os.path.join(currdir, 'data/gffs')
         # test the following files
         files = ['000008285.gff','000021185.gff','000026705.gff',\
@@ -161,15 +176,11 @@ class TestRoary(unittest.TestCase):
                  "GCA_000168635_02482","GCA_000168815_00643","GCA_000196035_02488"]
             )
         ]
-        self.roary_proc_check(files, gff_folder, os.path.join(scratch,'test1'),\
+        self.roary_proc_check(files, gff_folder, os.path.join(self.scratch,'test1'),\
                               sum_stats_check, pres_abs_check)
 
-    def roary_proc_output_2(self, scratch):
-        '''Define input files and validation values for second test
-
-        params:
-            scratch - scratch folder path
-        '''
+    def test_roary_proc_output_2(self):
+        '''Define input files and validation values for second test'''
         gff_folder = os.path.join(currdir,'data/gffs_2')
         # test the following files
         files = ['abietaniphila.gff','abyssi.gff','acidophila.gff','aeruginosa.gff']
@@ -184,23 +195,5 @@ class TestRoary(unittest.TestCase):
                 [np.nan,'CNQ84_RS18245_CDS_1',np.nan,'NS85_RS06110_CDS_1']
             )
         ]
-        self.roary_proc_check(files, gff_folder, os.path.join(scratch, 'test2'),\
+        self.roary_proc_check(files, gff_folder, os.path.join(self.scratch, 'test2'),\
                               sum_stats_check, pres_abs_check)
-
-    def test_roary(self):
-        '''
-        Entrance function for tests. Defines config and scratch folder.
-        '''
-        config_file = os.environ.get('KB_DEPLOYMENT_CONFIG', None)
-        config = ConfigParser()
-        config.read(config_file)
-        cfg = {}
-        for nameval in config.items('Roary'):
-            cfg[nameval[0]] = nameval[1]
-
-        scratch = cfg['scratch']
-        self.roary_proc_output_1(scratch)
-        self.roary_proc_output_2(scratch)
-
-if __name__ == '__main__':
-    unittest.main
