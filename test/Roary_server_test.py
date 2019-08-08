@@ -75,10 +75,26 @@ class RoaryTest(unittest.TestCase):
     def getGenomeRefs(self):
         return ["22385/76/1", "22385/80/1"]
 
+    def getMixedRefs(self):
+        return ["22385/82/1", "22385/58/1", "22385/80/1"]
+
     def initialize(self):
         shutil.rmtree(self.scratch)
         if not os.path.isdir(self.scratch):
             os.mkdir(self.scratch)
+
+    def test_mixed_refs(self):
+        self.initialize()
+        input_params = {
+            'workspace_name': self.getWsName(),
+            'ref': self.getMixedRefs(),
+            'pangenome_name': "mixed_refs_server_test_pangenome",
+            'blast_p_percentage':95,
+            'max_num_clusters':50000,
+            'percent_genes_for_core':99
+        }
+        ret = self.getImpl().run_Roary(self.getContext(), input_params)
+        print('returned val:', ret)
 
     def test_genomes(self):
         self.initialize()
@@ -90,8 +106,7 @@ class RoaryTest(unittest.TestCase):
             'max_num_clusters':50000,
             'percent_genes_for_core':99
         }
-
-        ret = self.getImpl().run_Roary(self.getContext(),input_params)
+        ret = self.getImpl().run_Roary(self.getContext(), input_params)
         print('returned value',ret)
 
     # NOTE: According to Python unittest naming rules test method names should start from 'test'. # noqa

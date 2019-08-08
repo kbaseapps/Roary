@@ -1,6 +1,7 @@
 import os
 import uuid
 import pandas as pd
+import numpy as np
 import json
 from shutil import copyfile
 
@@ -120,7 +121,7 @@ def generate_pangenome(gene_pres_abs, path_to_ref_and_ID_pos_dict, pangenome_id,
             raise ValueError(f"could not find file name match for {col} column"
                              f". should be in: {colnames}")
 
-
+    df = df.where((pd.notnull(df)), None)
 
     # now we construct pangenome object
     for i, row in df.iterrows():
@@ -129,7 +130,7 @@ def generate_pangenome(gene_pres_abs, path_to_ref_and_ID_pos_dict, pangenome_id,
         # put in standard arguments for an OrthologFamily as found in Pangenome Spec file.
         OrthologFamily['id'] = row['Gene']
         OrthologFamily['type'] = None
-        OrthologFamily['function'] = row['Annotation']# should be the gene function 
+        OrthologFamily['function'] = row['Annotation']  # should be the gene function
         OrthologFamily['md5'] = None
         OrthologFamily['protein_translation'] = None
 
@@ -220,11 +221,15 @@ def upload_pangenome(cb_url, scratch, Pangenome, workspace_name, pangenome_name)
             'hidden': hidden
         }]
     }
-
-    info = dfu.save_objects(save_params)[0]
+    print(f"Saving Pangenome object to {workspace_id}")
+    try:
+        info = dfu.save_objects(save_params)[0]
+    except:
+        raise RuntimeError("this is the attempted saved Pangenome: \n"
+                            f"{Pangenome}")
 
     ref = "{}/{}/{}".format(info[6], info[0], info[4])
-    print("Pangenome saved to {}".format(ref))
+    print(f"Pangenome saved to {ref}")
 
     return {
         'pangenome_ref': ref,
