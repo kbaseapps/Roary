@@ -1,20 +1,55 @@
 <!doctype html>
 <html>
 <head>
-	<link>
-	<title> Output Files </title>
+    <link href="https://fonts.googleapis.com/css?family=Oxygen:400,700" rel="stylesheet">
 	<style type="text/css">
 		.images {
 			width: 100%;
 			display: flex;
 		}
 
+		.tabcontent {
+			overflow: auto;
+			height: calc(100% - 140px);
+		}
+
+		.tab {
+	        overflow: hidden;
+	        border: 1px solid #ccc;
+	        background-color: #f1f1f1;
+	    }
+	    .tab button {
+	        background-color: inherit;
+	        float: left;
+	        border: none;
+	        outline: none;
+	        cursor: pointer;
+	        padding: 14px 16px;
+	        transition: 0.0s;
+	        font-size: 17px;
+	    }
+
+	    .tab button:hover{
+	        background-color: #ddd;
+	    }
+
+	    .tab button.active{
+	        background-color: #ccc;
+	    }
+
+
+		*{font-family: 'Oxygen', Helvetica, sans-serif;}
 	</style>
 </head>
 <body>
-	<h1> Summary Statistics </h1>
+	<div class='tab'>
+		<button class='tablinks' onclick="openTab(event, 'stats')" id="defaultOpen">Summary Statistics</button>
+		<button class='tablinks' onclick="openTab(event, 'contotal')">Conserved vs Total Genes</button>
+		<button class='tablinks' onclick="openTab(event, 'uniqnew')">Unique vs New Genes</button>
+	</div>
 
-	<div id=stats>
+	<div align="center" id=stats class="tabcontent">
+		<h1 align="center"> Summary Statistics </h1>
 		<table>
 			<tbody>
 				{% for item in results %}
@@ -47,28 +82,37 @@
 			</tbody>
 		</table>
 	</div>
-	<div id=images style="padding-top: 20px">
-		<img id=conserved src="conserved_vs_total_genes.png" style="width: 48.5vw"></img>
-		<img id=unique src="unique_vs_new_genes.png" style="width: 48.5vw"></img>
-	</div>
-<!--
-	<h2> Gene Presence Absence </h2>
 
-	<table>
-		<thead>
-			{% for col in headers%}
-				<th>{{col}}</th>
-			{% endfor %}
-		</thead>
-		<tbody>
-			{% for row in results %}
-			<tr>
-				{% for col in headers %}
-			    <td>{{row[col]}}</td>
-			    {% endfor %}
-			</tr>
-			{% endfor %}
-		</tbody>
-	</table> -->
+	<div id=contotal class="tabcontent" style="padding-top: 20px">
+		<img align="center" id=conserved src="conserved_vs_total_genes.png" style="width: 68.5vw"></img>
+	</div>
+
+	<div id=uniqnew class="tabcontent" style="padding-top: 20px">
+		<img align="center" id=unique src="unique_vs_new_genes.png" style="width: 68.5vw"></img>
+	</div>
+
+	<script>
+		function openTab(evt, name){
+			// Declare all variables
+            var i, tabcontent, tablinks;
+
+            // Get all elements with class="tabcontent" and hide them
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+
+            // Get all elements with class="tablinks" and remove the class "active"
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+
+            // Show the current tab, and add an "active" class to the button that opened the tab
+            document.getElementById(name).style.display = "block";
+            evt.currentTarget.className += " active";
+		}
+		document.getElementById("defaultOpen").click();
+	</script>
 </body>
 </html>
